@@ -424,16 +424,42 @@
     <Compile Include="CCFTCentralDb\WorkstationRoutingLinkedItem.cs" />
     <Compile Include="CCFTCentralDb\WorkstationRoutingOperatorClub.cs" />
     <Compile Include="CCFTCentralDb\WorkstationRoutingWorkstation.cs" />
+    <Compile Include="Classes\ContractorCardHolder.cs" />
+    <Compile Include="Classes\PermamentCardHolder.cs" />
+    <Compile Include="ContractorChForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContractorChForm.Designer.cs">
+      <DependentUpon>ContractorChForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="PermanentChForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PermanentChForm.Designer.cs">
+      <DependentUpon>PermanentChForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ContractorChForm.resx">
+      <DependentUpon>ContractorChForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PermanentChForm.resx">
+      <DependentUpon>PermanentChForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -444,6 +470,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
