@@ -438,6 +438,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="EFERTDb\CompanyInfo.cs" />
+    <Compile Include="EFERTDb\SectionInfo.cs" />
+    <Compile Include="EFERTDb\DesignationInfo.cs" />
+    <Compile Include="EFERTDb\DepartmentInfo.cs" />
+    <Compile Include="EFERTDb\CadreInfo.cs" />
+    <Compile Include="EFERTDb\CardHolderInfo.cs" />
+    <Compile Include="EFERTDb\CrewInfo.cs" />
+    <Compile Include="EFERTDb\EFERTDbContext.cs" />
     <Compile Include="PermanentChForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -485,14 +493,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LMS DB\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
