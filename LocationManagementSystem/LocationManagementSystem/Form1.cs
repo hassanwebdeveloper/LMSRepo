@@ -14,6 +14,8 @@ namespace LocationManagementSystem
     public partial class Form1 : Form
     {
         public static Form1 mMainForm = null;
+        public static AppUser mLoggedInUser = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -22,11 +24,31 @@ namespace LocationManagementSystem
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            SearchForm searchForm = new SearchForm();
+            EFERTDbContext efertDb = new EFERTDbContext();
 
-            searchForm.Show();
+            string userName = this.tbxUserName.Text;
+            string password = this.tbxPassword.Text;
 
-            this.Hide();
+            AppUser loggedInUser = (from user in efertDb.AppUsers
+                                    where user != null && user.UserName == userName && user.Password == password
+                                    select user).FirstOrDefault();
+
+            if (loggedInUser == null)
+            {
+                MessageBox.Show(this, "Either username or password is incorrect.");
+            }
+            else
+            {
+                mLoggedInUser = loggedInUser;
+
+                SearchForm searchForm = new SearchForm();
+
+                searchForm.Show();
+
+                this.Hide();
+            }
+
+            
         }
     }
 }

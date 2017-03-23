@@ -432,6 +432,8 @@
     <Compile Include="ContractorChForm.Designer.cs">
       <DependentUpon>ContractorChForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EFERTDb\AppUser.cs" />
+    <Compile Include="EFERTDb\EFERTInitializer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
