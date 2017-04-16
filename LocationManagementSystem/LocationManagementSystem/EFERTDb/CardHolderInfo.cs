@@ -23,7 +23,7 @@ namespace LocationManagementSystem
         public string BloodGroup { get; set; }
 
         [ForeignKey("Cadre")]
-        public int CadreId { get; set; }
+        public int? CadreId { get; set; }
 
         public virtual CadreInfo Cadre { get; set; }
         
@@ -62,5 +62,7 @@ namespace LocationManagementSystem
         public virtual CompanyInfo Company { get; set; }
 
         public string WONumber { get; set; }
+
+        public bool IsTemp { get; set; }
     }
 }

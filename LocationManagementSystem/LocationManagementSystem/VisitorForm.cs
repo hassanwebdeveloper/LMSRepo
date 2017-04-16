@@ -10,58 +10,117 @@ using System.Windows.Forms;
 
 namespace LocationManagementSystem
 {
-    public partial class PermanentChForm : Form
+    public partial class VisitorForm : Form
     {
         public string mCNICNumber = string.Empty;
+        public VisitorCardHolder mVisitor = null;
 
-        public PermanentChForm(PermamentCardHolder permanentCh)
+        public VisitorForm(VisitorCardHolder visitorCardHolder)
         {
             InitializeComponent();
-
-            if (permanentCh != null)
+            if (SearchForm.mIsPlant)
             {
-                this.tbxCardNumber.Text = permanentCh.CardNumber;
-                this.tbxFirstName.Text = permanentCh.FirstName;
-                this.tbxBloodGroup.Text = permanentCh.BloodGroup;
-                this.tbxCadre.Text = permanentCh.Cadre;
-                this.tbxCrew.Text = permanentCh.Crew;
-                this.tbxDob.Text = permanentCh.DateOfBirth;
-                this.tbxDepartment.Text = permanentCh.Department;
-                this.tbxDesignation.Text = permanentCh.Designation;
-                this.tbxContactNumber.Text = permanentCh.EmergancyContactNumber;
-                this.tbxCNICNumber.Text = permanentCh.CNICNumber;
-                this.tbxPNumber.Text = permanentCh.PNumber;
-                this.tbxSection.Text = permanentCh.Section;
-                this.tbxLastName.Text = permanentCh.LastName;
-                //this.tbxCardNumber.Text = permanentCh.CardNumber;
-
-                this.mCNICNumber = permanentCh.CNICNumber;
+                this.cbxVisitorType.Items.AddRange(new object[] {
+                                                    "Official",
+                                                    "Private"
+                                                                        });
+            }
+            else
+            {
+                this.cbxVisitorType.Items.AddRange(new object[] {
+                                                    "Clinic / Snake bite",
+                                                    "Contractor / Supervisor",
+                                                    "Work Order Staff",
+                                                    "Market",
+                                                    "School",
+                                                    "Masjid",
+                                                    "Club"});
             }
 
+            if (visitorCardHolder != null)
+            {
+                this.mVisitor = visitorCardHolder;
+
+                this.mCNICNumber = this.mVisitor.CNICNumber;
+
+                this.tbxCnicNumber.Text = this.mVisitor.CNICNumber;
+                this.cbxGender.SelectedItem = this.mVisitor.Gender;
+                this.tbxFirstName.Text = this.mVisitor.FirstName;
+                this.tbxLastName.Text = this.mVisitor.LastName;
+                this.tbxAddress.Text = this.mVisitor.PostCode;
+                this.tbxCity.Text = this.mVisitor.City;
+                this.tbxState.Text = this.mVisitor.State;
+                this.tbxCompanyName.Text = this.mVisitor.CompanyName;
+                this.tbxPhoneNumber.Text = this.mVisitor.ContactNo;
+                this.tbxEmergencyContact.Text = this.mVisitor.EmergencyContantPerson;
+                this.tbxEmergencyContactNumber.Text = this.mVisitor.EmergencyContantPersonNumber;
+                this.cbxVisitorType.SelectedItem = this.mVisitor.VisitorType;
+
+                this.tbxCnicNumber.ReadOnly = true;
+                this.cbxGender.Enabled = false;
+                this.tbxFirstName.ReadOnly = true;
+                this.tbxLastName.ReadOnly = true;
+                this.tbxAddress.ReadOnly = true;
+                this.tbxCity.ReadOnly = true;
+                this.tbxState.ReadOnly = true;
+                this.tbxCompanyName.ReadOnly = true;
+                this.tbxPhoneNumber.ReadOnly = true;
+                this.tbxEmergencyContact.ReadOnly = true;
+                this.tbxEmergencyContactNumber.ReadOnly = true;
+            }
+            
             this.UpdateStatus(this.mCNICNumber);
+
         }
 
-        public PermanentChForm(string cnicNumber)
+
+        public VisitorForm(string cnicNumber, string title = null, string gpTitle = null, bool schoolStaff = false)
         {
             InitializeComponent();
 
-            this.tbxCardNumber.ReadOnly = false;
-            this.tbxFirstName.ReadOnly = false;
-            this.tbxBloodGroup.ReadOnly = false;
-            this.tbxCadre.ReadOnly = false;
-            this.tbxCrew.ReadOnly = false;
-            this.tbxDob.ReadOnly = false;
-            this.tbxDepartment.ReadOnly = false;
-            this.tbxDesignation.ReadOnly = false;
-            this.tbxContactNumber.ReadOnly = false;
-            this.tbxCNICNumber.Text = cnicNumber;
-            this.tbxPNumber.ReadOnly = false;
-            this.tbxSection.ReadOnly = false;
-            this.tbxLastName.ReadOnly = false;
-            //this.tbxCardNumber.Text = permanentCh.CardNumber;
+            if (!string.IsNullOrEmpty(title))
+            {
+                this.Text = title;
+            }
 
+            if (!string.IsNullOrEmpty(gpTitle))
+            {
+                this.groupBox1.Text = gpTitle;
+            }
 
+            if (schoolStaff)
+            {
+                this.lblSchoolCollege.Visible = true;
+                this.cbxSchoolCollege.Visible = true;
+            }
+            else
+            {
+                this.lblSchoolCollege.Visible = false;
+                this.cbxSchoolCollege.Visible = false;
+            }
+
+            if (SearchForm.mIsPlant)
+            {
+                this.cbxVisitorType.Items.AddRange(new object[] {
+                                                    "Official",
+                                                    "Private"
+                                                                        });
+            }
+            else
+            {
+                this.cbxVisitorType.Items.AddRange(new object[] {
+                                                    "Clinic / Snake bite",
+                                                    "Contractor / Supervisor",
+                                                    "Work Order Staff",
+                                                    "Market",
+                                                    "School",
+                                                    "Masjid",
+                                                    "Club"});
+            }
+
+            this.tbxCnicNumber.Text = cnicNumber;
             this.UpdateStatus(cnicNumber);
+            
         }
 
         private void UpdateStatus(string cnicNumber)
@@ -128,11 +187,23 @@ namespace LocationManagementSystem
 
                 this.tbxCheckInCardNumber.Text = checkedInInfo.CardNumber;
                 this.tbxCheckInVehicleNumber.Text = checkedInInfo.VehicleNmuber;
+                this.nuNoOfMaleGuest.Value = checkedInInfo.NoOfMaleGuest;
+                this.nuNoOfFemaleGuest.Value = checkedInInfo.NoOfFemaleGuest;
+                this.numCheckInDurationOfStay.Value = checkedInInfo.DurationOfStay;
+                this.nuCheckInNoOfChildren.Value = checkedInInfo.NoOfChildren;
+                this.tbxCheckInAreaOfVisit.Text = checkedInInfo.AreaOfVisit;
+                this.tbxCheckInHostName.Text = checkedInInfo.HostName;
                 this.tbxCheckInDateTimeIn.Text = checkedInInfo.DateTimeIn.ToString();
                 this.tbxCheckInDateTimeOut.Text = DateTime.Now.ToString();
 
                 this.tbxCheckInCardNumber.ReadOnly = true;
                 this.tbxCheckInVehicleNumber.ReadOnly = true;
+                this.nuNoOfMaleGuest.ReadOnly = true;
+                this.nuNoOfFemaleGuest.ReadOnly = true;
+                this.numCheckInDurationOfStay.ReadOnly = true;
+                this.nuCheckInNoOfChildren.ReadOnly = true;
+                this.tbxCheckInAreaOfVisit.ReadOnly = true;
+                this.tbxCheckInHostName.ReadOnly = true;
             }
             else
             {
@@ -150,13 +221,14 @@ namespace LocationManagementSystem
                 }
                 else
                 {
-
                     this.btnCheckIn.Enabled = true && !blockedUser;
                     this.btnCheckOut.Enabled = false;
                     this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
                 }
             }
+
         }
+
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
@@ -192,7 +264,7 @@ namespace LocationManagementSystem
                 }
                 BlockedPersonInfo blockedPerson = SearchForm.mBlockedList.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
                 blockedPerson.Blocked = false;
-
+                
                 this.tbxBlockedBy.Text = string.Empty;
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
@@ -209,37 +281,46 @@ namespace LocationManagementSystem
         private void btnCheckIn_Click(object sender, EventArgs e)
         {
             string cardNumber = this.tbxCheckInCardNumber.Text;
+
             bool isCardReturned = !SearchForm.mCheckedInList.Any(checkInInfo => checkInInfo.CardNumber == cardNumber);
-            bool cardExist = false;
+
             CCFTCentralDb.CCFTCentral ccftCentralDb = new CCFTCentralDb.CCFTCentral();
-            cardExist = ccftCentralDb.Cardholders.Any(card => card.LastName == cardNumber);
+            bool cardExist = ccftCentralDb.Cardholders.Any(card => card.LastName == cardNumber);
 
             if (cardExist && isCardReturned)
             {
-                //if (!SearchForm.mVisitorsList.Exists(vistor => vistor.CNICNumber == this.mCNICNumber))
-                //{
-                    //VisitorCardHolder visitor = new VisitorCardHolder();
 
-                    //visitor.CNICNumber = this.tbxCnicNumber.Text;
-                    //visitor.Gender = this.cbxGender.SelectedItem == null ? string.Empty : this.cbxGender.SelectedItem as String;
-                    //visitor.FirstName = this.tbxFirstName.Text;
-                    //visitor.LastName = this.tbxLastName.Text;
-                    //visitor.PostCode = this.tbxAddress.Text;
-                    //visitor.City = this.tbxCity.Text;
-                    //visitor.State = this.tbxState.Text;
-                    //visitor.CompanyName = this.tbxCompanyName.Text;
-                    //visitor.ContactNo = this.tbxPhoneNumber.Text;
-                    //visitor.EmergencyContantPerson = this.tbxEmergencyContact.Text;
-                    //visitor.EmergencyContantPersonNumber = this.tbxEmergencyContactNumber.Text;
+                if (!SearchForm.mVisitorsList.Exists(vistor => vistor.CNICNumber == this.mCNICNumber))
+                {
+                    VisitorCardHolder visitor = new VisitorCardHolder();
 
-                    //SearchForm.mVisitorsList.Add(visitor);
-                //}
+                    visitor.CNICNumber = this.tbxCnicNumber.Text;
+                    visitor.Gender = this.cbxGender.SelectedItem == null ? string.Empty : this.cbxGender.SelectedItem as String;
+                    visitor.FirstName = this.tbxFirstName.Text;
+                    visitor.LastName = this.tbxLastName.Text;
+                    visitor.PostCode = this.tbxAddress.Text;
+                    visitor.City = this.tbxCity.Text;
+                    visitor.State = this.tbxState.Text;
+                    visitor.CompanyName = this.tbxCompanyName.Text;
+                    visitor.ContactNo = this.tbxPhoneNumber.Text;
+                    visitor.EmergencyContantPerson = this.tbxEmergencyContact.Text;
+                    visitor.EmergencyContantPersonNumber = this.tbxEmergencyContactNumber.Text;
+                    visitor.VisitorType = this.cbxVisitorType.SelectedItem == null ? string.Empty : this.cbxVisitorType.SelectedItem as String;
+
+                    SearchForm.mVisitorsList.Add(visitor);
+                }
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
                 checkedInInfo.CNICNumber = this.mCNICNumber;
-                checkedInInfo.CardNumber = cardNumber;
+                checkedInInfo.CardNumber = this.tbxCheckInCardNumber.Text;
                 checkedInInfo.VehicleNmuber = this.tbxCheckInVehicleNumber.Text;
+                checkedInInfo.NoOfMaleGuest = this.nuNoOfMaleGuest.Value;
+                checkedInInfo.NoOfFemaleGuest = this.nuNoOfFemaleGuest.Value;
+                checkedInInfo.DurationOfStay = this.numCheckInDurationOfStay.Value;
+                checkedInInfo.NoOfChildren = this.nuCheckInNoOfChildren.Value;
+                checkedInInfo.AreaOfVisit = this.tbxCheckInAreaOfVisit.Text;
+                checkedInInfo.HostName = this.tbxCheckInHostName.Text;
                 checkedInInfo.DateTimeIn = Convert.ToDateTime(this.tbxCheckInDateTimeIn.Text);
                 checkedInInfo.CheckedIn = true;
 
@@ -270,7 +351,7 @@ namespace LocationManagementSystem
                 {
                     MessageBox.Show(this, "Card is already issued to some one else.");
                 }
-
+                
             }
         }
 

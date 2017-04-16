@@ -29,5 +29,7 @@ namespace LocationManagementSystem
         public string WONumber { get; set; }
 
         public string Section { get; set; }
+
+        public bool GallagherCardHolder { get; set; }
     }
 }

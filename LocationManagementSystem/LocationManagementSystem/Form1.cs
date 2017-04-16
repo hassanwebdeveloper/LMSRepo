@@ -16,20 +16,53 @@ namespace LocationManagementSystem
         public static Form1 mMainForm = null;
         public static AppUser mLoggedInUser = null;
 
+        private List<AppUser> mUsers = new List<AppUser>()
+        {
+            new AppUser()
+            {
+                UserName = "Admin",
+                Password = "efert123#@!",
+                IsAdmin = true
+            },
+
+            new AppUser()
+            {
+                UserName = "user",
+                Password = "user",
+                IsAdmin = false
+            },
+
+            new AppUser()
+            {
+                UserName = "user1",
+                Password = "user1",
+                IsAdmin = false
+            },
+
+            new AppUser()
+            {
+                UserName = "user2",
+                Password = "user2",
+                IsAdmin = false
+            }
+        };
+
         public Form1()
         {
             InitializeComponent();
+            this.tbxUserName.Select();
             mMainForm = this;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            EFERTDbContext efertDb = new EFERTDbContext();
+            //EFERTDbContext efertDb = new EFERTDbContext();
+            
 
             string userName = this.tbxUserName.Text;
             string password = this.tbxPassword.Text;
 
-            AppUser loggedInUser = (from user in efertDb.AppUsers
+            AppUser loggedInUser = (from user in mUsers
                                     where user != null && user.UserName == userName && user.Password == password
                                     select user).FirstOrDefault();
 
@@ -41,9 +74,9 @@ namespace LocationManagementSystem
             {
                 mLoggedInUser = loggedInUser;
 
-                SearchForm searchForm = new SearchForm();
+                LocationSelectorForm lsf = new LocationSelectorForm();
 
-                searchForm.Show();
+                lsf.Show();
 
                 this.Hide();
             }
