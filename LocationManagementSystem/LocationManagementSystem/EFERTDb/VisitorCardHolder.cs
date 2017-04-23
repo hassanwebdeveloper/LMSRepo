@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LocationManagementSystem
 {
+    [Table("Visitor")]
     public class VisitorCardHolder
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int VisitorId { get; set; }
 
         public string FirstName { get; set; }
 
@@ -29,10 +35,18 @@ namespace LocationManagementSystem
 
         public string ContactNo { get; set; }
 
+        [Column("ContantPerson")]
         public string EmergencyContantPerson { get; set; }
 
+        [Column("EmergencytNumber")]
         public string EmergencyContantPersonNumber { get; set; }
 
         public string VisitorType { get; set; }
+
+        public virtual List<BlockedPersonInfo> BlockingInfos { get; set; }
+
+        public virtual List<CheckInAndOutInfo> CheckInInfos { get; set; }
+
+        public bool IsOnPlant { get; set; }
     }
 }

@@ -14,12 +14,6 @@ namespace LocationManagementSystem
     public partial class SearchForm : Form
     {
         public static bool mIsPlant = false;
-        public static List<BlockedPersonInfo> mBlockedList = new List<BlockedPersonInfo>();
-        public static List<CheckInAndOutInfo> mCheckedInList = new List<CheckInAndOutInfo>();
-        public static List<VisitorCardHolder> mVisitorsList = new List<VisitorCardHolder>();
-        public static List<DailyCardHolder> mDailyCardHolders = new List<DailyCardHolder>();
-        public static List<CardHolderInfo> mCardHodlerInfos = new List<CardHolderInfo>();
-
 
         public SearchForm(bool isPlant)
         {
@@ -82,12 +76,11 @@ namespace LocationManagementSystem
             string searchString = this.maskedTextBox1.Text;
 
             bool isNicNumber = this.maskedTextBox1.Mask == "00000-0000000-0";
-            CCFTCentral ccftCentral = new CCFTCentral(); ;
+            CCFTCentral ccftCentral = EFERTDbUtility.mCCFTCentral;
             Cardholder cardHolder = null;
             CardHolderInfo cardHolderInfo = null;
             VisitorCardHolder visitor = null;
             DailyCardHolder dailyCardHolder = null;
-            EFERTDbContext efertDb = new EFERTDbContext();
             bool updatedCardExist = true;
 
             if (isNicNumber)
@@ -104,9 +97,8 @@ namespace LocationManagementSystem
                     });
 
                     cardHolderByNicTask.Start();
-                    //temp
-                    //cardHolderInfo = (from card in efertDb.CardHolders
-                    cardHolderInfo = (from card in mCardHodlerInfos
+
+                    cardHolderInfo = (from card in EFERTDbUtility.mEFERTDb.CardHolders
                                       where card != null && card.CNICNumber == searchString
                                       select card).FirstOrDefault();
 
@@ -116,11 +108,15 @@ namespace LocationManagementSystem
 
                         if (cardHolder == null)
                         {
-                            visitor = mVisitorsList.Find(visit => visit.CNICNumber == searchString);
+                            visitor = (from visit in EFERTDbUtility.mEFERTDb.Visitors
+                                       where visit != null && visit.CNICNumber == searchString
+                                       select visit).FirstOrDefault();
 
                             if (visitor == null)
                             {
-                                dailyCardHolder = mDailyCardHolders.Find(daily => daily.CNICNumber == searchString);
+                                dailyCardHolder = (from daily in EFERTDbUtility.mEFERTDb.DailyCardHolders
+                                                   where daily != null && daily.CNICNumber == searchString
+                                                   select daily).FirstOrDefault();
                             }
                         }
                     }
@@ -146,40 +142,38 @@ namespace LocationManagementSystem
             else
             {
 
-                Task<Cardholder> cardHolderByNicTask = new Task<Cardholder>(() =>
+                Task<Cardholder> cardHolderByCardNumberTask = new Task<Cardholder>(() =>
                 {
-                    Cardholder cardHolderByNic = (from c in ccftCentral.Cardholders
-                                                where c != null && c.LastName == searchString
-                                                select c).FirstOrDefault();
+                    Cardholder cardHolderByCardNumber = (from c in ccftCentral.Cardholders
+                                                        where c != null && c.LastName == searchString
+                                                        select c).FirstOrDefault();
 
-                    return cardHolderByNic;
+                    return cardHolderByCardNumber;
                 });
 
-                cardHolderByNicTask.Start();
+                cardHolderByCardNumberTask.Start();
 
-                //temp
-                //cardHolderInfo = (from card in efertDb.CardHolders
-                cardHolderInfo = (from card in mCardHodlerInfos
+                cardHolderInfo = (from card in EFERTDbUtility.mEFERTDb.CardHolders
                                   where card != null && card.CardNumber == searchString
                                   select card).FirstOrDefault();
 
                 if (cardHolderInfo == null)
                 {
-                    CheckInAndOutInfo cardIssued = mCheckedInList.Find(checkedIn => checkedIn.CheckedIn && checkedIn.CardNumber == searchString);
+                    CheckInAndOutInfo cardIssued = (from checkIn in EFERTDbUtility.mEFERTDb.CheckedInInfos
+                                                    where checkIn != null && checkIn.CheckedIn && checkIn.CardNumber == searchString
+                                                    select checkIn).FirstOrDefault();
 
                     if (cardIssued != null)
                     {
-                        visitor = mVisitorsList.Find(visit => visit.CNICNumber == cardIssued.CNICNumber);
+                        visitor = cardIssued.Visitors;
 
                         if (visitor == null)
                         {
-                            dailyCardHolder = mDailyCardHolders.Find(daily => daily.CNICNumber == cardIssued.CNICNumber);
+                            dailyCardHolder = cardIssued.DailyCardHolders;
 
                             if (dailyCardHolder == null)
                             {
-                                cardHolderInfo = (from card in efertDb.CardHolders
-                                                  where card != null && card.CNICNumber == cardIssued.CNICNumber
-                                                  select card).FirstOrDefault();
+                                cardHolderInfo = cardIssued.CardHolderInfos;
 
                                 if (cardHolderInfo != null && cardHolderInfo.IsTemp)
                                 {
@@ -203,7 +197,7 @@ namespace LocationManagementSystem
 
                     if (visitor == null && dailyCardHolder == null && cardHolderInfo == null)
                     {
-                        cardHolder = cardHolderByNicTask.Result;
+                        cardHolder = cardHolderByCardNumberTask.Result;
                     }
 
                     if (visitor == null && dailyCardHolder == null && cardHolder == null && cardHolderInfo == null)
@@ -267,67 +261,13 @@ namespace LocationManagementSystem
                     bool isPermanent = cadre.ToLower() == "nmpt" || cadre.ToLower() == "mpt";
 
                     if (isPermanent)
-                    {
-                        string strPNumber = string.IsNullOrEmpty(cardHolderInfo.PNumber) ? "P-Number not found." : cardHolderInfo.PNumber;
-
-                        string strDOB = string.IsNullOrEmpty(cardHolderInfo.DateOfBirth) ? "Date of birth not found." : cardHolderInfo.DateOfBirth;
-                        string bloodGroup = cardHolderInfo.BloodGroup;
-                        string CNICNumber = cardHolderInfo.CNICNumber;
-                        string crew = cardHolderInfo.Crew == null ? "" : cardHolderInfo.Crew.CrewName;
-                        string department = cardHolderInfo.Department == null ? "" : cardHolderInfo.Department.DepartmentName;
-                        string designation = cardHolderInfo.Designation == null ? "" : cardHolderInfo.Designation.Designation;
-                        string contactNumber = cardHolderInfo.EmergancyContactNumber;
-                        string section = cardHolderInfo.Section == null ? "" : cardHolderInfo.Section.SectionName;
-
-                        PermamentCardHolder permanentCh = new PermamentCardHolder()
-                        {
-                            FirstName = cardHolderInfo.FirstName,
-                            LastName = cardHolderInfo.LastName,
-                            BloodGroup = string.IsNullOrEmpty(bloodGroup) ? "Blood Group Not Found." : bloodGroup,
-                            Cadre = cadre,
-                            CardNumber = cardHolderInfo.LastName,
-                            CNICNumber = string.IsNullOrEmpty(CNICNumber) ? "CINC Not Found." : CNICNumber,
-                            Crew = string.IsNullOrEmpty(crew) ? "Crew Not Found." : crew,
-                            Department = string.IsNullOrEmpty(department) ? "Department Not Found." : department,
-                            Designation = string.IsNullOrEmpty(designation) ? "Designation Not Found." : designation,
-                            EmergancyContactNumber = string.IsNullOrEmpty(contactNumber) ? "Contact Number Not Found." : contactNumber,
-                            Section = string.IsNullOrEmpty(section) ? "Section Not Found." : section,
-                            PNumber = strPNumber,
-                            DateOfBirth = strDOB
-                        };
-
-                        PermanentChForm permanentForm = new PermanentChForm(permanentCh);
-
-
+                    {                        
+                        PermanentChForm permanentForm = new PermanentChForm(cardHolderInfo);
                         permanentForm.Show();
                     }
                     else
                     {
-                        string companyName = cardHolderInfo.Company == null ? "" : cardHolderInfo.Company.CompanyName;
-                        string CNICNumber = cardHolderInfo.CNICNumber;
-                        string department = cardHolderInfo.Department == null ? "" : cardHolderInfo.Department.DepartmentName;
-                        string designation = cardHolderInfo.Designation == null ? "" : cardHolderInfo.Designation.Designation;
-                        string emergancyContactNumber = cardHolderInfo.EmergancyContactNumber;
-                        string section = cardHolderInfo.Section == null ? "" : cardHolderInfo.Section.SectionName;
-                        string wONumber = cardHolderInfo.WONumber;
-
-                        ContractorCardHolder contratorCh = new ContractorCardHolder()
-                        {
-                            FirstName = cardHolderInfo.FirstName,
-                            LastName = cardHolderInfo.LastName,
-                            CompanyName = string.IsNullOrEmpty(companyName) ? "Company Name Not Found." : companyName,
-                            Cadre = cadre,
-                            CardNumber = cardHolderInfo.LastName,
-                            CNICNumber = string.IsNullOrEmpty(CNICNumber) ? "CINC Not Found." : CNICNumber,
-                            Department = string.IsNullOrEmpty(department) ? "Department Not Found." : department,
-                            Designation = string.IsNullOrEmpty(designation) ? "Designation Not Found." : designation,
-                            EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? "Contact Number Not Found." : emergancyContactNumber,
-                            Section = string.IsNullOrEmpty(section) ? "Section Not Found." : section,
-                            WONumber = string.IsNullOrEmpty(wONumber) ? "WO No. Not Found." : wONumber
-                        };
-
-                        ContractorChForm contractorForm = new ContractorChForm(contratorCh);
-
+                        ContractorChForm contractorForm = new ContractorChForm(cardHolderInfo);
                         contractorForm.Show();
                     }
                 }
@@ -369,104 +309,83 @@ namespace LocationManagementSystem
                             string designation = chPds.ContainsKey(5042) && chPds[5042] != null ? chPds[5042] : string.Empty;
                             string contactNumber = chPds.ContainsKey(5053) && chPds[5053] != null ? chPds[5053] : string.Empty;
                             string section = chPds.ContainsKey(12951) && chPds[12951] != null ? chPds[12951] : string.Empty;
+                            int cardHolderId = cardHolder.FTItemID;
 
-                            PermamentCardHolder permanentCh = new PermamentCardHolder()
-                            {
-                                FirstName = cardHolder.FirstName,
-                                LastName = cardHolder.LastName,
-                                BloodGroup = string.IsNullOrEmpty(bloodGroup) ? "Blood Group Not Found." : bloodGroup,
-                                Cadre = cadre,
-                                CardNumber = cardHolder.LastName,
-                                CNICNumber = string.IsNullOrEmpty(CNICNumber) ? "CINC Not Found." : CNICNumber,
-                                Crew = string.IsNullOrEmpty(crew) ? "Crew Not Found." : crew,
-                                Department = string.IsNullOrEmpty(department) ? "Department Not Found." : department,
-                                Designation = string.IsNullOrEmpty(designation) ? "Designation Not Found." : designation,
-                                EmergancyContactNumber = string.IsNullOrEmpty(contactNumber) ? "Contact Number Not Found." : contactNumber,
-                                Section = string.IsNullOrEmpty(section) ? "Section Not Found." : section,
-                                PNumber = strPNumber,
-                                DateOfBirth = strDOB,
-                                GallagherCardHolder = true
-                            };
+                            CadreInfo cadreInfo = (from c in EFERTDbUtility.mEFERTDb.Cadres
+                                                   where c != null && c.CadreName == cadre
+                                                   select c).FirstOrDefault() ?? new CadreInfo() { CadreName = cadre };
 
-                            PermanentChForm permanentForm = new PermanentChForm(permanentCh);
+                            CrewInfo crewInfo = string.IsNullOrEmpty(crew) ? null :
+                                                 ((from c in EFERTDbUtility.mEFERTDb.Crews
+                                                   where c != null && c.CrewName == crew
+                                                   select c).FirstOrDefault() ?? new CrewInfo() { CrewName = crew });
 
-                            Task saveTask = new Task(() =>
-                            {
+                            DepartmentInfo departmentInfo = string.IsNullOrEmpty(department) ? null :
+                                                            ((from c in EFERTDbUtility.mEFERTDb.Departments
+                                                              where c != null && c.DepartmentName == department
+                                                              select c).FirstOrDefault() ?? new DepartmentInfo() { DepartmentName = department });
 
 
-                                CadreInfo cadreInfo = (from c in efertDb.Cadres
-                                                       where c != null && c.CadreName == cadre
-                                                       select c).FirstOrDefault() ?? new CadreInfo() { CadreName = cadre };
-
-                                CrewInfo crewInfo = string.IsNullOrEmpty(crew) ? null :
-                                                     ((from c in efertDb.Crews
-                                                       where c != null && c.CrewName == crew
-                                                       select c).FirstOrDefault() ?? new CrewInfo() { CrewName = crew });
-
-                                DepartmentInfo departmentInfo = string.IsNullOrEmpty(department) ? null :
-                                                                ((from c in efertDb.Departments
-                                                                  where c != null && c.DepartmentName == department
-                                                                  select c).FirstOrDefault() ?? new DepartmentInfo() { DepartmentName = department });
-
-                                DesignationInfo designationInfo = string.IsNullOrEmpty(designation) ? null :
-                                                                ((from c in efertDb.Designations
+                            DesignationInfo designationInfo = string.IsNullOrEmpty(designation) ? null :
+                                                                ((from c in EFERTDbUtility.mEFERTDb.Designations
                                                                   where c != null && c.Designation == designation
                                                                   select c).FirstOrDefault() ?? new DesignationInfo() { Designation = designation });
 
-                                SectionInfo sectionInfo = string.IsNullOrEmpty(section) ? null :
-                                                        ((from c in efertDb.Sections
-                                                          where c != null && c.SectionName == section
-                                                          select c).FirstOrDefault() ?? new SectionInfo() { SectionName = section });
+                            SectionInfo sectionInfo = string.IsNullOrEmpty(section) ? null :
+                                                    ((from c in EFERTDbUtility.mEFERTDb.Sections
+                                                      where c != null && c.SectionName == section
+                                                      select c).FirstOrDefault() ?? new SectionInfo() { SectionName = section });
 
-                                if (cardHolderInfo != null && cardHolderInfo.IsTemp)
+
+
+                            if (cardHolderInfo != null && cardHolderInfo.IsTemp)
+                            {
+                                cardHolderInfo.FTItemId = cardHolderId;
+                                cardHolderInfo.FirstName = cardHolder.FirstName;
+                                cardHolderInfo.LastName = cardHolder.LastName;
+                                cardHolderInfo.BloodGroup = string.IsNullOrEmpty(bloodGroup) ? null : bloodGroup;
+                                cardHolderInfo.Cadre = cadreInfo;
+                                cardHolderInfo.CardNumber = cardHolder.LastName;
+                                cardHolderInfo.CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : CNICNumber;
+                                cardHolderInfo.Crew = crewInfo;
+                                cardHolderInfo.Department = departmentInfo;
+                                cardHolderInfo.Designation = designationInfo;
+                                cardHolderInfo.EmergancyContactNumber = string.IsNullOrEmpty(contactNumber) ? null : contactNumber;
+                                cardHolderInfo.Section = sectionInfo;
+                                cardHolderInfo.PNumber = pNumber == null ? null : pNumber.ToString();
+                                cardHolderInfo.DateOfBirth = dateOfBirth == null ? null : dateOfBirth.ToString();
+                                cardHolderInfo.IsTemp = false;
+
+                                EFERTDbUtility.mEFERTDb.Entry(cardHolderInfo).State = System.Data.Entity.EntityState.Modified;
+                            }
+                            else
+                            {
+                                cardHolderInfo = new CardHolderInfo()
                                 {
-                                    cardHolderInfo.FirstName = permanentCh.FirstName;
-                                    cardHolderInfo.LastName = permanentCh.LastName;
-                                    cardHolderInfo.BloodGroup = string.IsNullOrEmpty(bloodGroup) ? null : permanentCh.BloodGroup;
-                                    cardHolderInfo.Cadre = cadreInfo;
-                                    cardHolderInfo.CardNumber = permanentCh.LastName;
-                                    cardHolderInfo.CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : permanentCh.CNICNumber;
-                                    cardHolderInfo.Crew = crewInfo;
-                                    cardHolderInfo.Department = departmentInfo;
-                                    cardHolderInfo.Designation = designationInfo;
-                                    cardHolderInfo.EmergancyContactNumber = string.IsNullOrEmpty(contactNumber) ? null : permanentCh.EmergancyContactNumber;
-                                    cardHolderInfo.Section = sectionInfo;
-                                    cardHolderInfo.PNumber = pNumber == null ? null : pNumber.ToString();
-                                    cardHolderInfo.DateOfBirth = dateOfBirth == null ? null : dateOfBirth.ToString();
-                                    cardHolderInfo.IsTemp = false;
+                                    FTItemId = cardHolderId,
+                                    FirstName = cardHolder.FirstName,
+                                    LastName = cardHolder.LastName,
+                                    BloodGroup = string.IsNullOrEmpty(bloodGroup) ? null : bloodGroup,
+                                    Cadre = cadreInfo,
+                                    CardNumber = cardHolder.LastName,
+                                    CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : CNICNumber,
+                                    Crew = crewInfo,
+                                    Department = departmentInfo,
+                                    Designation = designationInfo,
+                                    EmergancyContactNumber = string.IsNullOrEmpty(contactNumber) ? null : contactNumber,
+                                    Section = sectionInfo,
+                                    PNumber = pNumber == null ? null : pNumber.ToString(),
+                                    DateOfBirth = dateOfBirth == null ? null : dateOfBirth.ToString(),
+                                    IsTemp = false
+                                };
 
-                                    efertDb.Entry(cardHolderInfo).State = System.Data.Entity.EntityState.Modified;
-                                }
-                                else
-                                {
-                                    cardHolderInfo = new CardHolderInfo()
-                                    {
-                                        FirstName = permanentCh.FirstName,
-                                        LastName = permanentCh.LastName,
-                                        BloodGroup = string.IsNullOrEmpty(bloodGroup) ? null : permanentCh.BloodGroup,
-                                        Cadre = cadreInfo,
-                                        CardNumber = permanentCh.LastName,
-                                        CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : permanentCh.CNICNumber,
-                                        Crew = crewInfo,
-                                        Department = departmentInfo,
-                                        Designation = designationInfo,
-                                        EmergancyContactNumber = string.IsNullOrEmpty(contactNumber) ? null : permanentCh.EmergancyContactNumber,
-                                        Section = sectionInfo,
-                                        PNumber = pNumber == null ? null : pNumber.ToString(),
-                                        DateOfBirth = dateOfBirth == null ? null : dateOfBirth.ToString(),
-                                        IsTemp = false
-                                    };
+                                EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
 
-                                    efertDb.CardHolders.Add(cardHolderInfo);
+                            }
 
-                                }
+                            EFERTDbUtility.mEFERTDb.SaveChanges();
 
-                                efertDb.SaveChanges();
-
-                            });
-
-                            saveTask.Start();
-
+                            PermanentChForm permanentForm = new PermanentChForm(cardHolderInfo);
                             permanentForm.Show();
                         }
                         else
@@ -478,119 +397,92 @@ namespace LocationManagementSystem
                             string emergancyContactNumber = chPds.ContainsKey(5053) && chPds[5053] != null ? chPds[5053] : string.Empty;
                             string section = chPds.ContainsKey(12951) && chPds[12951] != null ? chPds[12951] : string.Empty;
                             string wONumber = chPds.ContainsKey(5344) && chPds[5344] != null ? chPds[5344] : string.Empty;
+                            int cardHolderId = cardHolder.FTItemID;
 
-                            ContractorCardHolder contratorCh = new ContractorCardHolder()
+                            CadreInfo cadreInfo = (from c in EFERTDbUtility.mEFERTDb.Cadres
+                                                   where c != null && c.CadreName == cadre
+                                                   select c).FirstOrDefault() ?? new CadreInfo() { CadreName = cadre };
+
+
+                            CrewInfo crewInfo = null;
+
+                            DepartmentInfo departmentInfo = string.IsNullOrEmpty(department) ? null :
+                                                            ((from c in EFERTDbUtility.mEFERTDb.Departments
+                                                              where c != null && c.DepartmentName == department
+                                                              select c).FirstOrDefault() ?? new DepartmentInfo() { DepartmentName = department });
+
+
+                            DesignationInfo designationInfo = string.IsNullOrEmpty(designation) ? null :
+                                                            ((from c in EFERTDbUtility.mEFERTDb.Designations
+                                                              where c != null && c.Designation == designation
+                                                              select c).FirstOrDefault() ?? new DesignationInfo() { Designation = designation });
+
+                            SectionInfo sectionInfo = string.IsNullOrEmpty(section) ? null :
+                                                    ((from c in EFERTDbUtility.mEFERTDb.Sections
+                                                      where c != null && c.SectionName == section
+                                                      select c).FirstOrDefault() ?? new SectionInfo() { SectionName = section });
+
+                            CompanyInfo companyInfo = string.IsNullOrEmpty(companyName) ? null :
+                                                    ((from c in EFERTDbUtility.mEFERTDb.Companies
+                                                      where c != null && c.CompanyName == companyName
+                                                      select c).FirstOrDefault() ?? new CompanyInfo() { CompanyName = companyName });
+
+
+
+                            if (cardHolderInfo != null && cardHolderInfo.IsTemp)
                             {
-                                FirstName = cardHolder.FirstName,
-                                LastName = cardHolder.LastName,
-                                CompanyName = string.IsNullOrEmpty(companyName) ? "Company Name Not Found." : companyName,
-                                Cadre = cadre,
-                                CardNumber = cardHolder.LastName,
-                                CNICNumber = string.IsNullOrEmpty(CNICNumber) ? "CINC Not Found." : CNICNumber,
-                                Department = string.IsNullOrEmpty(department) ? "Department Not Found." : department,
-                                Designation = string.IsNullOrEmpty(designation) ? "Designation Not Found." : designation,
-                                EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? "Contact Number Not Found." : emergancyContactNumber,
-                                Section = string.IsNullOrEmpty(section) ? "Section Not Found." : section,
-                                WONumber = string.IsNullOrEmpty(wONumber) ? "WO No. Not Found." : wONumber,
-                                GallagherCardHolder = true
-                            };
+                                cardHolderInfo.FTItemId = cardHolderId;
+                                cardHolderInfo.FirstName = cardHolder.FirstName;
+                                cardHolderInfo.LastName = cardHolder.LastName;
+                                cardHolderInfo.Company = companyInfo;
+                                cardHolderInfo.Cadre = cadreInfo;
+                                cardHolderInfo.CardNumber = cardHolder.LastName;
+                                cardHolderInfo.CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : CNICNumber;
+                                cardHolderInfo.Crew = crewInfo;
+                                cardHolderInfo.Department = departmentInfo;
+                                cardHolderInfo.Designation = designationInfo;
+                                cardHolderInfo.EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? null : emergancyContactNumber;
+                                cardHolderInfo.Section = sectionInfo;
+                                cardHolderInfo.WONumber = string.IsNullOrEmpty(wONumber) ? null : wONumber;
+                                cardHolderInfo.IsTemp = false;
 
-                            ContractorChForm contractorForm = new ContractorChForm(contratorCh);
-
-                            Task saveTask = new Task(() =>
+                                EFERTDbUtility.mEFERTDb.Entry(cardHolderInfo).State = System.Data.Entity.EntityState.Modified;
+                            }
+                            else
                             {
 
-
-                                CadreInfo cadreInfo = (from c in efertDb.Cadres
-                                                       where c != null && c.CadreName == cadre
-                                                       select c).FirstOrDefault() ?? new CadreInfo() { CadreName = cadre };
-
-                                CrewInfo crewInfo = null;
-
-                                DepartmentInfo departmentInfo = string.IsNullOrEmpty(department) ? null :
-                                                                ((from c in efertDb.Departments
-                                                                  where c != null && c.DepartmentName == department
-                                                                  select c).FirstOrDefault() ?? new DepartmentInfo() { DepartmentName = department });
-
-                                DesignationInfo designationInfo = string.IsNullOrEmpty(designation) ? null :
-                                                                ((from c in efertDb.Designations
-                                                                  where c != null && c.Designation == designation
-                                                                  select c).FirstOrDefault() ?? new DesignationInfo() { Designation = designation });
-
-                                SectionInfo sectionInfo = string.IsNullOrEmpty(section) ? null :
-                                                        ((from c in efertDb.Sections
-                                                          where c != null && c.SectionName == section
-                                                          select c).FirstOrDefault() ?? new SectionInfo() { SectionName = section });
-
-                                CompanyInfo companyInfo = string.IsNullOrEmpty(companyName) ? null :
-                                                        ((from c in efertDb.Companies
-                                                          where c != null && c.CompanyName == companyName
-                                                          select c).FirstOrDefault() ?? new CompanyInfo() { CompanyName = companyName });
-
-                                if (cardHolderInfo != null && cardHolderInfo.IsTemp)
+                                cardHolderInfo = new CardHolderInfo()
                                 {
-                                    cardHolderInfo.FirstName = contratorCh.FirstName;
-                                    cardHolderInfo.LastName = contratorCh.LastName;
-                                    cardHolderInfo.Company = companyInfo;
-                                    cardHolderInfo.Cadre = cadreInfo;
-                                    cardHolderInfo.CardNumber = contratorCh.LastName;
-                                    cardHolderInfo.CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : CNICNumber;
-                                    cardHolderInfo.Crew = crewInfo;
-                                    cardHolderInfo.Department = departmentInfo;
-                                    cardHolderInfo.Designation = designationInfo;
-                                    cardHolderInfo.EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? null : emergancyContactNumber;
-                                    cardHolderInfo.Section = sectionInfo;
-                                    cardHolderInfo.WONumber = string.IsNullOrEmpty(wONumber) ? null : wONumber;
-                                    cardHolderInfo.IsTemp = false;
+                                    FTItemId = cardHolderId,
+                                    FirstName = cardHolder.FirstName,
+                                    LastName = cardHolder.LastName,
+                                    Company = companyInfo,
+                                    Cadre = cadreInfo,
+                                    CardNumber = cardHolder.LastName,
+                                    CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : CNICNumber,
+                                    Crew = crewInfo,
+                                    Department = departmentInfo,
+                                    Designation = designationInfo,
+                                    EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? null : emergancyContactNumber,
+                                    Section = sectionInfo,
+                                    WONumber = string.IsNullOrEmpty(wONumber) ? null : wONumber,
+                                    IsTemp = false
+                                };
 
-                                    efertDb.Entry(cardHolderInfo).State = System.Data.Entity.EntityState.Modified;
-                                }
-                                else
-                                {
+                                EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
+                            }
 
-                                    CardHolderInfo cardHolerInfo = new CardHolderInfo()
-                                    {
-                                        FirstName = contratorCh.FirstName,
-                                        LastName = contratorCh.LastName,
-                                        Company = companyInfo,
-                                        Cadre = cadreInfo,
-                                        CardNumber = contratorCh.LastName,
-                                        CNICNumber = string.IsNullOrEmpty(CNICNumber) ? null : CNICNumber,
-                                        Crew = crewInfo,
-                                        Department = departmentInfo,
-                                        Designation = designationInfo,
-                                        EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? null : emergancyContactNumber,
-                                        Section = sectionInfo,
-                                        WONumber = string.IsNullOrEmpty(wONumber) ? null : wONumber,
-                                        IsTemp = false
-                                    };
+                            EFERTDbUtility.mEFERTDb.SaveChanges();
 
-                                    efertDb.CardHolders.Add(cardHolerInfo);
-                                }
 
-                                efertDb.SaveChanges();
-
-                            });
-
-                            saveTask.Start();
-
+                            ContractorChForm contractorForm = new ContractorChForm(cardHolderInfo);
                             contractorForm.Show();
                         }
                     }
                 }
                 else if (!updatedCardExist)
                 {
-                    string CNICNumber = cardHolderInfo.CNICNumber;
-                    
-                    ContractorCardHolder contratorCh = new ContractorCardHolder()
-                    {
-                        FirstName = cardHolderInfo.FirstName,
-                        CNICNumber = string.IsNullOrEmpty(CNICNumber) ? "CINC Not Found." : CNICNumber,
-                        GallagherCardHolder = false
-                    };
-
-                    ContractorChForm contractorForm = new ContractorChForm(contratorCh);
-
+                    ContractorChForm contractorForm = new ContractorChForm(cardHolderInfo, true);
                     contractorForm.Show();
                 }
                 else if (visitor != null)
@@ -616,17 +508,17 @@ namespace LocationManagementSystem
 
         private void rbtCnicNumber_CheckedChanged(object sender, EventArgs e)
         {
-            this.rbtCardNumber.Checked = false;
+            //this.rbtCardNumber.Checked = false;
             this.maskedTextBox1.Text = string.Empty;
-            this.maskedTextBox1.Mask = "00000-9999999-9";
+            this.maskedTextBox1.Mask = "00000-0000000-0";
 
         }
 
         private void rbtCardNumber_CheckedChanged(object sender, EventArgs e)
         {
-            this.rbtCnicNumber.Checked = false;
+            //this.rbtCnicNumber.Checked = false;
             this.maskedTextBox1.Text = string.Empty;
-            this.maskedTextBox1.Mask = "00000000";
+            this.maskedTextBox1.Mask = "0000000000";
         }
     }
 }

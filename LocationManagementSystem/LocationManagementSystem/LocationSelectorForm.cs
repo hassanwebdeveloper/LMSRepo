@@ -15,6 +15,8 @@ namespace LocationManagementSystem
         public LocationSelectorForm()
         {
             InitializeComponent();
+
+            this.linkLabel1.Visible = Form1.mLoggedInUser.IsAdmin;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,6 +40,13 @@ namespace LocationManagementSystem
         private void LocationSelectorForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Form1.mMainForm.Close();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UpdateLocationsForm updateLocationsForms = new UpdateLocationsForm();
+
+            updateLocationsForms.ShowDialog(this);
         }
     }
 }

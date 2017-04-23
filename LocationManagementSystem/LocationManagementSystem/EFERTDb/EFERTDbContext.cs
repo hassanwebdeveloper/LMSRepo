@@ -11,7 +11,7 @@ namespace LocationManagementSystem
     {
         public EFERTDbContext() : base("name=EFERTDb")
         {
-            Database.SetInitializer<EFERTDbContext>(new DropCreateDatabaseIfModelChanges<EFERTDbContext>());
+            Database.SetInitializer<EFERTDbContext>(new EFERTInitializer());
         }
 
         public DbSet<CardHolderInfo> CardHolders { get; set; }
@@ -21,7 +21,12 @@ namespace LocationManagementSystem
         public DbSet<DesignationInfo> Designations { get; set; }
         public DbSet<SectionInfo> Sections { get; set; }
         public DbSet<CompanyInfo> Companies { get; set; }
+        public DbSet<VisitorCardHolder> Visitors { get; set; }
+        public DbSet<DailyCardHolder> DailyCardHolders { get; set; }
+        public DbSet<BlockedPersonInfo> BlockedPersons { get; set; }
+        public DbSet<CheckInAndOutInfo> CheckedInInfos { get; set; }
+        public DbSet<VisitingLocations> VisitingLocations { get; set; }
         //public DbSet<AppUser> AppUsers { get; set; }
-        
+
     }
 }

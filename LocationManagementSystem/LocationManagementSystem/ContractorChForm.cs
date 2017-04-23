@@ -14,12 +14,64 @@ namespace LocationManagementSystem
     {
         public string mCNICNumber = string.Empty;
         public ContractorCardHolder mContractorCardHolder = null;
+        public CardHolderInfo mCardHolderInfo = null;
         public DailyCardHolder mDailyCardHolder = null;
+        public List<CheckInAndOutInfo> mCheckIns = new List<CheckInAndOutInfo>();
+        public List<BlockedPersonInfo> mBlocks = new List<BlockedPersonInfo>();
         public bool mIsDailyCardHolder = false;
         private bool mClubStaff = false;
 
-        public ContractorChForm(ContractorCardHolder contractor)
+        public ContractorChForm(CardHolderInfo cardHolderInfo, bool isTempCard = false)
         {
+            ContractorCardHolder contractor = null;
+
+            if (cardHolderInfo != null)
+            {
+                this.mCardHolderInfo = cardHolderInfo;
+
+                if (isTempCard)
+                {
+                    contractor = new ContractorCardHolder()
+                    {
+                        FirstName = cardHolderInfo.FirstName,
+                        CNICNumber = string.IsNullOrEmpty(cardHolderInfo.CNICNumber) ? "CINC Not Found." : cardHolderInfo.CNICNumber,
+                        GallagherCardHolder = false,
+                        CheckInInfos = cardHolderInfo.CheckInInfos ?? new List<CheckInAndOutInfo>(),
+                        BlockedPersonsInfos = cardHolderInfo.BlockingInfos ?? new List<BlockedPersonInfo>()
+                    };
+                }
+                else
+                {
+                    string cadre = cardHolderInfo.Cadre == null ? "" : cardHolderInfo.Cadre.CadreName;
+                    string companyName = cardHolderInfo.Company == null ? "" : cardHolderInfo.Company.CompanyName;
+                    string CNICNumber = cardHolderInfo.CNICNumber;
+                    string department = cardHolderInfo.Department == null ? "" : cardHolderInfo.Department.DepartmentName;
+                    string designation = cardHolderInfo.Designation == null ? "" : cardHolderInfo.Designation.Designation;
+                    string emergancyContactNumber = cardHolderInfo.EmergancyContactNumber;
+                    string section = cardHolderInfo.Section == null ? "" : cardHolderInfo.Section.SectionName;
+                    string wONumber = cardHolderInfo.WONumber;
+
+                    contractor = new ContractorCardHolder()
+                    {
+                        FirstName = cardHolderInfo.FirstName,
+                        LastName = cardHolderInfo.LastName,
+                        CompanyName = string.IsNullOrEmpty(companyName) ? "Company Name Not Found." : companyName,
+                        Cadre = cadre,
+                        CardNumber = cardHolderInfo.LastName,
+                        CNICNumber = string.IsNullOrEmpty(CNICNumber) ? "CINC Not Found." : CNICNumber,
+                        Department = string.IsNullOrEmpty(department) ? "Department Not Found." : department,
+                        Designation = string.IsNullOrEmpty(designation) ? "Designation Not Found." : designation,
+                        EmergancyContactNumber = string.IsNullOrEmpty(emergancyContactNumber) ? "Contact Number Not Found." : emergancyContactNumber,
+                        Section = string.IsNullOrEmpty(section) ? "Section Not Found." : section,
+                        WONumber = string.IsNullOrEmpty(wONumber) ? "WO No. Not Found." : wONumber,
+                        CheckInInfos = cardHolderInfo.CheckInInfos ?? new List<CheckInAndOutInfo>(),
+                        BlockedPersonsInfos = cardHolderInfo.BlockingInfos ?? new List<BlockedPersonInfo>()
+                    };
+                }
+               
+
+            }
+
             InitializeComponent();
 
             if (contractor != null)
@@ -38,7 +90,8 @@ namespace LocationManagementSystem
                 this.tbxSection.Text = contractor.Section;
                 this.tbxLastName.Text = contractor.LastName;
                 //this.tbxCardNumber.Text = permanentCh.CardNumber;
-
+                this.mCheckIns = contractor.CheckInInfos;
+                this.mBlocks = contractor.BlockedPersonsInfos;
                 this.mCNICNumber = contractor.CNICNumber;
 
             }
@@ -65,7 +118,8 @@ namespace LocationManagementSystem
                 this.tbxWONumber.Text = dailyCardHolder.WONumber;
                 this.tbxLastName.Text = dailyCardHolder.LastName;
                 //this.tbxCardNumber.Text = permanentCh.CardNumber;
-
+                this.mCheckIns = dailyCardHolder.CheckInInfos ?? new List<CheckInAndOutInfo>();
+                this.mBlocks = dailyCardHolder.BlockingInfos ??  new List<BlockedPersonInfo>();
                 this.mCNICNumber = dailyCardHolder.CNICNumber;
 
             }
@@ -77,7 +131,7 @@ namespace LocationManagementSystem
         public ContractorChForm(string cnicNumber, bool dailyCardHolder = false, string title = null, string gpTitle = null, bool clubStaff = false)
         {
             InitializeComponent();
-
+            
             if (!string.IsNullOrEmpty(title))
             {
                 this.Text = title;
@@ -129,6 +183,7 @@ namespace LocationManagementSystem
                 }
                 this.label11.Location = this.label2.Location;
                 this.tbxWONumber.Location = this.tbxFirstName.Location;
+                this.tbxWONumber.Size = this.tbxFirstName.Size;
                 this.label2.Location = this.label1.Location;
                 this.tbxFirstName.Location = this.tbxCardNumber.Location;
                 this.label1.Visible = false;
@@ -203,10 +258,10 @@ namespace LocationManagementSystem
 
             bool blockedUser = false;
 
-            if (SearchForm.mBlockedList.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
+            if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {
                 blockedUser = true;
-                BlockedPersonInfo blockedPerson = SearchForm.mBlockedList.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
+                BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
 
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = false;
@@ -225,9 +280,9 @@ namespace LocationManagementSystem
                 this.lblVisitorStatus.BackColor = Color.Green;
             }
 
-            if (SearchForm.mCheckedInList.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
+            if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
             {
-                CheckInAndOutInfo checkedInInfo = SearchForm.mCheckedInList.Find(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber);
+                CheckInAndOutInfo checkedInInfo = this.mCheckIns.Find(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber);
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = true && !blockedUser;
 
@@ -241,9 +296,9 @@ namespace LocationManagementSystem
             }
             else
             {
-                int checkedInCount = SearchForm.mCheckedInList.Count(checkedInInfo => !checkedInInfo.CheckedIn && checkedInInfo.CNICNumber == this.mCNICNumber);
+                LimitStatus limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns);
 
-                if (checkedInCount == 3)
+                if (limitStatus == LimitStatus.LimitReached)
                 {
                     this.btnCheckIn.Enabled = false;
                     this.btnCheckOut.Enabled = false;
@@ -265,14 +320,107 @@ namespace LocationManagementSystem
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
+            CardHolderInfo cardHolderInfo = this.mCardHolderInfo;
+
+            if (this.mContractorCardHolder == null && this.mDailyCardHolder == null)
+            {
+                if (this.mIsDailyCardHolder)
+                {
+                    DailyCardHolder dailyCardHolder = new DailyCardHolder()
+                    {
+                        FirstName = this.tbxFirstName.Text,
+                        LastName = this.tbxLastName.Text,
+                        Department = this.tbxDepartment.Text,
+                        Cadre = this.tbxCadre.Text,
+                        CNICNumber = this.tbxCNICNumber.Text,
+                        CompanyName = this.tbxCompanyName.Text,
+                        Designation = this.tbxDesignation.Text,
+                        EmergancyContactNumber = this.tbxContactNumber.Text,
+                        WONumber = this.tbxWONumber.Text
+                    };
+
+                    EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
+                    EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                    this.mDailyCardHolder = dailyCardHolder;
+
+                }
+                else
+                {
+                    cardHolderInfo = new CardHolderInfo()
+                    {
+                        FirstName = this.tbxFirstName.Text,
+                        CNICNumber = string.IsNullOrEmpty(this.mCNICNumber) ? null : this.mCNICNumber,
+                        IsTemp = true
+                    };
+
+                    EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
+                    EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                    this.mCardHolderInfo = cardHolderInfo;
+
+                }
+
+            }
+
             BlockedPersonInfo blockedPerson = new BlockedPersonInfo()
             {
                 Blocked = true,
                 BlockedBy = this.tbxBlockedBy.Text,
                 Reason = this.tbxBlockedReason.Text,
-                CNICNumber = this.mCNICNumber
+                CNICNumber = this.mCNICNumber,                
+                BlockedTime = DateTime.Now,
+                UnBlockTime = DateTime.MaxValue
             };
-            SearchForm.mBlockedList.Add(blockedPerson);
+
+            if (SearchForm.mIsPlant)
+            {
+                blockedPerson.BlockedInPlant = true;
+            }
+            else
+            {
+                blockedPerson.BlockedInColony = true;
+            }
+
+            if (this.mIsDailyCardHolder)
+            {
+                blockedPerson.DailyCardHolders = this.mDailyCardHolder;
+            }
+            else
+            {
+                if (cardHolderInfo == null)
+                {
+                    MessageBox.Show(this, "Unable to Issue Card. Some error occured in getting cardholder information.");
+                    return;
+                }
+                else
+                {
+                    blockedPerson.CardHolderInfos = cardHolderInfo;
+                }
+            }
+
+            try
+            {
+                EFERTDbUtility.mEFERTDb.BlockedPersons.Add(blockedPerson);
+                EFERTDbUtility.mEFERTDb.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                EFERTDbUtility.RollBack();
+
+                MessageBox.Show(this, "Some error occurred in blocking cardholder.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                return;
+            }
+
+            if (this.mIsDailyCardHolder)
+            {
+                this.mBlocks = this.mDailyCardHolder.BlockingInfos;
+            }
+            else
+            {
+                this.mBlocks = cardHolderInfo.BlockingInfos;
+            }
+
             this.btnCheckIn.Enabled = false;
             this.btnCheckOut.Enabled = false;
             this.lblVisitorStatus.Text = "Blocked";
@@ -283,9 +431,35 @@ namespace LocationManagementSystem
 
         private void btnUnBlock_Click(object sender, EventArgs e)
         {
-            if (SearchForm.mBlockedList.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
+            if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {
-                if (SearchForm.mCheckedInList.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
+                BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
+                blockedPerson.Blocked = false;
+                blockedPerson.UnBlockTime = DateTime.Now;
+
+                try
+                {
+                    EFERTDbUtility.mEFERTDb.Entry(blockedPerson).State = System.Data.Entity.EntityState.Modified;
+                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    EFERTDbUtility.RollBack();
+
+                    MessageBox.Show(this, "Some error occurred in unblocking cardholder.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                    return;
+                }
+
+                if (this.mIsDailyCardHolder)
+                {
+                    this.mBlocks = this.mDailyCardHolder.BlockingInfos;
+                }
+                else
+                {
+                    this.mBlocks = this.mCardHolderInfo.BlockingInfos;
+                }
+
+                if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
                 {
                     this.btnCheckIn.Enabled = false;
                     this.btnCheckOut.Enabled = true;
@@ -295,8 +469,6 @@ namespace LocationManagementSystem
                     this.btnCheckIn.Enabled = true;
                     this.btnCheckOut.Enabled = false;
                 }
-                BlockedPersonInfo blockedPerson = SearchForm.mBlockedList.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
-                blockedPerson.Blocked = false;
 
                 this.tbxBlockedBy.Text = string.Empty;
                 this.tbxBlockedReason.Text = string.Empty;
@@ -314,15 +486,38 @@ namespace LocationManagementSystem
         private void btnCheckIn_Click(object sender, EventArgs e)
         {
             string cardNumber = this.tbxCheckInCardNumber.Text;
-            bool isCardNotReturned = SearchForm.mCheckedInList.Any(checkInInfo => checkInInfo.CheckedIn && checkInInfo.CardNumber == cardNumber);
+
+            if (string.IsNullOrEmpty(cardNumber))
+            {
+                MessageBox.Show(this, "Card number can not be empty.");
+                return;
+            }
+
+            bool isCardNotReturned = this.mCheckIns.Any(checkInInfo => checkInInfo.CheckedIn && checkInInfo.CardNumber == cardNumber);
             CCFTCentralDb.CCFTCentral ccftCentralDb = new CCFTCentralDb.CCFTCentral();
+
             bool cardExist = ccftCentralDb.Cardholders.Any(card => card.LastName == cardNumber);
+
+            CardHolderInfo cardHolderInfo = this.mCardHolderInfo;
 
             if (cardExist && !isCardNotReturned)
             {
+                var cardAlreadyIssued = (from checkin in EFERTDbUtility.mEFERTDb.CheckedInInfos
+                                         where checkin != null && checkin.CheckedIn && checkin.CardNumber == cardNumber
+                                         select new
+                                         {
+                                             checkin.CheckedIn,
+                                             checkin.CNICNumber
+                                         }).FirstOrDefault();
+
+                if (cardAlreadyIssued != null && cardAlreadyIssued.CheckedIn)
+                {
+                    MessageBox.Show(this, "This card is already issue to the person with CNIC number: " + cardAlreadyIssued.CNICNumber);
+                    return;
+                }
                 if (this.mContractorCardHolder == null && this.mDailyCardHolder == null)
                 {
-                    EFERTDbContext efertDb = new EFERTDbContext();
+                    
 
                     if (this.mIsDailyCardHolder)
                     {
@@ -339,52 +534,76 @@ namespace LocationManagementSystem
                             WONumber = this.tbxWONumber.Text
                         };
 
-                        SearchForm.mDailyCardHolders.Add(dailyCardHolder);
+                        EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
+                        //EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                        this.mDailyCardHolder = dailyCardHolder;
+
                     }
                     else
                     {
-                        CardHolderInfo cardHolderInfo = new CardHolderInfo()
+                        cardHolderInfo = new CardHolderInfo()
                         {
                             FirstName = this.tbxFirstName.Text,
                             CNICNumber = string.IsNullOrEmpty(this.mCNICNumber) ? null : this.mCNICNumber,
-                            IsTemp = true
+                            IsTemp = true                          
                         };
 
-                        efertDb.CardHolders.Add(cardHolderInfo);
-                        efertDb.SaveChanges();
+                        EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
+                        //EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                        this.mCardHolderInfo = cardHolderInfo;
+                        
                     }
-
                     
-
-                    //VisitorCardHolder visitor = new VisitorCardHolder();
-
-                    //visitor.CNICNumber = this.tbxCnicNumber.Text;
-                    //visitor.Gender = this.cbxGender.SelectedItem == null ? string.Empty : this.cbxGender.SelectedItem as String;
-                    //visitor.FirstName = this.tbxFirstName.Text;
-                    //visitor.LastName = this.tbxLastName.Text;
-                    //visitor.PostCode = this.tbxAddress.Text;
-                    //visitor.City = this.tbxCity.Text;
-                    //visitor.State = this.tbxState.Text;
-                    //visitor.CompanyName = this.tbxCompanyName.Text;
-                    //visitor.ContactNo = this.tbxPhoneNumber.Text;
-                    //visitor.EmergencyContantPerson = this.tbxEmergencyContact.Text;
-                    //visitor.EmergencyContantPersonNumber = this.tbxEmergencyContactNumber.Text;
-
-                    //SearchForm.mVisitorsList.Add(visitor);
                 }
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
+
+                if (this.mIsDailyCardHolder)
+                {
+                    checkedInInfo.DailyCardHolders = this.mDailyCardHolder;
+                }
+                else
+                {
+                    if (cardHolderInfo == null)
+                    {
+                        MessageBox.Show(this, "Unable to Issue Card. Some error occured in getting cardholder information.");
+                        return;
+                    }
+                    else
+                    {
+                        checkedInInfo.CardHolderInfos = cardHolderInfo;
+                    }
+                    
+
+
+                }
 
                 checkedInInfo.CNICNumber = this.mCNICNumber;
                 checkedInInfo.CardNumber = this.tbxCheckInCardNumber.Text;
                 checkedInInfo.VehicleNmuber = this.tbxCheckInVehicleNumber.Text;
                 checkedInInfo.DateTimeIn = Convert.ToDateTime(this.tbxCheckInDateTimeIn.Text);
+                checkedInInfo.DateTimeOut = DateTime.MaxValue;
                 checkedInInfo.CheckedIn = true;
+
+                try
+                {
+                    EFERTDbUtility.mEFERTDb.CheckedInInfos.Add(checkedInInfo);
+                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    EFERTDbUtility.RollBack();
+
+                    MessageBox.Show(this, "Some error occurred in issuing card.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                    return;
+                }
 
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = true;
+                
 
-                SearchForm.mCheckedInList.Add(checkedInInfo);
 
                 if (NewColonyChForm.mNewColonyChForm != null)
                 {
@@ -413,11 +632,25 @@ namespace LocationManagementSystem
 
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
-            if (SearchForm.mCheckedInList.Exists(checkedOut => checkedOut.CheckedIn && checkedOut.CNICNumber == this.mCNICNumber))
+            if (this.mCheckIns.Exists(checkedOut => checkedOut.CheckedIn && checkedOut.CNICNumber == this.mCNICNumber))
             {
-                CheckInAndOutInfo checkedOutInfo = SearchForm.mCheckedInList.Find(checkedOut => checkedOut.CheckedIn && checkedOut.CNICNumber == this.mCNICNumber);
+                CheckInAndOutInfo checkedOutInfo = this.mCheckIns.Find(checkedOut => checkedOut.CheckedIn && checkedOut.CNICNumber == this.mCNICNumber);
                 checkedOutInfo.CheckedIn = false;
                 checkedOutInfo.DateTimeOut = Convert.ToDateTime(this.tbxCheckInDateTimeOut.Text);
+
+                try
+                {
+                    EFERTDbUtility.mEFERTDb.Entry(checkedOutInfo).State = System.Data.Entity.EntityState.Modified;
+                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    EFERTDbUtility.RollBack();
+
+                    MessageBox.Show(this, "Some error occurred in returning card.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                    return;
+                }
+
 
                 this.btnCheckIn.Enabled = true;
                 this.btnCheckOut.Enabled = false;

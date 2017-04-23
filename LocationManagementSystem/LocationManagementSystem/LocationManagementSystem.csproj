@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockedPersonNotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlockedPersonNotificationForm.Designer.cs">
+      <DependentUpon>BlockedPersonNotificationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CCFTCentralDb\AccessDecisionTileConfig.cs" />
     <Compile Include="CCFTCentralDb\AccessTriplet.cs" />
     <Compile Include="CCFTCentralDb\AccessZone.cs" />
@@ -424,12 +430,13 @@
     <Compile Include="CCFTCentralDb\WorkstationRoutingLinkedItem.cs" />
     <Compile Include="CCFTCentralDb\WorkstationRoutingOperatorClub.cs" />
     <Compile Include="CCFTCentralDb\WorkstationRoutingWorkstation.cs" />
-    <Compile Include="Classes\BlockedPersonInfo.cs" />
-    <Compile Include="Classes\CheckInAndOutInfo.cs" />
+    <Compile Include="EFERTDb\BlockedPersonInfo.cs" />
+    <Compile Include="EFERTDb\CheckInAndOutInfo.cs" />
     <Compile Include="Classes\ContractorCardHolder.cs" />
-    <Compile Include="Classes\DailyCardHolder.cs" />
+    <Compile Include="EFERTDb\DailyCardHolder.cs" />
     <Compile Include="Classes\PermamentCardHolder.cs" />
-    <Compile Include="Classes\VisitorCardHolder.cs" />
+    <Compile Include="EFERTDb\VisitingLocations.cs" />
+    <Compile Include="EFERTDb\VisitorCardHolder.cs" />
     <Compile Include="ContractorChForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -437,17 +444,8 @@
       <DependentUpon>ContractorChForm.cs</DependentUpon>
     </Compile>
     <Compile Include="EFERTDb\AppUser.cs" />
+    <Compile Include="EFERTDb\EFERTDbUtility.cs" />
     <Compile Include="EFERTDb\EFERTInitializer.cs" />
-    <Compile Include="EFERTDb\EFERTTemplate.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EFERTTemplate.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EFERTDb\EFERTTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EFERTTemplate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -494,12 +492,27 @@
     <Compile Include="SearchForm.Designer.cs">
       <DependentUpon>SearchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateLocationsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateLocationsForm.Designer.cs">
+      <DependentUpon>UpdateLocationsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VisitorForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="VisitorForm.Designer.cs">
       <DependentUpon>VisitorForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BlockedPersonNotificationForm.resx">
+      <DependentUpon>BlockedPersonNotificationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ContractorChForm.resx">
       <DependentUpon>ContractorChForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -530,10 +543,17 @@
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateLocationsForm.resx">
+      <DependentUpon>UpdateLocationsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VisitorForm.resx">
       <DependentUpon>VisitorForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\VisitingLocations.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -553,14 +573,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EFERTDb\EFERTTemplate.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EFERTTemplate.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EFERTDb\EFERTTemplate.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EFERTTemplate.cs</LastGenOutput>
-    </Content>
+    <Content Include="Images\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

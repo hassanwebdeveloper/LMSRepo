@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LocationManagementSystem
 {
+    [Table("DailyCardHolder")]
     public class DailyCardHolder
     {
-        public string DailyCardHolderId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int DailyCardHolderId { get; set; }
 
         public string FirstName { get; set; }
 
@@ -22,11 +27,15 @@ namespace LocationManagementSystem
 
         public string Designation { get; set; }
 
+        [Column("ContactNumber")]
         public string EmergancyContactNumber { get; set; }
 
         public string CNICNumber { get; set; }
 
         public string WONumber { get; set; }
-        
+
+        public virtual List<BlockedPersonInfo> BlockingInfos { get; set; }
+
+        public virtual List<CheckInAndOutInfo> CheckInInfos { get; set; }
     }
 }

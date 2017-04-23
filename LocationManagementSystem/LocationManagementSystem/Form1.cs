@@ -56,9 +56,6 @@ namespace LocationManagementSystem
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            //EFERTDbContext efertDb = new EFERTDbContext();
-            
-
             string userName = this.tbxUserName.Text;
             string password = this.tbxPassword.Text;
 

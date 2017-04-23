@@ -35,5 +35,9 @@ namespace LocationManagementSystem
         public string Section { get; set; }
 
         public bool GallagherCardHolder { get; set; }
+
+        public List<CheckInAndOutInfo> CheckInInfos { get; set; }
+
+        public List<BlockedPersonInfo> BlockedInfos { get; set; }
     }
 }

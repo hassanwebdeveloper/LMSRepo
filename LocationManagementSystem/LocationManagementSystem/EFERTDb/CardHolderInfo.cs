@@ -12,7 +12,10 @@ namespace LocationManagementSystem
     public class CardHolderInfo
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CardHolderId { get; set; }
+
+        public int FTItemId { get; set; }
 
         public string CardNumber { get; set; }
 
@@ -64,5 +67,9 @@ namespace LocationManagementSystem
         public string WONumber { get; set; }
 
         public bool IsTemp { get; set; }
+
+        public virtual List<BlockedPersonInfo> BlockingInfos { get; set; }
+
+        public virtual List<CheckInAndOutInfo> CheckInInfos { get; set; }
     }
 }

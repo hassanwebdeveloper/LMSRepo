@@ -12,38 +12,80 @@ using System.Data.Entity.Infrastructure;
 
 namespace LocationManagementSystem
 {
-    //public class EFERTInitializer : DropCreateDatabaseIfModelChanges<EFERTDbContext>
-    //{
-    //    protected override void Seed(EFERTDbContext context)
-    //    {
-    //        context.AppUsers.Add(new AppUser()
-    //{
-    //    UserName = "Admin",
-    //            Password = "efert123#@!",
-    //            IsAdmin = true
-    //        });
+    public class EFERTInitializer : DropCreateDatabaseIfModelChanges<EFERTDbContext>
+    {
+        protected override void Seed(EFERTDbContext context)
+        {
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location1",
+                IsOnPlant = true
+            });
 
-    //        context.AppUsers.Add(new AppUser()
-    //{
-    //    UserName = "user",
-    //            Password = "user",
-    //            IsAdmin = false
-    //        });
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location4",
+                IsOnPlant = false
+            });
 
-    //        context.AppUsers.Add(new AppUser()
-    //{
-    //    UserName = "user1",
-    //            Password = "user1",
-    //            IsAdmin = false
-    //        });
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location3",
+                IsOnPlant = true
+            });
 
-    //        context.AppUsers.Add(new AppUser()
-    //{
-    //    UserName = "user2",
-    //            Password = "user2",
-    //            IsAdmin = false
-    //        });
-    //        base.Seed(context);
-    //    }
-    //}
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location2",
+                IsOnPlant = false
+            });
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location1",
+                IsOnPlant = true
+            });
+
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location4",
+                IsOnPlant = false
+            });
+
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location3",
+                IsOnPlant = true
+            });
+
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location2",
+                IsOnPlant = false
+            });
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location1",
+                IsOnPlant = true
+            });
+
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location4",
+                IsOnPlant = false
+            });
+
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location3",
+                IsOnPlant = true
+            });
+
+            context.VisitingLocations.Add(new VisitingLocations()
+            {
+                Location = "location2",
+                IsOnPlant = false
+            });
+            base.Seed(context);
+        }
+    }
 }

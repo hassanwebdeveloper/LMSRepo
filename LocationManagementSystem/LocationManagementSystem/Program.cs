@@ -16,7 +16,31 @@ namespace LocationManagementSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+
+            SplashScreen splash = new SplashScreen();
+            
+            
+            Task dbInitializerTask = new Task(()=>
+            {
+                try
+                {
+                    EFERTDbUtility.InitializeDatabases();
+                    splash.Invoke(new Action(()=> { splash.Close(); }));
+                    
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            });
+
+            dbInitializerTask.Start();
+
+            splash.ShowDialog();
             Application.Run(new Form1());
+
         }
     }
 }
