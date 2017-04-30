@@ -40,6 +40,7 @@
             // 
             // btnCasual3pStaff
             // 
+            this.btnCasual3pStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCasual3pStaff.Location = new System.Drawing.Point(85, 70);
             this.btnCasual3pStaff.Name = "btnCasual3pStaff";
             this.btnCasual3pStaff.Size = new System.Drawing.Size(227, 39);
@@ -50,6 +51,7 @@
             // 
             // btnMarketStaff
             // 
+            this.btnMarketStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMarketStaff.Location = new System.Drawing.Point(85, 115);
             this.btnMarketStaff.Name = "btnMarketStaff";
             this.btnMarketStaff.Size = new System.Drawing.Size(227, 39);
@@ -60,6 +62,7 @@
             // 
             // btnVisitor
             // 
+            this.btnVisitor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVisitor.Location = new System.Drawing.Point(85, 160);
             this.btnVisitor.Name = "btnVisitor";
             this.btnVisitor.Size = new System.Drawing.Size(227, 39);
@@ -73,15 +76,16 @@
             this.lblLocation.AutoSize = true;
             this.lblLocation.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblLocation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLocation.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLocation.Location = new System.Drawing.Point(17, 14);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(81, 27);
+            this.lblLocation.Size = new System.Drawing.Size(108, 42);
             this.lblLocation.TabIndex = 10;
             this.lblLocation.Text = "Colony";
             // 
             // btnSchoolingStaff
             // 
+            this.btnSchoolingStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSchoolingStaff.Location = new System.Drawing.Point(85, 205);
             this.btnSchoolingStaff.Name = "btnSchoolingStaff";
             this.btnSchoolingStaff.Size = new System.Drawing.Size(227, 39);
@@ -92,6 +96,7 @@
             // 
             // btnMasjid
             // 
+            this.btnMasjid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMasjid.Location = new System.Drawing.Point(85, 250);
             this.btnMasjid.Name = "btnMasjid";
             this.btnMasjid.Size = new System.Drawing.Size(227, 39);
@@ -102,6 +107,7 @@
             // 
             // btnHouseServant
             // 
+            this.btnHouseServant.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHouseServant.Location = new System.Drawing.Point(85, 295);
             this.btnHouseServant.Name = "btnHouseServant";
             this.btnHouseServant.Size = new System.Drawing.Size(227, 39);
@@ -112,6 +118,7 @@
             // 
             // btnClub
             // 
+            this.btnClub.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClub.Location = new System.Drawing.Point(85, 340);
             this.btnClub.Name = "btnClub";
             this.btnClub.Size = new System.Drawing.Size(227, 39);

@@ -21,24 +21,9 @@ namespace LocationManagementSystem
         public VisitorForm(VisitorCardHolder visitorCardHolder)
         {
             InitializeComponent();
-            if (SearchForm.mIsPlant)
-            {
-                this.cbxVisitorType.Items.AddRange(new object[] {
-                                                    "Official",
-                                                    "Private"
-                                                                        });
-            }
-            else
-            {
-                this.cbxVisitorType.Items.AddRange(new object[] {
-                                                    "Clinic / Snake bite",
-                                                    "Contractor / Supervisor",
-                                                    "Work Order Staff",
-                                                    "Market",
-                                                    "School",
-                                                    "Masjid",
-                                                    "Club"});
-            }
+            
+            this.cbxVisitorType.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l => l.Location).ToArray());
+
 
             if (visitorCardHolder != null)
             {
@@ -104,24 +89,7 @@ namespace LocationManagementSystem
                 this.cbxSchoolCollege.Visible = false;
             }
 
-            if (SearchForm.mIsPlant)
-            {
-                this.cbxVisitorType.Items.AddRange(new object[] {
-                                                    "Official",
-                                                    "Private"
-                                                                        });
-            }
-            else
-            {
-                this.cbxVisitorType.Items.AddRange(new object[] {
-                                                    "Clinic / Snake bite",
-                                                    "Contractor / Supervisor",
-                                                    "Work Order Staff",
-                                                    "Market",
-                                                    "School",
-                                                    "Masjid",
-                                                    "Club"});
-            }
+            this.cbxVisitorType.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l=>l.Location).ToArray());
 
             this.tbxCnicNumber.Text = cnicNumber;
             this.UpdateStatus(cnicNumber);
@@ -171,6 +139,7 @@ namespace LocationManagementSystem
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
                 this.tbxBlockedReason.Text = blockedPerson.Reason;
+                this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
                 this.lblVisitorStatus.Text = "Blocked";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
@@ -239,6 +208,13 @@ namespace LocationManagementSystem
         {
             if (this.mVisitor == null)
             {
+                bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber });
+                if (!validtated)
+                {
+                    MessageBox.Show(this, "Please fill mandatory fields first.");
+                    return;
+                }
+
                 VisitorCardHolder visitor = new VisitorCardHolder();
 
                 visitor.CNICNumber = this.tbxCnicNumber.Text;
@@ -354,9 +330,10 @@ namespace LocationManagementSystem
         {
             string cardNumber = this.tbxCheckInCardNumber.Text;
 
-            if (string.IsNullOrEmpty(cardNumber))
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber, this.tbxCheckInCardNumber });
+            if (!validtated)
             {
-                MessageBox.Show(this, "Card number can not be empty.");
+                MessageBox.Show(this, "Please fill mandatory fields first.");
                 return;
             }
 
@@ -502,6 +479,12 @@ namespace LocationManagementSystem
             {
                 MessageBox.Show(this, "This user is not checked in.");
             }
+        }
+
+        private void btnWebCam_Click(object sender, EventArgs e)
+        {
+            PictureForm picForm = new PictureForm(ref pbxSnapShot);
+            picForm.ShowDialog(this);
         }
     }
 }

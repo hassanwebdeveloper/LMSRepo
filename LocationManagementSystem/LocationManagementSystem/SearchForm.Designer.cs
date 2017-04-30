@@ -45,27 +45,30 @@
             this.groupBox1.Controls.Add(this.rbtCardNumber);
             this.groupBox1.Controls.Add(this.rbtCnicNumber);
             this.groupBox1.Controls.Add(this.btnSearch);
-            this.groupBox1.Location = new System.Drawing.Point(36, 63);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(12, 39);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(237, 115);
+            this.groupBox1.Size = new System.Drawing.Size(285, 165);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Card Holder";
             // 
             // maskedTextBox1
             // 
+            this.maskedTextBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.maskedTextBox1.Location = new System.Drawing.Point(6, 30);
             this.maskedTextBox1.Mask = "00000-0000000-0";
             this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(225, 20);
+            this.maskedTextBox1.Size = new System.Drawing.Size(225, 29);
             this.maskedTextBox1.TabIndex = 3;
             // 
             // rbtCardNumber
             // 
             this.rbtCardNumber.AutoSize = true;
-            this.rbtCardNumber.Location = new System.Drawing.Point(102, 56);
+            this.rbtCardNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbtCardNumber.Location = new System.Drawing.Point(6, 96);
             this.rbtCardNumber.Name = "rbtCardNumber";
-            this.rbtCardNumber.Size = new System.Drawing.Size(87, 17);
+            this.rbtCardNumber.Size = new System.Drawing.Size(123, 25);
             this.rbtCardNumber.TabIndex = 5;
             this.rbtCardNumber.TabStop = true;
             this.rbtCardNumber.Text = "Card Number";
@@ -76,9 +79,10 @@
             // 
             this.rbtCnicNumber.AutoSize = true;
             this.rbtCnicNumber.Checked = true;
-            this.rbtCnicNumber.Location = new System.Drawing.Point(6, 56);
+            this.rbtCnicNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbtCnicNumber.Location = new System.Drawing.Point(6, 65);
             this.rbtCnicNumber.Name = "rbtCnicNumber";
-            this.rbtCnicNumber.Size = new System.Drawing.Size(90, 17);
+            this.rbtCnicNumber.Size = new System.Drawing.Size(126, 25);
             this.rbtCnicNumber.TabIndex = 4;
             this.rbtCnicNumber.TabStop = true;
             this.rbtCnicNumber.Text = "CNIC Number";
@@ -87,9 +91,10 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(156, 86);
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(179, 112);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.Size = new System.Drawing.Size(100, 47);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -101,7 +106,7 @@
             this.lblLocation.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblLocation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLocation.Location = new System.Drawing.Point(39, 9);
+            this.lblLocation.Location = new System.Drawing.Point(18, 9);
             this.lblLocation.Name = "lblLocation";
             this.lblLocation.Size = new System.Drawing.Size(72, 27);
             this.lblLocation.TabIndex = 2;

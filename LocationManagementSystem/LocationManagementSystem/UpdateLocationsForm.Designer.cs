@@ -62,13 +62,12 @@
             this.dgvPlantLocations.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dgvPlantLocations.Location = new System.Drawing.Point(12, 59);
             this.dgvPlantLocations.Name = "dgvPlantLocations";
-            this.dgvPlantLocations.ReadOnly = true;
             this.dgvPlantLocations.RowHeadersWidth = 30;
-            this.dgvPlantLocations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvPlantLocations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPlantLocations.Size = new System.Drawing.Size(343, 150);
             this.dgvPlantLocations.TabIndex = 0;
-            this.dgvPlantLocations.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvPlantLocations_RowsAdded);
-            this.dgvPlantLocations.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgvPlantLocations_UserAddedRow);
+            this.dgvPlantLocations.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPlantLocations_CellEndEdit);
+            this.dgvPlantLocations.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvPlantLocations_DataBindingComplete);
             this.dgvPlantLocations.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvPlantLocations_UserDeletingRow);
             // 
             // visitingLocationsIdDataGridViewTextBoxColumn
@@ -76,7 +75,6 @@
             this.visitingLocationsIdDataGridViewTextBoxColumn.DataPropertyName = "VisitingLocationsId";
             this.visitingLocationsIdDataGridViewTextBoxColumn.HeaderText = "VisitingLocationsId";
             this.visitingLocationsIdDataGridViewTextBoxColumn.Name = "visitingLocationsIdDataGridViewTextBoxColumn";
-            this.visitingLocationsIdDataGridViewTextBoxColumn.ReadOnly = true;
             this.visitingLocationsIdDataGridViewTextBoxColumn.Visible = false;
             // 
             // locationDataGridViewTextBoxColumn
@@ -84,7 +82,6 @@
             this.locationDataGridViewTextBoxColumn.DataPropertyName = "Location";
             this.locationDataGridViewTextBoxColumn.HeaderText = "Location";
             this.locationDataGridViewTextBoxColumn.Name = "locationDataGridViewTextBoxColumn";
-            this.locationDataGridViewTextBoxColumn.ReadOnly = true;
             this.locationDataGridViewTextBoxColumn.Width = 300;
             // 
             // isOnPlantDataGridViewCheckBoxColumn
@@ -92,7 +89,6 @@
             this.isOnPlantDataGridViewCheckBoxColumn.DataPropertyName = "IsOnPlant";
             this.isOnPlantDataGridViewCheckBoxColumn.HeaderText = "IsOnPlant";
             this.isOnPlantDataGridViewCheckBoxColumn.Name = "isOnPlantDataGridViewCheckBoxColumn";
-            this.isOnPlantDataGridViewCheckBoxColumn.ReadOnly = true;
             this.isOnPlantDataGridViewCheckBoxColumn.Visible = false;
             // 
             // visitingLocationsBindingSource
@@ -113,13 +109,12 @@
             this.dgvColonyLocations.DataSource = this.visitingLocationsBindingSource1;
             this.dgvColonyLocations.Location = new System.Drawing.Point(12, 262);
             this.dgvColonyLocations.Name = "dgvColonyLocations";
-            this.dgvColonyLocations.ReadOnly = true;
             this.dgvColonyLocations.RowHeadersWidth = 30;
-            this.dgvColonyLocations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvColonyLocations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvColonyLocations.Size = new System.Drawing.Size(343, 150);
             this.dgvColonyLocations.TabIndex = 1;
-            this.dgvColonyLocations.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvColonyLocations_RowsAdded);
-            this.dgvColonyLocations.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgvColonyLocations_UserAddedRow);
+            this.dgvColonyLocations.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvColonyLocations_CellEndEdit);
+            this.dgvColonyLocations.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvColonyLocations_DataBindingComplete);
             this.dgvColonyLocations.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dgvColonyLocations_UserDeletingRow);
             // 
             // dataGridViewTextBoxColumn1
@@ -127,7 +122,6 @@
             this.dataGridViewTextBoxColumn1.DataPropertyName = "VisitingLocationsId";
             this.dataGridViewTextBoxColumn1.HeaderText = "VisitingLocationsId";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Visible = false;
             // 
             // dataGridViewTextBoxColumn2
@@ -135,7 +129,6 @@
             this.dataGridViewTextBoxColumn2.DataPropertyName = "Location";
             this.dataGridViewTextBoxColumn2.HeaderText = "Location";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 300;
             // 
             // dataGridViewCheckBoxColumn1
@@ -143,7 +136,6 @@
             this.dataGridViewCheckBoxColumn1.DataPropertyName = "IsOnPlant";
             this.dataGridViewCheckBoxColumn1.HeaderText = "IsOnPlant";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            this.dataGridViewCheckBoxColumn1.ReadOnly = true;
             this.dataGridViewCheckBoxColumn1.Visible = false;
             // 
             // visitingLocationsBindingSource1

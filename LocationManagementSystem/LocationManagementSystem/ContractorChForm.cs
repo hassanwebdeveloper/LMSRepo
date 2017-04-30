@@ -188,25 +188,27 @@ namespace LocationManagementSystem
                 this.tbxFirstName.Location = this.tbxCardNumber.Location;
                 this.label1.Visible = false;
                 this.tbxCardNumber.Visible = false;
-                this.groupBox1.Size = new Size(708, 155);
-                this.groupBox2.Location = new Point(12, 173);
-                this.groupBox3.Location = new Point(406, 173);
-                this.Size = new Size(754, 370);
+                this.groupBox1.Size = new Size(this.groupBox1.Size.Width, 250);
+                this.groupBox2.Location = new Point(this.groupBox2.Location.X, 264);
+                this.groupBox3.Location = new Point(this.groupBox3.Location.X, 264);
+                this.Size = new Size(this.Size.Width, 540);
             }
             else
             {
                 this.tbxCardNumber.Visible = false;
                 this.tbxFirstName.ReadOnly = false;
-                this.tbxFirstName.Location = new Point(86, 25);
-                this.label2.Location = this.label1.Location;
+                this.tbxFirstName.Location = new Point(this.tbxFirstName.Location.X, this.tbxCardNumber.Location.Y);
+                this.label2.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
+                this.tbxFirstName.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
+                this.label2.Location = new Point(this.label2.Location.X, this.label1.Location.Y);
                 this.tbxCompanyName.Visible = false;
                 this.tbxCadre.Visible = false;
                 this.tbxDepartment.Visible = false;
                 this.tbxDesignation.Visible = false;
                 this.tbxContactNumber.Visible = false;
                 this.tbxCNICNumber.Text = this.mCNICNumber;
-                this.label10.Location = this.label4.Location;
-                this.tbxCNICNumber.Location = this.tbxCadre.Location;
+                this.label10.Location = new Point(this.label10.Location.X, this.label4.Location.Y);
+                this.tbxCNICNumber.Location = new Point(this.tbxCNICNumber.Location.X, this.tbxCadre.Location.Y);
                 this.label1.Visible = false;
                 this.label4.Visible = false;
                 this.tbxCadre.Visible = false;
@@ -216,10 +218,10 @@ namespace LocationManagementSystem
                 this.tbxLastName.Visible = false;
                 //this.tbxCardNumber.Text = permanentCh.CardNumber;
 
-                this.groupBox1.Size = new Size(708, 51);
-                this.groupBox2.Location = new Point(12, 70);
-                this.groupBox3.Location = new Point(406, 70);
-                this.Size = new Size(754, 270);
+                this.groupBox1.Size = new Size(this.groupBox1.Size.Width, 60);
+                this.groupBox2.Location = new Point(this.groupBox2.Location.X, 79);
+                this.groupBox3.Location = new Point(this.groupBox3.Location.X, 79);
+                this.Size = new Size(this.Size.Width, 350);
             }
         }
 
@@ -267,6 +269,7 @@ namespace LocationManagementSystem
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
                 this.tbxBlockedReason.Text = blockedPerson.Reason;
+                this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
                 this.lblVisitorStatus.Text = "Blocked";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
@@ -324,6 +327,12 @@ namespace LocationManagementSystem
 
             if (this.mContractorCardHolder == null && this.mDailyCardHolder == null)
             {
+                bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber });
+                if (!validtated)
+                {
+                    MessageBox.Show(this, "Please fill mandatory fields first.");
+                    return;
+                }
                 if (this.mIsDailyCardHolder)
                 {
                     DailyCardHolder dailyCardHolder = new DailyCardHolder()
@@ -487,9 +496,10 @@ namespace LocationManagementSystem
         {
             string cardNumber = this.tbxCheckInCardNumber.Text;
 
-            if (string.IsNullOrEmpty(cardNumber))
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber, this.tbxCheckInCardNumber });
+            if (!validtated)
             {
-                MessageBox.Show(this, "Card number can not be empty.");
+                MessageBox.Show(this, "Please fill mandatory fields first.");
                 return;
             }
 

@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LocationManagementSystem
 {
@@ -213,6 +214,27 @@ namespace LocationManagementSystem
             }
 
             return limitStatus;
+        }
+
+        public static bool ValidateInputs(List<TextBox> lstTextBoxes)
+        {
+            bool validated = false;
+
+            if (lstTextBoxes != null)
+            {
+                List<TextBox> lstInvalidTextboxes = (from text in lstTextBoxes
+                 where text != null && string.IsNullOrEmpty(text.Text)
+                 select text).ToList();
+
+                validated = lstInvalidTextboxes.Count == 0;
+
+                foreach (TextBox textbox in lstInvalidTextboxes)
+                {
+                    textbox.BackColor = System.Drawing.Color.Yellow;
+                }
+            }
+
+            return validated;
         }
     }
 

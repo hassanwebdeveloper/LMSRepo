@@ -50,6 +50,7 @@
             // 
             // btnContractor
             // 
+            this.btnContractor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnContractor.Location = new System.Drawing.Point(86, 202);
             this.btnContractor.Name = "btnContractor";
             this.btnContractor.Size = new System.Drawing.Size(227, 39);
@@ -60,6 +61,7 @@
             // 
             // btnWoStaff
             // 
+            this.btnWoStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnWoStaff.Location = new System.Drawing.Point(86, 247);
             this.btnWoStaff.Name = "btnWoStaff";
             this.btnWoStaff.Size = new System.Drawing.Size(227, 39);
@@ -70,6 +72,7 @@
             // 
             // btnVisitor
             // 
+            this.btnVisitor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVisitor.Location = new System.Drawing.Point(86, 112);
             this.btnVisitor.Name = "btnVisitor";
             this.btnVisitor.Size = new System.Drawing.Size(227, 39);
@@ -80,6 +83,7 @@
             // 
             // btnPallaydar
             // 
+            this.btnPallaydar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPallaydar.Location = new System.Drawing.Point(86, 157);
             this.btnPallaydar.Name = "btnPallaydar";
             this.btnPallaydar.Size = new System.Drawing.Size(227, 39);
@@ -90,6 +94,7 @@
             // 
             // btnCasual3pStaff
             // 
+            this.btnCasual3pStaff.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCasual3pStaff.Location = new System.Drawing.Point(86, 67);
             this.btnCasual3pStaff.Name = "btnCasual3pStaff";
             this.btnCasual3pStaff.Size = new System.Drawing.Size(227, 39);

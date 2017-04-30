@@ -1,8 +1,10 @@
-﻿using System;
+﻿using LocationManagementSystem.CCFTCentralDb;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +62,12 @@ namespace LocationManagementSystem
 
             if (permanentCh != null)
             {
+                PersonalDataImageID pdii = (from pdi in EFERTDbUtility.mCCFTCentral.PersonalDataImageIDs
+                                             where pdi != null && pdi.CardholderID == cardHolderInfo.FTItemId
+                                             select pdi).FirstOrDefault();
+
+                
+
                 this.tbxCardNumber.Text = permanentCh.CardNumber;
                 this.tbxFirstName.Text = permanentCh.FirstName;
                 this.tbxBloodGroup.Text = permanentCh.BloodGroup;
@@ -149,6 +157,7 @@ namespace LocationManagementSystem
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
                 this.tbxBlockedReason.Text = blockedPerson.Reason;
+                this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
                 this.lblVisitorStatus.Text = "Blocked";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
