@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,83 +42,6 @@ namespace LocationManagementSystem
             {
                 
             }
-
-            //try
-            //{
-            //    Cardholder cardHolderByNic = (from c in mCCFTCentral.Cardholders
-            //                                  where c != null && c.LastName == "123456789"
-            //                                  select c).FirstOrDefault();                
-            //}
-            //catch (Exception)
-            //{
-
-            //}
-
-            //try
-            //{
-            //    CadreInfo cadreInfo = (from c in mEFERTDb.Cadres
-            //                           where c != null && c.CadreName == "mpt"
-            //                           select c).FirstOrDefault();
-            //}
-            //catch (Exception)
-            //{
-
-            //}
-
-            //try
-            //{
-            //    CrewInfo crewInfo = (from c in mEFERTDb.Crews
-            //                         where c != null && c.CrewName == "C"
-            //                         select c).FirstOrDefault();
-            //}
-            //catch (Exception)
-            //{
-
-            //}
-
-            //try
-            //{
-            //    DepartmentInfo departmentInfo = (from c in mEFERTDb.Departments
-            //                                     where c != null && c.DepartmentName == "Admin"
-            //                                     select c).FirstOrDefault();
-            //}
-            //catch (Exception)
-            //{
-
-            //}
-
-            //try
-            //{
-            //    DesignationInfo designationInfo = (from c in mEFERTDb.Designations
-            //                                       where c != null && c.Designation == "ABC"
-            //                                       select c).FirstOrDefault();
-            //}
-            //catch (Exception)
-            //{
-
-            //}
-
-            //try
-            //{
-            //    SectionInfo sectionInfo = (from c in mEFERTDb.Sections
-            //                               where c != null && c.SectionName == "XYZ"
-            //                               select c).FirstOrDefault();
-            //}
-            //catch (Exception)
-            //{
-
-            //}
-
-            //try
-            //{
-            //    CompanyInfo companyInfo = (from c in mEFERTDb.Companies
-            //                               where c != null && c.CompanyName == "ABC"
-            //                               select c).FirstOrDefault();
-            //}
-            //catch (Exception)
-            //{
-
-            //}
             
         }
 
@@ -235,6 +160,43 @@ namespace LocationManagementSystem
             }
 
             return validated;
+        }
+
+        public static byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        {
+            byte[] array = null;
+
+            if (imageIn != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+                    array = ms.ToArray();
+                }
+            }
+
+            return array;
+        }
+
+        public static Image ByteArrayToImage(byte[] byteArrayIn)
+        {
+            Image returnImage = null;
+
+            if (byteArrayIn != null)
+            {
+                using (MemoryStream ms = new MemoryStream(byteArrayIn))
+                {
+                    returnImage = Image.FromStream(ms);
+                }
+            }
+            
+            return returnImage;
+        }
+
+        public static void AllowNumericOnly(System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (!(Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
+                e.Handled = true;
         }
     }
 

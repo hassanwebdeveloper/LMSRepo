@@ -8,17 +8,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IntermecIsdc;
 
 namespace LocationManagementSystem
 {
     public partial class SearchForm : Form
     {
+        int msgint_raw;
+        int msgint_iscp;
+        bool mScannerConnected = false;
+        Byte[] InputBuffer = new Byte[100];
+        UInt32 nBytesInInputBuffer;
+        Byte[] OutputBuffer = new Byte[250];
+        uint nBytesReturned;
+        IntermecIsdc.IsdcWrapper m_Isdc = new IntermecIsdc.IsdcWrapper();
+        IntermecIsdc.DllErrorCode m_Error = new IntermecIsdc.DllErrorCode();
+
         public static bool mIsPlant = false;
 
         public SearchForm(bool isPlant)
         {
+            //string LibraryVersion;
             mIsPlant = isPlant;
             InitializeComponent();
+
+            msgint_raw = m_Isdc.RegisterWindowMessage("WM_RAW_DATA");
+            msgint_iscp = m_Isdc.RegisterWindowMessage("WM_ISCP_FRAME");
+
+            ScannerInit();
+
+            //m_Error = m_Isdc.GetDllVersion(out LibraryVersion);
 
             this.maskedTextBox1.Select();
             if (isPlant)
@@ -29,6 +48,14 @@ namespace LocationManagementSystem
             {
                 this.lblLocation.Text = "Colony";
             }
+        }
+
+        private IntermecIsdc.DllErrorCode ScannerInit()
+        {
+            string key = "HKCU\\SOFTWARE\\Intermec\\IsdcNetApp";
+            byte status;
+            m_Error = m_Isdc.Initialise(key, out status);
+            return m_Error;
         }
 
         private bool IsNicNumber(string str)
@@ -75,18 +102,93 @@ namespace LocationManagementSystem
         {
             string searchString = this.maskedTextBox1.Text;
 
+            SearchCardHolder(searchString);
+
+            
+        }
+
+        private void SearchCardHolder(string searchString)
+        {
             bool isNicNumber = this.maskedTextBox1.Mask == "00000-0000000-0";
+            if (this.maskedTextBox1.MaskCompleted)
+            {
+                SearchCardHolderCore(searchString, isNicNumber);
+            }
+            else
+            {
+                MessageBox.Show(this, "Please enter some valid CNIC number.");
+                return;
+            }
+            
+        }
+
+        private void SearchCardHolderFromBarcodeReader(string barcodeString)
+        {
+            string[] arrBarcode = barcodeString.Split('\r');
+
+            if (arrBarcode.Length == 1)
+            {
+                string barcodeSplit = arrBarcode[0];
+                barcodeSplit = barcodeSplit.Replace("\0" , string.Empty);
+
+                string nicNumber = barcodeSplit.Substring(12);
+
+                if (nicNumber.Length > 13)
+                {
+                    nicNumber = nicNumber.Substring(0, 13);
+                }
+
+                if (nicNumber.Length >= 13)
+                {
+                    nicNumber = nicNumber.Insert(5, "-");
+                    nicNumber = nicNumber.Insert(13, "-");
+
+                    SearchCardHolderCore(nicNumber, true);
+                }
+            }
+            else
+            {
+                //Old NIC Card
+                for (int i = 0; i < arrBarcode.Length; i++)
+                {
+                    string barcodeSplit = arrBarcode[i];
+
+                    if (barcodeSplit.Length == 6)
+                    {
+                        string nicNumber = arrBarcode[i - 1];
+
+                        if (nicNumber.Length > 13)
+                        {
+                            nicNumber = nicNumber.Substring(0, 13);
+                        }
+
+                        if (nicNumber.Length >= 13)
+                        {
+                            nicNumber = nicNumber.Insert(5, "-");
+                            nicNumber = nicNumber.Insert(13, "-");
+
+                            SearchCardHolderCore(nicNumber, true);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+
+        }
+
+        private void SearchCardHolderCore(string searchString, bool isNicNumber)
+        {
+            
             CCFTCentral ccftCentral = EFERTDbUtility.mCCFTCentral;
             Cardholder cardHolder = null;
             CardHolderInfo cardHolderInfo = null;
             VisitorCardHolder visitor = null;
             DailyCardHolder dailyCardHolder = null;
             bool updatedCardExist = true;
-
             if (isNicNumber)
             {
-                if (this.maskedTextBox1.MaskCompleted)
-                {
+                
                     Task<Cardholder> cardHolderByNicTask = new Task<Cardholder>(() =>
                     {
                         Cardholder cardHolderByNic = (from pds in ccftCentral.PersonalDataStrings
@@ -132,12 +234,7 @@ namespace LocationManagementSystem
                             }
                         }
                     }
-                }
-                else
-                {
-                    MessageBox.Show(this, "Please enter some valid CNIC number.");
-                    return;
-                }
+                
             }
             else
             {
@@ -145,8 +242,8 @@ namespace LocationManagementSystem
                 Task<Cardholder> cardHolderByCardNumberTask = new Task<Cardholder>(() =>
                 {
                     Cardholder cardHolderByCardNumber = (from c in ccftCentral.Cardholders
-                                                        where c != null && c.LastName == searchString
-                                                        select c).FirstOrDefault();
+                                                         where c != null && c.LastName == searchString
+                                                         select c).FirstOrDefault();
 
                     return cardHolderByCardNumber;
                 });
@@ -178,7 +275,7 @@ namespace LocationManagementSystem
                                 if (cardHolderInfo != null && cardHolderInfo.IsTemp)
                                 {
                                     cardHolder = (from pds in ccftCentral.PersonalDataStrings
-                                                where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == cardIssued.CNICNumber
+                                                  where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == cardIssued.CNICNumber
                                                   select pds.Cardholder).FirstOrDefault();
 
                                     if (cardHolder != null)
@@ -193,7 +290,7 @@ namespace LocationManagementSystem
                             }
                         }
                     }
-                    
+
 
                     if (visitor == null && dailyCardHolder == null && cardHolderInfo == null)
                     {
@@ -261,7 +358,7 @@ namespace LocationManagementSystem
                     bool isPermanent = cadre.ToLower() == "nmpt" || cadre.ToLower() == "mpt";
 
                     if (isPermanent)
-                    {                        
+                    {
                         PermanentChForm permanentForm = new PermanentChForm(cardHolderInfo);
                         permanentForm.Show();
                     }
@@ -502,7 +599,6 @@ namespace LocationManagementSystem
 
         private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-
             Form1.mMainForm.Close();
         }
 
@@ -511,7 +607,7 @@ namespace LocationManagementSystem
             //this.rbtCardNumber.Checked = false;
             this.maskedTextBox1.Text = string.Empty;
             this.maskedTextBox1.Mask = "00000-0000000-0";
-
+            this.maskedTextBox1.Select();
         }
 
         private void rbtCardNumber_CheckedChanged(object sender, EventArgs e)
@@ -519,6 +615,185 @@ namespace LocationManagementSystem
             //this.rbtCnicNumber.Checked = false;
             this.maskedTextBox1.Text = string.Empty;
             this.maskedTextBox1.Mask = "0000000000";
+            this.maskedTextBox1.Select();
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == msgint_raw)
+            {
+                
+                Byte[] BarcodeBuffer = new Byte[500];
+                m_Isdc.GetRawData(BarcodeBuffer, out nBytesReturned);
+
+                Encoding ascii = Encoding.ASCII;
+
+                string barcodeString = ascii.GetString(BarcodeBuffer);
+
+                SearchCardHolderFromBarcodeReader(barcodeString);
+            }
+            else if(m.Msg == msgint_iscp)
+            {
+
+            }
+            base.WndProc(ref m);
+        }
+
+        private void ScannerCfg()
+        {
+            nBytesInInputBuffer = 0;
+            InputBuffer[nBytesInInputBuffer++] = 0x73; //Packeted Data format = enable
+            InputBuffer[nBytesInInputBuffer++] = 0x40;
+            InputBuffer[nBytesInInputBuffer++] = 0x01;
+
+            /******************************************/
+            /*     Snapshot - Image conditioning      */
+            /******************************************/
+            InputBuffer[nBytesInInputBuffer++] = 0x6A;
+            InputBuffer[nBytesInInputBuffer++] = 0xC1;
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x20;
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+
+            InputBuffer[nBytesInInputBuffer++] = 0x01; //Auto Contrast
+            InputBuffer[nBytesInInputBuffer++] = 0x01; //00=None / 01=Photo / 02=Black on white / 03=white on black
+
+            InputBuffer[nBytesInInputBuffer++] = 0x02; //Edge Enhancement
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=Low / 02=Medium / 03=High
+
+            InputBuffer[nBytesInInputBuffer++] = 0x03; //Image Rotation
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=90° / 02=180° / 03=270°
+
+            InputBuffer[nBytesInInputBuffer++] = 0x04; //Subsampling
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=1 pixel out of 2
+
+            InputBuffer[nBytesInInputBuffer++] = 0x05; //Noise Reduction
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00 to 09 Level of noise reduction (00=none)
+
+            InputBuffer[nBytesInInputBuffer++] = 0x07; //Image Lighting Correction
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=Low / 02=Medium / 03=High
+
+            InputBuffer[nBytesInInputBuffer++] = 0x09; //Reverse Video
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=Disable / 01=Enable
+
+            InputBuffer[nBytesInInputBuffer++] = 0x41; //Color Conversion + Threshold
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=Monochrome / 02=Enhanced
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=Very Dark / 01=Dark / 02=Normal / 03=Bright / 04=Very Bright
+
+            InputBuffer[nBytesInInputBuffer++] = 0x42; //Output Compression + Output Compression Quality
+
+            InputBuffer[nBytesInInputBuffer++] = 0x01; //00=Raw / 01=JPEG / 02=TIFFG4
+            InputBuffer[nBytesInInputBuffer++] = 60;   //00 to 64 (0 to 100 decimal)
+
+            InputBuffer[nBytesInInputBuffer++] = 0x80; //Cropping
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x08; //8 bytes
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 1 and 2 (UINT16): Left column (x)
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 3 and 4 (UINT16): Top row (y)
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 5 and 6 (UINT16): Width
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 7 and 8 (UINT16): Height
+
+            /******************************************/
+            /*       Video - Image conditioning       */
+            /******************************************/
+            InputBuffer[nBytesInInputBuffer++] = 0x6A;
+            InputBuffer[nBytesInInputBuffer++] = 0xC0;
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x20;
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+
+            InputBuffer[nBytesInInputBuffer++] = 0x01; //Auto Contrast
+            InputBuffer[nBytesInInputBuffer++] = 0x01; //00=None / 01=Photo / 02=Black on white / 03=white on black
+
+            InputBuffer[nBytesInInputBuffer++] = 0x02; //Edge Enhancement
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=Low / 02=Medium / 03=High
+
+            InputBuffer[nBytesInInputBuffer++] = 0x03; //Image Rotation
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=90° / 02=180° / 03=270°
+
+            InputBuffer[nBytesInInputBuffer++] = 0x04; //Subsampling
+
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x05; //Noise Reduction
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00 to 09 Level of noise reduction (00=none)
+
+            InputBuffer[nBytesInInputBuffer++] = 0x07; //Image Lighting Correction
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=Low / 02=Medium / 03=High
+
+            InputBuffer[nBytesInInputBuffer++] = 0x09; //Reverse Video
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=Disable / 01=Enable
+
+            InputBuffer[nBytesInInputBuffer++] = 0x41; //Color Conversion / Threshold
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=None / 01=Monochrome / 02=Enhanced Monochrome
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //00=Very Dark / 01=Dark / 02=Normal / 03=Bright / 04=Very Bright
+
+            InputBuffer[nBytesInInputBuffer++] = 0x42; //Compression/Compression Quality
+            InputBuffer[nBytesInInputBuffer++] = 0x01; //00=Raw / 01=JPEG / 02=TIFFG4
+
+            InputBuffer[nBytesInInputBuffer++] = 60; //00 to 64 (0 to 100 decimal)
+
+            InputBuffer[nBytesInInputBuffer++] = 0x80; //Cropping
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x08; //8 bytes
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 1 and 2 (UINT16): Left column (x)
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 3 and 4 (UINT16): Top row (y)
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 5 and 6 (UINT16): Width
+            InputBuffer[nBytesInInputBuffer++] = 0x00;
+            InputBuffer[nBytesInInputBuffer++] = 0x00; //Bytes 7 and 8 (UINT16): Height
+
+            m_Error = m_Isdc.SetupWrite(InputBuffer, nBytesInInputBuffer, OutputBuffer, out nBytesReturned);
+        }
+        
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (mScannerConnected == false)
+            {
+                m_Error = m_Isdc.ConfigurationDialog();
+                if (m_Error != 0)
+                {
+                    //MessageError(m_Error);
+                }
+                else
+                {
+                    m_Error = m_Isdc.Connect();
+                    if (m_Error != 0)
+                    {
+                        //MessageError(m_Error);
+                    }
+                    else
+                    {
+                        mScannerConnected = true;
+                        this.btnConnect.Text = "Disconnect";
+
+                        nBytesInInputBuffer = 0;
+                        InputBuffer[nBytesInInputBuffer++] = 0x50;
+                        InputBuffer[nBytesInInputBuffer++] = 0x40;
+                        InputBuffer[nBytesInInputBuffer++] = 0x00;
+                        m_Isdc.ControlCommand(InputBuffer, nBytesInInputBuffer, OutputBuffer, out nBytesReturned);
+
+                        ScannerCfg();
+
+                        nBytesInInputBuffer = 0;
+                        InputBuffer[nBytesInInputBuffer++] = 0x30;
+                        InputBuffer[nBytesInInputBuffer++] = 0xC0;
+                        m_Isdc.StatusRead(InputBuffer, nBytesInInputBuffer, OutputBuffer, out nBytesReturned);
+                    }
+                }
+            }
+            else
+            {
+                m_Isdc.Disconnect();
+                mScannerConnected = false;
+                this.btnConnect.Text = "Connect";
+            }
         }
     }
 }

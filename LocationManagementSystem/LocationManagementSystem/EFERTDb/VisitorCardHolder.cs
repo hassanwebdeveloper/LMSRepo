@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,5 +49,11 @@ namespace LocationManagementSystem
         public virtual List<CheckInAndOutInfo> CheckInInfos { get; set; }
 
         public bool IsOnPlant { get; set; }
+                
+        public byte[] Picture { get; set; }
+    
+        public string SchoolName { get; set; }
+
+        public string VisitorInfo { get; set; }
     }
 }

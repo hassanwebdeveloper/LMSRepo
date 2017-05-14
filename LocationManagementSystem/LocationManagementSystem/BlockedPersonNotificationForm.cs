@@ -40,5 +40,13 @@ namespace LocationManagementSystem
                 }
             }
         }
+
+        public BlockedPersonNotificationForm(string firstName, string cnicNumber)
+        {
+            InitializeComponent();
+
+            this.lblCardHolderName.Text = firstName;
+            this.lblCNIC.Text = cnicNumber;
+        }
     }
 }

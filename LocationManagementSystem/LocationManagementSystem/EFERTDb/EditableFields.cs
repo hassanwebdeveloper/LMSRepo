@@ -19,4 +19,6 @@ namespace LocationManagementSystem
 
         public bool IsOnPlant { get; set; }
     }
+
+   
 }

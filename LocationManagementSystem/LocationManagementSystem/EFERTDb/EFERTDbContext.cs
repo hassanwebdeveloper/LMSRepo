@@ -25,8 +25,18 @@ namespace LocationManagementSystem
         public DbSet<DailyCardHolder> DailyCardHolders { get; set; }
         public DbSet<BlockedPersonInfo> BlockedPersons { get; set; }
         public DbSet<CheckInAndOutInfo> CheckedInInfos { get; set; }
+
         public DbSet<VisitingLocations> VisitingLocations { get; set; }
         //public DbSet<AppUser> AppUsers { get; set; }
 
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<VisitorCardHolder>().Property(p => p.Picture).HasColumnType("image");
+            modelBuilder.Entity<DailyCardHolder>().Property(p => p.Picture).HasColumnType("image");
+            modelBuilder.Entity<CardHolderInfo>().Property(p => p.Picture).HasColumnType("image");
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

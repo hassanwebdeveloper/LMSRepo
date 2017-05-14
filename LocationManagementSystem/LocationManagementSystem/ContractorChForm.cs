@@ -20,6 +20,7 @@ namespace LocationManagementSystem
         public List<BlockedPersonInfo> mBlocks = new List<BlockedPersonInfo>();
         public bool mIsDailyCardHolder = false;
         private bool mClubStaff = false;
+        private string mContractorInfo = string.Empty;
 
         public ContractorChForm(CardHolderInfo cardHolderInfo, bool isTempCard = false)
         {
@@ -74,29 +75,63 @@ namespace LocationManagementSystem
 
             InitializeComponent();
 
+            this.UpdateDropDownFields();
+
             if (contractor != null)
             {
+                this.mContractorInfo = cardHolderInfo.ConstractorInfo;
                 this.mIsDailyCardHolder = false;
                 this.mContractorCardHolder = contractor;
                 this.tbxCardNumber.Text = contractor.CardNumber;
                 this.tbxFirstName.Text = contractor.FirstName;
-                this.tbxCompanyName.Text = contractor.CompanyName;
-                this.tbxCadre.Text = contractor.Cadre;
-                this.tbxDepartment.Text = contractor.Department;
-                this.tbxDesignation.Text = contractor.Designation;
+                this.cbxCompanyName.SelectedItem = contractor.CompanyName;
+                this.cbxCadre.SelectedItem = contractor.Cadre;
+                this.cbxDepartment.SelectedItem = contractor.Department;
+                this.cbxDesignation.SelectedItem = contractor.Designation;
                 this.tbxContactNumber.Text = contractor.EmergancyContactNumber;
                 this.tbxCNICNumber.Text = contractor.CNICNumber;
                 this.tbxWONumber.Text = contractor.WONumber;
-                this.tbxSection.Text = contractor.Section;
+                this.cbxSection.SelectedItem = contractor.Section;
                 this.tbxLastName.Text = contractor.LastName;
                 //this.tbxCardNumber.Text = permanentCh.CardNumber;
                 this.mCheckIns = contractor.CheckInInfos;
                 this.mBlocks = contractor.BlockedPersonsInfos;
                 this.mCNICNumber = contractor.CNICNumber;
+                this.pbxSnapShot.Image = EFERTDbUtility.ByteArrayToImage(this.mCardHolderInfo.Picture);
+
+                this.btnWebCam.Enabled = false;
+                this.btnBrowse.Enabled = false;
+
+                this.tbxFirstName.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.cbxCompanyName.Enabled = false;
+                this.tbxCNICNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.cbxSection.Enabled = false;
+                this.cbxCadre.Enabled = false;
+                this.cbxDepartment.Enabled = false;
+                this.cbxDesignation.Enabled = false;
+                this.tbxContactNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxLastName.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                if (this.mContractorInfo == "Pallaydar")
+                {
+                    this.Text = "Pallaydar Form";
+                    this.groupBox1.Text = "Pallaydar Details";
+
+                }
+                else if (this.mContractorInfo == "WO Staff")
+                {
+                    this.Text = "Work Order Staff Form";
+                    this.groupBox1.Text = "WO Staff Details";
+                }
 
             }
 
-            //this.UpdateLayout(this.mIsDailyCardHolder);
+            if (isTempCard)
+            {
+                this.UpdateLayout(false);
+            }
+
             this.UpdateStatus(this.mCNICNumber);
         }
 
@@ -104,15 +139,17 @@ namespace LocationManagementSystem
         {
             InitializeComponent();
 
+            this.UpdateDropDownFields();
+
             if (dailyCardHolder != null)
             {
                 this.mIsDailyCardHolder = true;
                 this.mDailyCardHolder = dailyCardHolder;
                 this.tbxFirstName.Text = dailyCardHolder.FirstName;
-                this.tbxCompanyName.Text = dailyCardHolder.CompanyName;
-                this.tbxCadre.Text = dailyCardHolder.Cadre;
-                this.tbxDepartment.Text = dailyCardHolder.Department;
-                this.tbxDesignation.Text = dailyCardHolder.Designation;
+                this.cbxCompanyName.SelectedItem = dailyCardHolder.CompanyName;
+                this.cbxCadre.SelectedItem = dailyCardHolder.Cadre;
+                this.cbxDepartment.SelectedItem = dailyCardHolder.Department;
+                this.cbxDesignation.SelectedItem = dailyCardHolder.Designation;
                 this.tbxContactNumber.Text = dailyCardHolder.EmergancyContactNumber;
                 this.tbxCNICNumber.Text = dailyCardHolder.CNICNumber;
                 this.tbxWONumber.Text = dailyCardHolder.WONumber;
@@ -121,17 +158,65 @@ namespace LocationManagementSystem
                 this.mCheckIns = dailyCardHolder.CheckInInfos ?? new List<CheckInAndOutInfo>();
                 this.mBlocks = dailyCardHolder.BlockingInfos ??  new List<BlockedPersonInfo>();
                 this.mCNICNumber = dailyCardHolder.CNICNumber;
+                this.pbxSnapShot.Image = EFERTDbUtility.ByteArrayToImage(dailyCardHolder.Picture);
 
+                this.btnWebCam.Enabled = false;
+                this.btnBrowse.Enabled = false;
+
+                this.tbxFirstName.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.cbxCompanyName.Enabled = false;
+                this.tbxCNICNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                //this.cbxSection.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.cbxCadre.Enabled = false;
+                this.cbxDepartment.Enabled = false;
+                this.cbxDesignation.Enabled = false;
+                this.tbxContactNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxLastName.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                this.lblClubType.Visible = false;
+                this.cbxClubType.Visible = false;
+
+                if (this.mContractorInfo == "Casual 3P")
+                {
+                    this.Text = "Casual 3P Form";
+                    this.groupBox1.Text = "Casual 3P Details";
+
+                }
+                else if (this.mContractorInfo == "Market Staff")
+                {
+                    this.Text = "Market Staff Form";
+                    this.groupBox1.Text = "Market Staff Details";
+                }
+                else if (this.mContractorInfo == "Masjid Staff")
+                {
+                    this.Text = "Masjid Staff Form";
+                    this.groupBox1.Text = "Masjid Staff Details";
+                }
+                else if (this.mContractorInfo == "Club Staff")
+                {
+                    this.Text = "Club Staff Form";
+                    this.groupBox1.Text = "Club Staff Details";
+
+                    this.mClubStaff = true;
+
+                    this.lblClubType.Visible = true;
+                    this.cbxClubType.Visible = true;
+                    this.cbxClubType.SelectedItem = dailyCardHolder.ClubType;
+                    this.cbxClubType.Enabled = false;
+                }
             }
             this.UpdateLayout(this.mIsDailyCardHolder);
 
             this.UpdateStatus(this.mCNICNumber);
         }
 
-        public ContractorChForm(string cnicNumber, bool dailyCardHolder = false, string title = null, string gpTitle = null, bool clubStaff = false)
+        public ContractorChForm(string cnicNumber, string contractorInfo, bool dailyCardHolder = false, string title = null, string gpTitle = null, bool clubStaff = false)
         {
             InitializeComponent();
-            
+
+            this.UpdateDropDownFields();
+
             if (!string.IsNullOrEmpty(title))
             {
                 this.Text = title;
@@ -142,6 +227,7 @@ namespace LocationManagementSystem
                 this.groupBox1.Text = gpTitle;
             }
 
+            this.mContractorInfo = contractorInfo;
             this.mClubStaff = clubStaff;
 
             if (clubStaff)
@@ -156,20 +242,63 @@ namespace LocationManagementSystem
             }
 
             this.tbxFirstName.ReadOnly = false;
-            this.tbxCompanyName.ReadOnly = false;
-            this.tbxCadre.ReadOnly = false;
-            this.tbxDepartment.ReadOnly = false;
-            this.tbxDesignation.ReadOnly = false;
+            this.cbxCompanyName.Enabled = true;
+            this.cbxCadre.Enabled = true;
+            this.cbxDepartment.Enabled = true;
+            this.cbxDesignation.Enabled = true;
             this.tbxContactNumber.ReadOnly = false;
             this.tbxCNICNumber.Text = cnicNumber;
             this.tbxWONumber.ReadOnly = false;
             this.tbxLastName.ReadOnly = false;
+
+            this.tbxFirstName.BackColor = System.Drawing.Color.White;
+            //this.cbxCompanyName.BackColor = System.Drawing.Color.White;
+            //this.cbxCadre.BackColor = System.Drawing.Color.White;
+            //this.cbxDepartment.BackColor = System.Drawing.Color.White;
+            //this.cbxDesignation.BackColor = System.Drawing.Color.White;
+            this.tbxContactNumber.BackColor = System.Drawing.Color.White;
+            this.tbxWONumber.BackColor = System.Drawing.Color.White;
+            this.tbxLastName.BackColor = System.Drawing.Color.White;
 
             this.mIsDailyCardHolder = dailyCardHolder;
             this.mCNICNumber = cnicNumber;
             this.UpdateLayout(dailyCardHolder);
 
             this.UpdateStatus(cnicNumber);
+        }
+
+        private void UpdateDropDownFields()
+        {
+            List<string> departments = (from depart in EFERTDbUtility.mEFERTDb.Departments
+                                        where depart != null
+                                        select depart.DepartmentName).ToList();
+
+            this.cbxDepartment.Items.AddRange(departments.ToArray());
+
+            List<string> sections = (from section in EFERTDbUtility.mEFERTDb.Sections
+                                        where section != null
+                                        select section.SectionName).ToList();
+
+            this.cbxSection.Items.AddRange(sections.ToArray());
+
+            List<string> companies = (from company in EFERTDbUtility.mEFERTDb.Companies
+                                     where company != null
+                                     select company.CompanyName).ToList();
+
+            this.cbxCompanyName.Items.AddRange(companies.ToArray());
+
+            List<string> cadres = (from cadre in EFERTDbUtility.mEFERTDb.Cadres
+                                    where cadre != null
+                                    select cadre.CadreName).ToList();
+
+            this.cbxCadre.Items.AddRange(cadres.ToArray());
+
+            List<string> designations = (from designation in EFERTDbUtility.mEFERTDb.Designations
+                                           where designation != null
+                                           select designation.Designation).ToList();
+
+            this.cbxDesignation.Items.AddRange(designations.ToArray());
+
         }
 
         private void UpdateLayout(bool dailyCardHolder)
@@ -195,26 +324,23 @@ namespace LocationManagementSystem
             }
             else
             {
-                this.tbxCardNumber.Visible = false;
-                this.tbxFirstName.ReadOnly = false;
+                this.tbxCardNumber.Visible = false;                
                 this.tbxFirstName.Location = new Point(this.tbxFirstName.Location.X, this.tbxCardNumber.Location.Y);
-                this.label2.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
-                this.tbxFirstName.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Bottom;
                 this.label2.Location = new Point(this.label2.Location.X, this.label1.Location.Y);
-                this.tbxCompanyName.Visible = false;
-                this.tbxCadre.Visible = false;
-                this.tbxDepartment.Visible = false;
-                this.tbxDesignation.Visible = false;
+                this.cbxCompanyName.Visible = false;
+                this.cbxCadre.Visible = false;
+                this.cbxDepartment.Visible = false;
+                this.cbxDesignation.Visible = false;
                 this.tbxContactNumber.Visible = false;
                 this.tbxCNICNumber.Text = this.mCNICNumber;
                 this.label10.Location = new Point(this.label10.Location.X, this.label4.Location.Y);
-                this.tbxCNICNumber.Location = new Point(this.tbxCNICNumber.Location.X, this.tbxCadre.Location.Y);
+                this.tbxCNICNumber.Location = new Point(this.tbxCNICNumber.Location.X, this.cbxCadre.Location.Y);
                 this.label1.Visible = false;
                 this.label4.Visible = false;
-                this.tbxCadre.Visible = false;
+                this.cbxCadre.Visible = false;
                 this.tbxCardNumber.Visible = false;
                 this.tbxWONumber.Visible = false;
-                this.tbxSection.Visible = false;
+                this.cbxSection.Visible = false;
                 this.tbxLastName.Visible = false;
                 //this.tbxCardNumber.Text = permanentCh.CardNumber;
 
@@ -227,12 +353,16 @@ namespace LocationManagementSystem
 
         private void UpdateStatus(string cnicNumber)
         {
+            BlockedPersonInfo blockedPerson = null;
+            bool blockedUser = false;
             if (string.IsNullOrEmpty(cnicNumber))
             {
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.ReadOnly = true;
                 this.tbxBlockedReason.ReadOnly = true;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.lblVisitorStatus.Text = "Invalid User";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
@@ -246,6 +376,8 @@ namespace LocationManagementSystem
                 this.btnUnBlock.Visible = true;
                 this.tbxBlockedBy.ReadOnly = false;
                 this.tbxBlockedReason.ReadOnly = false;
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
             }
             else
             {
@@ -253,26 +385,40 @@ namespace LocationManagementSystem
                 this.btnUnBlock.Visible = false;
                 this.tbxBlockedBy.ReadOnly = true;
                 this.tbxBlockedReason.ReadOnly = true;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
 
             
 
 
-            bool blockedUser = false;
+            
 
             if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {
                 blockedUser = true;
-                BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
+                blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
 
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
-                this.tbxBlockedReason.Text = blockedPerson.Reason;
+                this.tbxBlockedReason.Text = blockedPerson.BlockedReason;
                 this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
                 this.lblVisitorStatus.Text = "Blocked";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
+
+                this.tbxBlockedBy.ReadOnly = true;
+                this.tbxBlockedReason.ReadOnly = true;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                this.tbxUnBlockedBy.ReadOnly = false;
+                this.tbxUnblockReason.ReadOnly = false;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
             }
             else
             {
@@ -281,6 +427,27 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
                 this.lblVisitorStatus.BackColor = Color.Green;
+
+                this.tbxBlockedBy.ReadOnly = false;
+                this.tbxBlockedReason.ReadOnly = false;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
+
+                this.tbxUnBlockedBy.ReadOnly = true;
+                this.tbxUnblockReason.ReadOnly = true;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                if (this.mBlocks.Count > 0)
+                {
+                    BlockedPersonInfo lastBlockedInfo = this.mBlocks.Last();
+
+                    this.tbxUnBlockedBy.Text = lastBlockedInfo.UnBlockedBy;
+                    this.tbxUnBlockTime.Text = lastBlockedInfo.UnBlockTime.ToString();
+                    this.tbxUnblockReason.Text = lastBlockedInfo.UnBlockedReason;
+                }
             }
 
             if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
@@ -296,6 +463,8 @@ namespace LocationManagementSystem
 
                 this.tbxCheckInCardNumber.ReadOnly = true;
                 this.tbxCheckInVehicleNumber.ReadOnly = true;
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
@@ -303,6 +472,7 @@ namespace LocationManagementSystem
 
                 if (limitStatus == LimitStatus.LimitReached)
                 {
+                    blockedUser = true;
                     this.btnCheckIn.Enabled = false;
                     this.btnCheckOut.Enabled = false;
                     this.tbxBlockedBy.Text = "Admin";
@@ -310,6 +480,12 @@ namespace LocationManagementSystem
                     this.lblVisitorStatus.Text = "Blocked";
                     this.lblVisitorStatus.BackColor = Color.Red;
                     this.btnBlock.Enabled = false;
+
+                    this.tbxBlockedBy.ReadOnly = true;
+                    this.tbxBlockedReason.ReadOnly = true;
+
+                    this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                    this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
                 }
                 else
                 {
@@ -318,6 +494,24 @@ namespace LocationManagementSystem
                     this.btnCheckOut.Enabled = false;
                     this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
                 }
+            }
+
+            if (blockedUser)
+            {
+                BlockedPersonNotificationForm blockedForm = null;
+                if (blockedPerson == null)
+                {
+                    string firstName = this.mContractorCardHolder == null ? this.mDailyCardHolder.FirstName : this.mContractorCardHolder.FirstName;
+
+                    blockedForm = new BlockedPersonNotificationForm(firstName, this.mCNICNumber);
+                }
+                else
+                {
+                    blockedForm = new BlockedPersonNotificationForm(blockedPerson);
+                }
+
+
+                blockedForm.ShowDialog(this);
             }
         }
 
@@ -339,14 +533,25 @@ namespace LocationManagementSystem
                     {
                         FirstName = this.tbxFirstName.Text,
                         LastName = this.tbxLastName.Text,
-                        Department = this.tbxDepartment.Text,
-                        Cadre = this.tbxCadre.Text,
+                        Department = this.cbxDepartment.SelectedItem == null ? string.Empty : this.cbxDepartment.SelectedItem as string,
+                        Cadre = this.cbxCadre.SelectedItem == null ? string.Empty : this.cbxCadre.SelectedItem as string,
                         CNICNumber = this.tbxCNICNumber.Text,
-                        CompanyName = this.tbxCompanyName.Text,
-                        Designation = this.tbxDesignation.Text,
+                        CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as string,
+                        Designation = this.cbxDesignation.SelectedItem == null ? string.Empty : this.cbxDesignation.SelectedItem as string,
                         EmergancyContactNumber = this.tbxContactNumber.Text,
-                        WONumber = this.tbxWONumber.Text
+                        WONumber = this.tbxWONumber.Text,
+                        ConstractorInfo = this.mContractorInfo
                     };
+
+                    if (this.pbxSnapShot.Image != null)
+                    {
+                        dailyCardHolder.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                    }
+
+                    if (this.mClubStaff)
+                    {
+                        dailyCardHolder.ClubType = this.cbxClubType.SelectedItem == null ? string.Empty : this.cbxClubType.SelectedItem as String;
+                    }
 
                     EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
                     EFERTDbUtility.mEFERTDb.SaveChanges();
@@ -360,8 +565,14 @@ namespace LocationManagementSystem
                     {
                         FirstName = this.tbxFirstName.Text,
                         CNICNumber = string.IsNullOrEmpty(this.mCNICNumber) ? null : this.mCNICNumber,
-                        IsTemp = true
+                        IsTemp = true,
+                        ConstractorInfo = this.mContractorInfo
                     };
+
+                    if (this.pbxSnapShot.Image != null)
+                    {
+                        cardHolderInfo.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                    }
 
                     EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
                     EFERTDbUtility.mEFERTDb.SaveChanges();
@@ -376,7 +587,7 @@ namespace LocationManagementSystem
             {
                 Blocked = true,
                 BlockedBy = this.tbxBlockedBy.Text,
-                Reason = this.tbxBlockedReason.Text,
+                BlockedReason = this.tbxBlockedReason.Text,
                 CNICNumber = this.mCNICNumber,                
                 BlockedTime = DateTime.Now,
                 UnBlockTime = DateTime.MaxValue
@@ -434,8 +645,21 @@ namespace LocationManagementSystem
             this.btnCheckOut.Enabled = false;
             this.lblVisitorStatus.Text = "Blocked";
             this.lblVisitorStatus.BackColor = Color.Red;
+            this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
             this.btnBlock.Enabled = false;
             this.btnUnBlock.Enabled = true;
+
+            this.tbxBlockedBy.ReadOnly = true;
+            this.tbxBlockedReason.ReadOnly = true;
+
+            this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+            this.tbxUnBlockedBy.ReadOnly = false;
+            this.tbxUnblockReason.ReadOnly = false;
+
+            this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+            this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)
@@ -445,6 +669,8 @@ namespace LocationManagementSystem
                 BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
                 blockedPerson.Blocked = false;
                 blockedPerson.UnBlockTime = DateTime.Now;
+                blockedPerson.UnBlockedBy = this.tbxUnBlockedBy.Text;
+                blockedPerson.UnBlockedReason = this.tbxUnblockReason.Text;
 
                 try
                 {
@@ -483,8 +709,21 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
                 this.lblVisitorStatus.BackColor = Color.Green;
+                this.tbxUnBlockTime.Text = blockedPerson.UnBlockTime.ToString();
                 this.btnBlock.Enabled = true;
                 this.btnUnBlock.Enabled = false;
+
+                this.tbxBlockedBy.ReadOnly = false;
+                this.tbxBlockedReason.ReadOnly = false;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
+
+                this.tbxUnBlockedBy.ReadOnly = true;
+                this.tbxUnblockReason.ReadOnly = true;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
@@ -535,14 +774,25 @@ namespace LocationManagementSystem
                         {
                             FirstName = this.tbxFirstName.Text,
                             LastName = this.tbxLastName.Text,
-                            Department = this.tbxDepartment.Text,
-                            Cadre = this.tbxCadre.Text,
+                            Department = this.cbxDepartment.SelectedItem == null ? string.Empty : this.cbxDepartment.SelectedItem as string,
+                            Cadre = this.cbxCadre.SelectedItem == null ? string.Empty : this.cbxCadre.SelectedItem as string,
                             CNICNumber = this.tbxCNICNumber.Text,
-                            CompanyName = this.tbxCompanyName.Text,
-                            Designation = this.tbxDesignation.Text,
+                            CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as string,
+                            Designation = this.cbxDesignation.SelectedItem == null ? string.Empty : this.cbxDesignation.SelectedItem as string,
                             EmergancyContactNumber = this.tbxContactNumber.Text,
-                            WONumber = this.tbxWONumber.Text
+                            WONumber = this.tbxWONumber.Text,
+                            ConstractorInfo = this.mContractorInfo
                         };
+
+                        if (this.pbxSnapShot.Image != null)
+                        {
+                            dailyCardHolder.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                        }
+
+                        if (this.mClubStaff)
+                        {
+                            dailyCardHolder.ClubType = this.cbxClubType.SelectedItem == null ? string.Empty : this.cbxClubType.SelectedItem as String;
+                        }
 
                         EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
                         //EFERTDbUtility.mEFERTDb.SaveChanges();
@@ -556,8 +806,14 @@ namespace LocationManagementSystem
                         {
                             FirstName = this.tbxFirstName.Text,
                             CNICNumber = string.IsNullOrEmpty(this.mCNICNumber) ? null : this.mCNICNumber,
-                            IsTemp = true                          
+                            IsTemp = true,
+                            ConstractorInfo = this.mContractorInfo
                         };
+
+                        if (this.pbxSnapShot.Image != null)
+                        {
+                            cardHolderInfo.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                        }
 
                         EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
                         //EFERTDbUtility.mEFERTDb.SaveChanges();
@@ -680,6 +936,31 @@ namespace LocationManagementSystem
             {
                 MessageBox.Show(this, "This user is not checked in.");
             }
+        }
+
+        private void btnWebCam_Click(object sender, EventArgs e)
+        {
+            PictureForm picForm = new PictureForm(ref pbxSnapShot);
+            picForm.ShowDialog(this);
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            this.openFileDialog1.ShowDialog(this);
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            string filePath = this.openFileDialog1.FileName;
+
+            Bitmap image = new Bitmap(filePath);
+
+            this.pbxSnapShot.Image = image;
+        }
+
+        private void tbxCheckInCardNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            EFERTDbUtility.AllowNumericOnly(e);
         }
     }
 }

@@ -30,17 +30,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.rbtCardNumber = new System.Windows.Forms.RadioButton();
             this.rbtCnicNumber = new System.Windows.Forms.RadioButton();
             this.btnSearch = new System.Windows.Forms.Button();
             this.lblLocation = new System.Windows.Forms.Label();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Controls.Add(this.maskedTextBox1);
             this.groupBox1.Controls.Add(this.rbtCardNumber);
             this.groupBox1.Controls.Add(this.rbtCnicNumber);
@@ -112,6 +115,16 @@
             this.lblLocation.TabIndex = 2;
             this.lblLocation.Text = "label1";
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(98, 127);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(75, 32);
+            this.btnConnect.TabIndex = 6;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // SearchForm
             // 
             this.AcceptButton = this.btnSearch;
@@ -121,6 +134,7 @@
             this.Controls.Add(this.lblLocation);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SearchForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SearchForm";
@@ -140,5 +154,6 @@
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
         private System.Windows.Forms.RadioButton rbtCardNumber;
         private System.Windows.Forms.RadioButton rbtCnicNumber;
+        private System.Windows.Forms.Button btnConnect;
     }
 }

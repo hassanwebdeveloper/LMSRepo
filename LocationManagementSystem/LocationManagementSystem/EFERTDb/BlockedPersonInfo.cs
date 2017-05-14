@@ -19,7 +19,11 @@ namespace LocationManagementSystem
 
         public string BlockedBy { get; set; }
 
-        public string Reason { get; set; }
+        public string BlockedReason { get; set; }
+
+        public string UnBlockedBy { get; set; }
+
+        public string UnBlockedReason { get; set; }
 
         public bool Blocked { get; set; }
 

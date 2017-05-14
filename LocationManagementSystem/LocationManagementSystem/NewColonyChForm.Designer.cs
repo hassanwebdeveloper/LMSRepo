@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewColonyChForm));
             this.btnCasual3pStaff = new System.Windows.Forms.Button();
             this.btnMarketStaff = new System.Windows.Forms.Button();
             this.btnVisitor = new System.Windows.Forms.Button();
@@ -141,6 +142,7 @@
             this.Controls.Add(this.btnVisitor);
             this.Controls.Add(this.lblLocation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewColonyChForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NewColonyChForm";

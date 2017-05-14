@@ -17,6 +17,8 @@ namespace LocationManagementSystem
         public List<CheckInAndOutInfo> mCheckIns = new List<CheckInAndOutInfo>();
         public List<BlockedPersonInfo> mBlocks = new List<BlockedPersonInfo>();
         public bool mVisitorExist = true;
+        public bool mSchoolingStaff = false;
+        public string mVisitorInfo = string.Empty;
 
         public VisitorForm(VisitorCardHolder visitorCardHolder)
         {
@@ -28,14 +30,15 @@ namespace LocationManagementSystem
             if (visitorCardHolder != null)
             {
                 this.mVisitor = visitorCardHolder;
-
+                this.mVisitorInfo = this.mVisitor.VisitorInfo;
                 this.mCNICNumber = this.mVisitor.CNICNumber;
 
                 this.tbxCnicNumber.Text = this.mVisitor.CNICNumber;
                 this.cbxGender.SelectedItem = this.mVisitor.Gender;
                 this.tbxFirstName.Text = this.mVisitor.FirstName;
                 this.tbxLastName.Text = this.mVisitor.LastName;
-                this.tbxAddress.Text = this.mVisitor.PostCode;
+                this.tbxAddress.Text = this.mVisitor.Address;
+                this.tbxPostCode.Text = this.mVisitor.PostCode;
                 this.tbxCity.Text = this.mVisitor.City;
                 this.tbxState.Text = this.mVisitor.State;
                 this.tbxCompanyName.Text = this.mVisitor.CompanyName;
@@ -43,20 +46,61 @@ namespace LocationManagementSystem
                 this.tbxEmergencyContact.Text = this.mVisitor.EmergencyContantPerson;
                 this.tbxEmergencyContactNumber.Text = this.mVisitor.EmergencyContantPersonNumber;
                 this.cbxVisitorType.SelectedItem = this.mVisitor.VisitorType;
+                this.lblSchoolCollege.Visible = false;
+                this.cbxSchoolCollege.Visible = false;
+
+                if (this.mVisitor.VisitorInfo == "Education")
+                {
+                    this.cbxSchoolCollege.SelectedItem = this.mVisitor.SchoolName;
+                    this.cbxSchoolCollege.Enabled = false;
+                    this.lblSchoolCollege.Visible = true;
+                    this.cbxSchoolCollege.Visible = true;
+
+                    this.Text = "Education Staff Form";
+                    this.groupBox1.Text = "Education Staff Details";
+                    this.mSchoolingStaff = true;
+
+                }
+                else if (this.mVisitor.VisitorInfo == "House Servant")
+                {
+                    this.Text = "House Servant Form";
+                    this.groupBox1.Text = "House Servant Details";
+                }
+
                 this.mCheckIns = this.mVisitor.CheckInInfos ?? new List<CheckInAndOutInfo>();
                 this.mBlocks = this.mVisitor.BlockingInfos ?? new List<BlockedPersonInfo>();
-
+                this.pbxSnapShot.Image = EFERTDbUtility.ByteArrayToImage(this.mVisitor.Picture);
+                
+                this.btnWebCam.Enabled = false;
+                this.btnBrowse.Enabled = false;
                 this.tbxCnicNumber.ReadOnly = true;
+                this.cbxVisitorType.Enabled = false;
                 this.cbxGender.Enabled = false;
                 this.tbxFirstName.ReadOnly = true;
                 this.tbxLastName.ReadOnly = true;
                 this.tbxAddress.ReadOnly = true;
+                this.tbxPostCode.ReadOnly = true;
                 this.tbxCity.ReadOnly = true;
                 this.tbxState.ReadOnly = true;
                 this.tbxCompanyName.ReadOnly = true;
                 this.tbxPhoneNumber.ReadOnly = true;
                 this.tbxEmergencyContact.ReadOnly = true;
                 this.tbxEmergencyContactNumber.ReadOnly = true;
+
+                this.tbxCnicNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxFirstName.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxLastName.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxAddress.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxPostCode.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCity.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxState.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCompanyName.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxPhoneNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxEmergencyContact.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxEmergencyContactNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                this.btnWebCam.Enabled = false;
+                this.btnBrowse.Enabled = false;
             }
             
             this.UpdateStatus(this.mCNICNumber);
@@ -64,7 +108,7 @@ namespace LocationManagementSystem
         }
 
 
-        public VisitorForm(string cnicNumber, string title = null, string gpTitle = null, bool schoolStaff = false)
+        public VisitorForm(string cnicNumber,string vistorInfo, string title = null, string gpTitle = null, bool schoolStaff = false)
         {
             InitializeComponent();
 
@@ -77,6 +121,9 @@ namespace LocationManagementSystem
             {
                 this.groupBox1.Text = gpTitle;
             }
+
+            this.mSchoolingStaff = schoolStaff;
+            this.mVisitorInfo = vistorInfo;
 
             if (schoolStaff)
             {
@@ -98,12 +145,17 @@ namespace LocationManagementSystem
 
         private void UpdateStatus(string cnicNumber)
         {
+            bool blockedUser = false;
+            BlockedPersonInfo blockedPerson = null;
+
             if (string.IsNullOrEmpty(cnicNumber))
             {
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.ReadOnly = true;
                 this.tbxBlockedReason.ReadOnly = true;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.lblVisitorStatus.Text = "Invalid User";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
@@ -117,6 +169,8 @@ namespace LocationManagementSystem
                 this.btnUnBlock.Visible = true;
                 this.tbxBlockedBy.ReadOnly = false;
                 this.tbxBlockedReason.ReadOnly = false;
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
             }
             else
             {
@@ -124,25 +178,37 @@ namespace LocationManagementSystem
                 this.btnUnBlock.Visible = false;
                 this.tbxBlockedBy.ReadOnly = true;
                 this.tbxBlockedReason.ReadOnly = true;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
 
-            this.mCNICNumber = cnicNumber;
-
-            bool blockedUser = false;
+            this.mCNICNumber = cnicNumber;                      
 
             if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {
                 blockedUser = true;
-                BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
+                blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
 
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
-                this.tbxBlockedReason.Text = blockedPerson.Reason;
+                this.tbxBlockedReason.Text = blockedPerson.BlockedReason;
                 this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
                 this.lblVisitorStatus.Text = "Blocked";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
+
+                this.tbxBlockedBy.ReadOnly = true;
+                this.tbxBlockedReason.ReadOnly = true;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                this.tbxUnBlockedBy.ReadOnly = false;
+                this.tbxUnblockReason.ReadOnly = false;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
             }
             else
             {
@@ -151,6 +217,27 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
                 this.lblVisitorStatus.BackColor = Color.Green;
+
+                this.tbxBlockedBy.ReadOnly = false;
+                this.tbxBlockedReason.ReadOnly = false;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
+
+                this.tbxUnBlockedBy.ReadOnly = true;
+                this.tbxUnblockReason.ReadOnly = true;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                if (this.mBlocks.Count > 0)
+                {
+                    BlockedPersonInfo lastBlockedInfo = this.mBlocks.Last();
+
+                    this.tbxUnBlockedBy.Text = lastBlockedInfo.UnBlockedBy;
+                    this.tbxUnBlockTime.Text = lastBlockedInfo.UnBlockTime.ToString();
+                    this.tbxUnblockReason.Text = lastBlockedInfo.UnBlockedReason;
+                }
             }
 
             if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
@@ -178,6 +265,15 @@ namespace LocationManagementSystem
                 this.nuCheckInNoOfChildren.ReadOnly = true;
                 this.tbxCheckInAreaOfVisit.ReadOnly = true;
                 this.tbxCheckInHostName.ReadOnly = true;
+
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.nuNoOfMaleGuest.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.nuNoOfFemaleGuest.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.numCheckInDurationOfStay.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.nuCheckInNoOfChildren.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInAreaOfVisit.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInHostName.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
@@ -192,6 +288,12 @@ namespace LocationManagementSystem
                     this.lblVisitorStatus.Text = "Blocked";
                     this.lblVisitorStatus.BackColor = Color.Red;
                     this.btnBlock.Enabled = false;
+
+                    this.tbxBlockedBy.ReadOnly = true;
+                    this.tbxBlockedReason.ReadOnly = true;
+
+                    this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                    this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
                 }
                 else
                 {
@@ -199,6 +301,22 @@ namespace LocationManagementSystem
                     this.btnCheckOut.Enabled = false;
                     this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
                 }
+            }
+
+            if (blockedUser)
+            {
+                BlockedPersonNotificationForm blockedForm = null;
+                if (blockedPerson == null)
+                {
+                    blockedForm = new BlockedPersonNotificationForm(this.mVisitor.FirstName, this.mCNICNumber);
+                }
+                else
+                {
+                    blockedForm = new BlockedPersonNotificationForm(blockedPerson);
+                }
+               
+
+                blockedForm.ShowDialog(this);
             }
 
         }
@@ -221,7 +339,8 @@ namespace LocationManagementSystem
                 visitor.Gender = this.cbxGender.SelectedItem == null ? string.Empty : this.cbxGender.SelectedItem as String;
                 visitor.FirstName = this.tbxFirstName.Text;
                 visitor.LastName = this.tbxLastName.Text;
-                visitor.PostCode = this.tbxAddress.Text;
+                visitor.Address = this.tbxAddress.Text;
+                visitor.PostCode = this.tbxPostCode.Text;
                 visitor.City = this.tbxCity.Text;
                 visitor.State = this.tbxState.Text;
                 visitor.CompanyName = this.tbxCompanyName.Text;
@@ -230,6 +349,18 @@ namespace LocationManagementSystem
                 visitor.EmergencyContantPersonNumber = this.tbxEmergencyContactNumber.Text;
                 visitor.VisitorType = this.cbxVisitorType.SelectedItem == null ? string.Empty : this.cbxVisitorType.SelectedItem as String;
                 visitor.IsOnPlant = SearchForm.mIsPlant;
+
+                if (this.mSchoolingStaff)
+                {
+                    visitor.SchoolName = this.cbxSchoolCollege.SelectedItem == null ? string.Empty : this.cbxSchoolCollege.SelectedItem as String;
+                }
+
+                visitor.VisitorInfo = this.mVisitorInfo;
+
+                if (this.pbxSnapShot.Image != null)
+                {
+                    visitor.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                }
 
                 EFERTDbUtility.mEFERTDb.Visitors.Add(visitor);
 
@@ -242,7 +373,7 @@ namespace LocationManagementSystem
             {
                 Blocked = true,
                 BlockedBy = this.tbxBlockedBy.Text,
-                Reason = this.tbxBlockedReason.Text,
+                BlockedReason = this.tbxBlockedReason.Text,
                 CNICNumber = this.mCNICNumber,
                 BlockedTime = DateTime.Now,
                 UnBlockTime = DateTime.MaxValue,
@@ -276,8 +407,21 @@ namespace LocationManagementSystem
             this.btnCheckOut.Enabled = false;
             this.lblVisitorStatus.Text = "Blocked";
             this.lblVisitorStatus.BackColor = Color.Red;
+            this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
             this.btnBlock.Enabled = false;
             this.btnUnBlock.Enabled = true;
+
+            this.tbxBlockedBy.ReadOnly = true;
+            this.tbxBlockedReason.ReadOnly = true;
+
+            this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+            this.tbxUnBlockedBy.ReadOnly = false;
+            this.tbxUnblockReason.ReadOnly = false;
+
+            this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+            this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)
@@ -287,6 +431,8 @@ namespace LocationManagementSystem
                 BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
                 blockedPerson.Blocked = false;
                 blockedPerson.UnBlockTime = DateTime.Now;
+                blockedPerson.UnBlockedBy = this.tbxUnBlockedBy.Text;
+                blockedPerson.UnBlockedReason = this.tbxUnblockReason.Text;
 
                 try
                 {
@@ -317,8 +463,21 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
                 this.lblVisitorStatus.BackColor = Color.Green;
+                this.tbxUnBlockTime.Text = blockedPerson.UnBlockTime.ToString();
                 this.btnBlock.Enabled = true;
                 this.btnUnBlock.Enabled = false;
+
+                this.tbxBlockedBy.ReadOnly = false;
+                this.tbxBlockedReason.ReadOnly = false;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
+
+                this.tbxUnBlockedBy.ReadOnly = true;
+                this.tbxUnblockReason.ReadOnly = true;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
@@ -365,7 +524,8 @@ namespace LocationManagementSystem
                     visitor.Gender = this.cbxGender.SelectedItem == null ? string.Empty : this.cbxGender.SelectedItem as String;
                     visitor.FirstName = this.tbxFirstName.Text;
                     visitor.LastName = this.tbxLastName.Text;
-                    visitor.PostCode = this.tbxAddress.Text;
+                    visitor.Address = this.tbxAddress.Text;
+                    visitor.PostCode = this.tbxPostCode.Text;
                     visitor.City = this.tbxCity.Text;
                     visitor.State = this.tbxState.Text;
                     visitor.CompanyName = this.tbxCompanyName.Text;
@@ -374,6 +534,18 @@ namespace LocationManagementSystem
                     visitor.EmergencyContantPersonNumber = this.tbxEmergencyContactNumber.Text;
                     visitor.VisitorType = this.cbxVisitorType.SelectedItem == null ? string.Empty : this.cbxVisitorType.SelectedItem as String;
                     visitor.IsOnPlant = SearchForm.mIsPlant;
+
+                    if (this.pbxSnapShot.Image != null)
+                    {
+                        visitor.Picture = EFERTDbUtility.ImageToByteArray(this.pbxSnapShot.Image);
+                    }
+
+                    if (this.mSchoolingStaff)
+                    {
+                        visitor.SchoolName = this.cbxSchoolCollege.SelectedItem == null ? string.Empty : this.cbxSchoolCollege.SelectedItem as String;
+                    }
+
+                    visitor.VisitorInfo = this.mVisitorInfo;
 
                     EFERTDbUtility.mEFERTDb.Visitors.Add(visitor);
 
@@ -485,6 +657,25 @@ namespace LocationManagementSystem
         {
             PictureForm picForm = new PictureForm(ref pbxSnapShot);
             picForm.ShowDialog(this);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.openFileDialog1.ShowDialog(this);
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            string filePath = this.openFileDialog1.FileName;
+
+            Bitmap image = new Bitmap(filePath);
+
+            this.pbxSnapShot.Image = image;
+        }
+
+        private void tbxCheckInCardNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            EFERTDbUtility.AllowNumericOnly(e);
         }
     }
 }

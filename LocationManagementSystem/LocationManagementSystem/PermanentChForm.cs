@@ -121,6 +121,8 @@ namespace LocationManagementSystem
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.ReadOnly = true;
                 this.tbxBlockedReason.ReadOnly = true;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.lblVisitorStatus.Text = "Invalid User";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
@@ -134,6 +136,8 @@ namespace LocationManagementSystem
                 this.btnUnBlock.Visible = true;
                 this.tbxBlockedBy.ReadOnly = false;
                 this.tbxBlockedReason.ReadOnly = false;
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
             }
             else
             {
@@ -141,6 +145,8 @@ namespace LocationManagementSystem
                 this.btnUnBlock.Visible = false;
                 this.tbxBlockedBy.ReadOnly = true;
                 this.tbxBlockedReason.ReadOnly = true;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
 
             this.mCNICNumber = cnicNumber;
@@ -156,11 +162,23 @@ namespace LocationManagementSystem
                 this.btnCheckIn.Enabled = false;
                 this.btnCheckOut.Enabled = false;
                 this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
-                this.tbxBlockedReason.Text = blockedPerson.Reason;
+                this.tbxBlockedReason.Text = blockedPerson.BlockedReason;
                 this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
                 this.lblVisitorStatus.Text = "Blocked";
                 this.lblVisitorStatus.BackColor = Color.Red;
                 this.btnBlock.Enabled = false;
+
+                this.tbxBlockedBy.ReadOnly = true;
+                this.tbxBlockedReason.ReadOnly = true;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                this.tbxUnBlockedBy.ReadOnly = false;
+                this.tbxUnblockReason.ReadOnly = false;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
             }
             else
             {
@@ -169,6 +187,28 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
                 this.lblVisitorStatus.BackColor = Color.Green;
+
+                this.tbxBlockedBy.ReadOnly = false;
+                this.tbxBlockedReason.ReadOnly = false;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
+
+                this.tbxUnBlockedBy.ReadOnly = true;
+                this.tbxUnblockReason.ReadOnly = true;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+
+                if (this.mBlocks.Count > 0)
+                {
+                    BlockedPersonInfo lastBlockedInfo = this.mBlocks.Last();
+
+                    this.tbxUnBlockedBy.Text = lastBlockedInfo.UnBlockedBy;
+                    this.tbxUnBlockTime.Text = lastBlockedInfo.UnBlockTime.ToString();
+                    this.tbxUnblockReason.Text = lastBlockedInfo.UnBlockedReason;
+                }
             }
 
             if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
@@ -184,6 +224,8 @@ namespace LocationManagementSystem
 
                 this.tbxCheckInCardNumber.ReadOnly = true;
                 this.tbxCheckInVehicleNumber.ReadOnly = true;
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
@@ -198,6 +240,12 @@ namespace LocationManagementSystem
                     this.lblVisitorStatus.Text = "Blocked";
                     this.lblVisitorStatus.BackColor = Color.Red;
                     this.btnBlock.Enabled = false;
+
+                    this.tbxBlockedBy.ReadOnly = true;
+                    this.tbxBlockedReason.ReadOnly = true;
+
+                    this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                    this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
                 }
                 else
                 {
@@ -210,7 +258,16 @@ namespace LocationManagementSystem
 
             if (blockedUser)
             {
-                BlockedPersonNotificationForm blockedForm = new BlockedPersonNotificationForm(blockedPerson);
+                BlockedPersonNotificationForm blockedForm = null;
+                if (blockedPerson == null)
+                {
+                    blockedForm = new BlockedPersonNotificationForm(this.mCardHolderInfo.FirstName, this.mCNICNumber);
+                }
+                else
+                {
+                    blockedForm = new BlockedPersonNotificationForm(blockedPerson);
+                }
+
 
                 blockedForm.ShowDialog(this);
             }
@@ -230,7 +287,7 @@ namespace LocationManagementSystem
             {
                 Blocked = true,
                 BlockedBy = this.tbxBlockedBy.Text,
-                Reason = this.tbxBlockedReason.Text,
+                BlockedReason = this.tbxBlockedReason.Text,
                 CNICNumber = this.mCNICNumber,
                 BlockedTime = DateTime.Now,
                 UnBlockTime = DateTime.MaxValue,
@@ -265,8 +322,21 @@ namespace LocationManagementSystem
             this.btnCheckOut.Enabled = false;
             this.lblVisitorStatus.Text = "Blocked";
             this.lblVisitorStatus.BackColor = Color.Red;
+            this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
             this.btnBlock.Enabled = false;
             this.btnUnBlock.Enabled = true;
+
+            this.tbxBlockedBy.ReadOnly = true;
+            this.tbxBlockedReason.ReadOnly = true;
+
+            this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+            this.tbxUnBlockedBy.ReadOnly = false;
+            this.tbxUnblockReason.ReadOnly = false;
+
+            this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+            this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)
@@ -276,6 +346,8 @@ namespace LocationManagementSystem
                 BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
                 blockedPerson.Blocked = false;
                 blockedPerson.UnBlockTime = DateTime.Now;
+                blockedPerson.UnBlockedBy = this.tbxUnBlockedBy.Text;
+                blockedPerson.UnBlockedReason = this.tbxUnblockReason.Text;
 
                 try
                 {
@@ -307,8 +379,21 @@ namespace LocationManagementSystem
                 this.tbxBlockedReason.Text = string.Empty;
                 this.lblVisitorStatus.Text = "Allowed";
                 this.lblVisitorStatus.BackColor = Color.Green;
+                this.tbxUnBlockTime.Text = blockedPerson.UnBlockTime.ToString();
                 this.btnBlock.Enabled = true;
                 this.btnUnBlock.Enabled = false;
+
+                this.tbxBlockedBy.ReadOnly = false;
+                this.tbxBlockedReason.ReadOnly = false;
+
+                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxBlockedReason.BackColor = System.Drawing.Color.White; 
+
+                this.tbxUnBlockedBy.ReadOnly = true;
+                this.tbxUnblockReason.ReadOnly = true;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
@@ -447,6 +532,11 @@ namespace LocationManagementSystem
             {
                 MessageBox.Show(this, "This user is not checked in.");
             }
+        }
+
+        private void tbxCheckInCardNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            EFERTDbUtility.AllowNumericOnly(e);
         }
     }
 }

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LocationManagementSystem</RootNamespace>
-    <AssemblyName>LocationManagementSystem</AssemblyName>
+    <AssemblyName>Engro LMS</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>engroicon_9xF_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -439,7 +442,7 @@
     <Compile Include="Classes\ContractorCardHolder.cs" />
     <Compile Include="EFERTDb\DailyCardHolder.cs" />
     <Compile Include="Classes\PermamentCardHolder.cs" />
-    <Compile Include="EFERTDb\VisitingLocations.cs" />
+    <Compile Include="EFERTDb\EditableFields.cs" />
     <Compile Include="EFERTDb\VisitorCardHolder.cs" />
     <Compile Include="ContractorChForm.cs">
       <SubType>Form</SubType>
@@ -508,6 +511,12 @@
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateDepartmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateDepartmentForm.Designer.cs">
+      <DependentUpon>UpdateDepartmentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateLocationsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -559,6 +568,9 @@
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UpdateDepartmentForm.resx">
+      <DependentUpon>UpdateDepartmentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateLocationsForm.resx">
       <DependentUpon>UpdateLocationsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -586,7 +598,17 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="engroicon_9xF_icon.ico" />
     <Content Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Barcode Reader\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IsdcWrapper\IntermecIsdc.csproj">
+      <Project>{8de1a3d1-8ab4-44e5-8a7a-89238d4b18ae}</Project>
+      <Name>IntermecIsdc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewPlantChForm));
             this.lblLocation = new System.Windows.Forms.Label();
             this.btnContractor = new System.Windows.Forms.Button();
             this.btnWoStaff = new System.Windows.Forms.Button();
@@ -115,6 +116,7 @@
             this.Controls.Add(this.btnContractor);
             this.Controls.Add(this.lblLocation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewPlantChForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NewPlantChForm";

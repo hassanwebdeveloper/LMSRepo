@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PermanentChForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbxLastName = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -67,18 +68,28 @@
             this.tbxCheckInCardNumber = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbxUnBlockTime = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tbxUnblockReason = new System.Windows.Forms.TextBox();
+            this.btnUnBlock = new System.Windows.Forms.Button();
+            this.label22 = new System.Windows.Forms.Label();
+            this.tbxUnBlockedBy = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.tbxBlockedTime = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.lblVisitorStatus = new System.Windows.Forms.Label();
-            this.btnUnBlock = new System.Windows.Forms.Button();
             this.btnBlock = new System.Windows.Forms.Button();
             this.tbxBlockedReason = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.tbxBlockedBy = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.pbxSnapShot = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxSnapShot)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -112,19 +123,19 @@
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(830, 288);
+            this.groupBox1.Size = new System.Drawing.Size(1195, 288);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Employee Details";
             // 
             // tbxLastName
             // 
-            this.tbxLastName.BackColor = System.Drawing.Color.White;
+            this.tbxLastName.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxLastName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxLastName.Location = new System.Drawing.Point(201, 95);
             this.tbxLastName.Name = "tbxLastName";
             this.tbxLastName.ReadOnly = true;
-            this.tbxLastName.Size = new System.Drawing.Size(236, 29);
+            this.tbxLastName.Size = new System.Drawing.Size(381, 29);
             this.tbxLastName.TabIndex = 25;
             // 
             // label14
@@ -139,19 +150,19 @@
             // 
             // tbxSection
             // 
-            this.tbxSection.BackColor = System.Drawing.Color.White;
+            this.tbxSection.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxSection.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxSection.Location = new System.Drawing.Point(596, 200);
+            this.tbxSection.Location = new System.Drawing.Point(754, 200);
             this.tbxSection.Name = "tbxSection";
             this.tbxSection.ReadOnly = true;
-            this.tbxSection.Size = new System.Drawing.Size(228, 29);
+            this.tbxSection.Size = new System.Drawing.Size(381, 29);
             this.tbxSection.TabIndex = 23;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(493, 203);
+            this.label12.Location = new System.Drawing.Point(651, 203);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(61, 21);
             this.label12.TabIndex = 22;
@@ -159,12 +170,12 @@
             // 
             // tbxPNumber
             // 
-            this.tbxPNumber.BackColor = System.Drawing.Color.White;
+            this.tbxPNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxPNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxPNumber.Location = new System.Drawing.Point(201, 235);
             this.tbxPNumber.Name = "tbxPNumber";
             this.tbxPNumber.ReadOnly = true;
-            this.tbxPNumber.Size = new System.Drawing.Size(236, 29);
+            this.tbxPNumber.Size = new System.Drawing.Size(381, 29);
             this.tbxPNumber.TabIndex = 21;
             // 
             // label11
@@ -179,19 +190,19 @@
             // 
             // tbxCNICNumber
             // 
-            this.tbxCNICNumber.BackColor = System.Drawing.Color.White;
+            this.tbxCNICNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxCNICNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCNICNumber.Location = new System.Drawing.Point(596, 165);
+            this.tbxCNICNumber.Location = new System.Drawing.Point(754, 165);
             this.tbxCNICNumber.Name = "tbxCNICNumber";
             this.tbxCNICNumber.ReadOnly = true;
-            this.tbxCNICNumber.Size = new System.Drawing.Size(228, 29);
+            this.tbxCNICNumber.Size = new System.Drawing.Size(381, 29);
             this.tbxCNICNumber.TabIndex = 19;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(493, 168);
+            this.label10.Location = new System.Drawing.Point(651, 168);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(74, 21);
             this.label10.TabIndex = 18;
@@ -199,12 +210,12 @@
             // 
             // tbxContactNumber
             // 
-            this.tbxContactNumber.BackColor = System.Drawing.Color.White;
+            this.tbxContactNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxContactNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxContactNumber.Location = new System.Drawing.Point(201, 200);
             this.tbxContactNumber.Name = "tbxContactNumber";
             this.tbxContactNumber.ReadOnly = true;
-            this.tbxContactNumber.Size = new System.Drawing.Size(236, 29);
+            this.tbxContactNumber.Size = new System.Drawing.Size(381, 29);
             this.tbxContactNumber.TabIndex = 17;
             // 
             // label9
@@ -219,19 +230,19 @@
             // 
             // tbxDesignation
             // 
-            this.tbxDesignation.BackColor = System.Drawing.Color.White;
+            this.tbxDesignation.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxDesignation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxDesignation.Location = new System.Drawing.Point(596, 130);
+            this.tbxDesignation.Location = new System.Drawing.Point(754, 130);
             this.tbxDesignation.Name = "tbxDesignation";
             this.tbxDesignation.ReadOnly = true;
-            this.tbxDesignation.Size = new System.Drawing.Size(228, 29);
+            this.tbxDesignation.Size = new System.Drawing.Size(381, 29);
             this.tbxDesignation.TabIndex = 15;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(493, 133);
+            this.label8.Location = new System.Drawing.Point(651, 133);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(93, 21);
             this.label8.TabIndex = 14;
@@ -239,12 +250,12 @@
             // 
             // tbxDepartment
             // 
-            this.tbxDepartment.BackColor = System.Drawing.Color.White;
+            this.tbxDepartment.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxDepartment.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxDepartment.Location = new System.Drawing.Point(201, 165);
             this.tbxDepartment.Name = "tbxDepartment";
             this.tbxDepartment.ReadOnly = true;
-            this.tbxDepartment.Size = new System.Drawing.Size(236, 29);
+            this.tbxDepartment.Size = new System.Drawing.Size(381, 29);
             this.tbxDepartment.TabIndex = 13;
             // 
             // label7
@@ -259,19 +270,19 @@
             // 
             // tbxDob
             // 
-            this.tbxDob.BackColor = System.Drawing.Color.White;
+            this.tbxDob.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxDob.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxDob.Location = new System.Drawing.Point(596, 95);
+            this.tbxDob.Location = new System.Drawing.Point(754, 95);
             this.tbxDob.Name = "tbxDob";
             this.tbxDob.ReadOnly = true;
-            this.tbxDob.Size = new System.Drawing.Size(228, 29);
+            this.tbxDob.Size = new System.Drawing.Size(381, 29);
             this.tbxDob.TabIndex = 11;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(493, 98);
+            this.label6.Location = new System.Drawing.Point(651, 98);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(97, 21);
             this.label6.TabIndex = 10;
@@ -279,12 +290,12 @@
             // 
             // tbxCrew
             // 
-            this.tbxCrew.BackColor = System.Drawing.Color.White;
+            this.tbxCrew.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxCrew.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxCrew.Location = new System.Drawing.Point(201, 130);
             this.tbxCrew.Name = "tbxCrew";
             this.tbxCrew.ReadOnly = true;
-            this.tbxCrew.Size = new System.Drawing.Size(236, 29);
+            this.tbxCrew.Size = new System.Drawing.Size(381, 29);
             this.tbxCrew.TabIndex = 9;
             // 
             // label5
@@ -299,19 +310,19 @@
             // 
             // tbxCadre
             // 
-            this.tbxCadre.BackColor = System.Drawing.Color.White;
+            this.tbxCadre.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxCadre.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCadre.Location = new System.Drawing.Point(596, 25);
+            this.tbxCadre.Location = new System.Drawing.Point(754, 25);
             this.tbxCadre.Name = "tbxCadre";
             this.tbxCadre.ReadOnly = true;
-            this.tbxCadre.Size = new System.Drawing.Size(228, 29);
+            this.tbxCadre.Size = new System.Drawing.Size(381, 29);
             this.tbxCadre.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(493, 28);
+            this.label4.Location = new System.Drawing.Point(651, 28);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(51, 21);
             this.label4.TabIndex = 6;
@@ -319,19 +330,19 @@
             // 
             // tbxBloodGroup
             // 
-            this.tbxBloodGroup.BackColor = System.Drawing.Color.White;
+            this.tbxBloodGroup.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxBloodGroup.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxBloodGroup.Location = new System.Drawing.Point(596, 60);
+            this.tbxBloodGroup.Location = new System.Drawing.Point(754, 60);
             this.tbxBloodGroup.Name = "tbxBloodGroup";
             this.tbxBloodGroup.ReadOnly = true;
-            this.tbxBloodGroup.Size = new System.Drawing.Size(228, 29);
+            this.tbxBloodGroup.Size = new System.Drawing.Size(381, 29);
             this.tbxBloodGroup.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(493, 63);
+            this.label3.Location = new System.Drawing.Point(651, 63);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 21);
             this.label3.TabIndex = 4;
@@ -339,12 +350,12 @@
             // 
             // tbxFirstName
             // 
-            this.tbxFirstName.BackColor = System.Drawing.Color.White;
+            this.tbxFirstName.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxFirstName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxFirstName.Location = new System.Drawing.Point(201, 60);
             this.tbxFirstName.Name = "tbxFirstName";
             this.tbxFirstName.ReadOnly = true;
-            this.tbxFirstName.Size = new System.Drawing.Size(236, 29);
+            this.tbxFirstName.Size = new System.Drawing.Size(381, 29);
             this.tbxFirstName.TabIndex = 3;
             // 
             // label2
@@ -359,12 +370,12 @@
             // 
             // tbxCardNumber
             // 
-            this.tbxCardNumber.BackColor = System.Drawing.Color.White;
+            this.tbxCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxCardNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxCardNumber.Location = new System.Drawing.Point(201, 25);
             this.tbxCardNumber.Name = "tbxCardNumber";
             this.tbxCardNumber.ReadOnly = true;
-            this.tbxCardNumber.Size = new System.Drawing.Size(236, 29);
+            this.tbxCardNumber.Size = new System.Drawing.Size(381, 29);
             this.tbxCardNumber.TabIndex = 1;
             // 
             // label1
@@ -486,6 +497,7 @@
             this.tbxCheckInCardNumber.Name = "tbxCheckInCardNumber";
             this.tbxCheckInCardNumber.Size = new System.Drawing.Size(135, 29);
             this.tbxCheckInCardNumber.TabIndex = 27;
+            this.tbxCheckInCardNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxCheckInCardNumber_KeyPress);
             // 
             // label15
             // 
@@ -499,10 +511,16 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.tbxUnBlockTime);
+            this.groupBox3.Controls.Add(this.label21);
+            this.groupBox3.Controls.Add(this.tbxUnblockReason);
+            this.groupBox3.Controls.Add(this.btnUnBlock);
+            this.groupBox3.Controls.Add(this.label22);
+            this.groupBox3.Controls.Add(this.tbxUnBlockedBy);
+            this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.tbxBlockedTime);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.lblVisitorStatus);
-            this.groupBox3.Controls.Add(this.btnUnBlock);
             this.groupBox3.Controls.Add(this.btnBlock);
             this.groupBox3.Controls.Add(this.tbxBlockedReason);
             this.groupBox3.Controls.Add(this.label20);
@@ -511,20 +529,91 @@
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(525, 309);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(475, 198);
+            this.groupBox3.Size = new System.Drawing.Size(830, 198);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Block User";
+            this.groupBox3.Text = "Block User Information";
+            // 
+            // tbxUnBlockTime
+            // 
+            this.tbxUnBlockTime.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxUnBlockTime.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxUnBlockTime.Location = new System.Drawing.Point(523, 58);
+            this.tbxUnBlockTime.Name = "tbxUnBlockTime";
+            this.tbxUnBlockTime.ReadOnly = true;
+            this.tbxUnBlockTime.Size = new System.Drawing.Size(298, 29);
+            this.tbxUnBlockTime.TabIndex = 56;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(391, 61);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(126, 21);
+            this.label21.TabIndex = 55;
+            this.label21.Text = "Un Blocked Time";
+            // 
+            // tbxUnblockReason
+            // 
+            this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxUnblockReason.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxUnblockReason.Location = new System.Drawing.Point(523, 92);
+            this.tbxUnblockReason.Multiline = true;
+            this.tbxUnblockReason.Name = "tbxUnblockReason";
+            this.tbxUnblockReason.ReadOnly = true;
+            this.tbxUnblockReason.Size = new System.Drawing.Size(298, 46);
+            this.tbxUnblockReason.TabIndex = 54;
+            // 
+            // btnUnBlock
+            // 
+            this.btnUnBlock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUnBlock.Location = new System.Drawing.Point(721, 144);
+            this.btnUnBlock.Name = "btnUnBlock";
+            this.btnUnBlock.Size = new System.Drawing.Size(100, 47);
+            this.btnUnBlock.TabIndex = 40;
+            this.btnUnBlock.Text = "Un Block";
+            this.btnUnBlock.UseVisualStyleBackColor = true;
+            this.btnUnBlock.Click += new System.EventHandler(this.btnUnBlock_Click);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(391, 95);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(61, 21);
+            this.label22.TabIndex = 53;
+            this.label22.Text = "Reason";
+            // 
+            // tbxUnBlockedBy
+            // 
+            this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxUnBlockedBy.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxUnBlockedBy.Location = new System.Drawing.Point(523, 23);
+            this.tbxUnBlockedBy.Name = "tbxUnBlockedBy";
+            this.tbxUnBlockedBy.ReadOnly = true;
+            this.tbxUnBlockedBy.Size = new System.Drawing.Size(298, 29);
+            this.tbxUnBlockedBy.TabIndex = 52;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(391, 26);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(109, 21);
+            this.label23.TabIndex = 51;
+            this.label23.Text = "Un Blocked by";
             // 
             // tbxBlockedTime
             // 
-            this.tbxBlockedTime.BackColor = System.Drawing.Color.White;
-            this.tbxBlockedTime.Enabled = false;
+            this.tbxBlockedTime.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbxBlockedTime.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxBlockedTime.Location = new System.Drawing.Point(116, 57);
             this.tbxBlockedTime.Name = "tbxBlockedTime";
             this.tbxBlockedTime.ReadOnly = true;
-            this.tbxBlockedTime.Size = new System.Drawing.Size(353, 29);
+            this.tbxBlockedTime.Size = new System.Drawing.Size(269, 29);
             this.tbxBlockedTime.TabIndex = 50;
             // 
             // label13
@@ -549,21 +638,10 @@
             this.lblVisitorStatus.TabIndex = 48;
             this.lblVisitorStatus.Text = "label1";
             // 
-            // btnUnBlock
-            // 
-            this.btnUnBlock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnBlock.Location = new System.Drawing.Point(263, 145);
-            this.btnUnBlock.Name = "btnUnBlock";
-            this.btnUnBlock.Size = new System.Drawing.Size(100, 47);
-            this.btnUnBlock.TabIndex = 40;
-            this.btnUnBlock.Text = "Un Block";
-            this.btnUnBlock.UseVisualStyleBackColor = true;
-            this.btnUnBlock.Click += new System.EventHandler(this.btnUnBlock_Click);
-            // 
             // btnBlock
             // 
             this.btnBlock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBlock.Location = new System.Drawing.Point(369, 145);
+            this.btnBlock.Location = new System.Drawing.Point(285, 144);
             this.btnBlock.Name = "btnBlock";
             this.btnBlock.Size = new System.Drawing.Size(100, 47);
             this.btnBlock.TabIndex = 36;
@@ -579,7 +657,7 @@
             this.tbxBlockedReason.Multiline = true;
             this.tbxBlockedReason.Name = "tbxBlockedReason";
             this.tbxBlockedReason.ReadOnly = true;
-            this.tbxBlockedReason.Size = new System.Drawing.Size(353, 46);
+            this.tbxBlockedReason.Size = new System.Drawing.Size(269, 46);
             this.tbxBlockedReason.TabIndex = 39;
             // 
             // label20
@@ -599,7 +677,7 @@
             this.tbxBlockedBy.Location = new System.Drawing.Point(116, 22);
             this.tbxBlockedBy.Name = "tbxBlockedBy";
             this.tbxBlockedBy.ReadOnly = true;
-            this.tbxBlockedBy.Size = new System.Drawing.Size(353, 29);
+            this.tbxBlockedBy.Size = new System.Drawing.Size(269, 29);
             this.tbxBlockedBy.TabIndex = 37;
             // 
             // label19
@@ -612,15 +690,38 @@
             this.label19.TabIndex = 36;
             this.label19.Text = "Blocked by";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.pbxSnapShot);
+            this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox4.Location = new System.Drawing.Point(1213, 12);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(133, 159);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Photo";
+            // 
+            // pbxSnapShot
+            // 
+            this.pbxSnapShot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxSnapShot.Location = new System.Drawing.Point(6, 24);
+            this.pbxSnapShot.Name = "pbxSnapShot";
+            this.pbxSnapShot.Size = new System.Drawing.Size(120, 120);
+            this.pbxSnapShot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbxSnapShot.TabIndex = 0;
+            this.pbxSnapShot.TabStop = false;
+            // 
             // PermanentChForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1012, 519);
+            this.ClientSize = new System.Drawing.Size(1358, 519);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PermanentChForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Permanent Employee Form";
@@ -630,6 +731,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbxSnapShot)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -684,5 +787,13 @@
         private System.Windows.Forms.Label lblVisitorStatus;
         private System.Windows.Forms.TextBox tbxBlockedTime;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox tbxUnBlockTime;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox tbxUnblockReason;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox tbxUnBlockedBy;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.PictureBox pbxSnapShot;
     }
 }

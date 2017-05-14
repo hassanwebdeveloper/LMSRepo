@@ -24,35 +24,35 @@ namespace LocationManagementSystem
 
         private void btnVisitor_Click(object sender, EventArgs e)
         {
-            VisitorForm vf = new VisitorForm(this.mCNICNumber);
+            VisitorForm vf = new VisitorForm(this.mCNICNumber, "Visitor");
 
             vf.ShowDialog(this);
         }
 
         private void btnContractor_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber);
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Contractor");
 
             cch.ShowDialog(this);
         }
 
         private void btnWoStaff_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, title:"Work Order Staff Form", gpTitle:"WO Staff Details");
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "WO Staff",title:"Work Order Staff Form", gpTitle:"WO Staff Details");
 
             cch.ShowDialog(this);
         }
 
         private void btnPallaydar_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, title: "Pallaydar Form", gpTitle: "Pallaydar Details");
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Pallaydar",title: "Pallaydar Form", gpTitle: "Pallaydar Details");
 
             cch.ShowDialog(this);
         }
 
         private void btnCasual3pStaff_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, true, title: "Casual 3P Staff Form", gpTitle: "Casual 3P Details");
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Casual 3P", true, title: "Casual 3P Staff Form", gpTitle: "Casual 3P Details");
 
             cch.ShowDialog(this);
         }

@@ -71,5 +71,9 @@ namespace LocationManagementSystem
         public virtual List<BlockedPersonInfo> BlockingInfos { get; set; }
 
         public virtual List<CheckInAndOutInfo> CheckInInfos { get; set; }
+        
+        public byte[] Picture { get; set; }
+
+        public string ConstractorInfo { get; set; }
     }
 }
