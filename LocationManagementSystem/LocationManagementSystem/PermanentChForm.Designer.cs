@@ -497,6 +497,7 @@
             this.tbxCheckInCardNumber.Name = "tbxCheckInCardNumber";
             this.tbxCheckInCardNumber.Size = new System.Drawing.Size(135, 29);
             this.tbxCheckInCardNumber.TabIndex = 27;
+            this.tbxCheckInCardNumber.TextChanged += new System.EventHandler(this.tbxCheckInCardNumber_TextChanged);
             this.tbxCheckInCardNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxCheckInCardNumber_KeyPress);
             // 
             // label15

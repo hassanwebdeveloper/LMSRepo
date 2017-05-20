@@ -14,6 +14,7 @@ namespace LocationManagementSystem
 {
     public partial class SearchForm : Form
     {
+        private bool mBack = false;
         int msgint_raw;
         int msgint_iscp;
         bool mScannerConnected = false;
@@ -28,17 +29,12 @@ namespace LocationManagementSystem
 
         public SearchForm(bool isPlant)
         {
-            //string LibraryVersion;
             mIsPlant = isPlant;
             InitializeComponent();
 
             msgint_raw = m_Isdc.RegisterWindowMessage("WM_RAW_DATA");
             msgint_iscp = m_Isdc.RegisterWindowMessage("WM_ISCP_FRAME");
-
-            ScannerInit();
-
-            //m_Error = m_Isdc.GetDllVersion(out LibraryVersion);
-
+            
             this.maskedTextBox1.Select();
             if (isPlant)
             {
@@ -131,20 +127,28 @@ namespace LocationManagementSystem
                 string barcodeSplit = arrBarcode[0];
                 barcodeSplit = barcodeSplit.Replace("\0" , string.Empty);
 
-                string nicNumber = barcodeSplit.Substring(12);
-
-                if (nicNumber.Length > 13)
+                if (barcodeSplit.Length >= 13)
                 {
-                    nicNumber = nicNumber.Substring(0, 13);
-                }
+                    string nicNumber = barcodeSplit.Substring(12);
 
-                if (nicNumber.Length >= 13)
+                    if (nicNumber.Length > 13)
+                    {
+                        nicNumber = nicNumber.Substring(0, 13);
+                    }
+
+                    if (nicNumber.Length >= 13)
+                    {
+                        nicNumber = nicNumber.Insert(5, "-");
+                        nicNumber = nicNumber.Insert(13, "-");
+
+                        SearchCardHolderCore(nicNumber, true);
+                    }
+                }
+                else
                 {
-                    nicNumber = nicNumber.Insert(5, "-");
-                    nicNumber = nicNumber.Insert(13, "-");
-
-                    SearchCardHolderCore(nicNumber, true);
+                    SearchCardHolderCore(barcodeSplit, false);
                 }
+                
             }
             else
             {
@@ -599,7 +603,10 @@ namespace LocationManagementSystem
 
         private void SearchForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form1.mMainForm.Close();
+            if (!this.mBack)
+            {
+                Form1.mMainForm.Close();
+            }
         }
 
         private void rbtCnicNumber_CheckedChanged(object sender, EventArgs e)
@@ -754,6 +761,8 @@ namespace LocationManagementSystem
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            ScannerInit();
+
             if (mScannerConnected == false)
             {
                 m_Error = m_Isdc.ConfigurationDialog();
@@ -794,6 +803,20 @@ namespace LocationManagementSystem
                 mScannerConnected = false;
                 this.btnConnect.Text = "Connect";
             }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.mBack = true;
+            LocationSelectorForm.mLocationSelectorForm.Show();
+            this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CheckCardStatusForm ccsf = new CheckCardStatusForm();
+
+            ccsf.ShowDialog(this);
         }
     }
 }

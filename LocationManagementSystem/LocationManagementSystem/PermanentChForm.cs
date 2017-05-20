@@ -233,6 +233,7 @@ namespace LocationManagementSystem
 
                 if (limitStatus == LimitStatus.LimitReached)
                 {
+                    blockedUser = true;
                     this.btnCheckIn.Enabled = false;
                     this.btnCheckOut.Enabled = false;
                     this.tbxBlockedBy.Text = "Admin";
@@ -258,6 +259,11 @@ namespace LocationManagementSystem
 
             if (blockedUser)
             {
+                this.tbxCheckInCardNumber.ReadOnly = true;
+                this.tbxCheckInVehicleNumber.ReadOnly = true;
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+
                 BlockedPersonNotificationForm blockedForm = null;
                 if (blockedPerson == null)
                 {
@@ -275,7 +281,21 @@ namespace LocationManagementSystem
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
-            CardHolderInfo cardHolderInfo = this.mCardHolderInfo;           
+            CardHolderInfo cardHolderInfo = this.mCardHolderInfo;
+
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber, this.tbxBlockedBy, this.tbxBlockedReason });
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(this, "Are you sure you want to block this person?", "Confirmation Dialog", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
 
             if (cardHolderInfo == null)
             {
@@ -341,6 +361,21 @@ namespace LocationManagementSystem
 
         private void btnUnBlock_Click(object sender, EventArgs e)
         {
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber, this.tbxUnBlockedBy, this.tbxUnblockReason });
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+
+
+            DialogResult result = MessageBox.Show(this, "Are you sure you want to unblock this person?", "Confirmation Dialog", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
             if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {                
                 BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
@@ -443,6 +478,7 @@ namespace LocationManagementSystem
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
+                checkedInInfo.FirstName = cardHolderInfo.FirstName;
                 checkedInInfo.CardHolderInfos = cardHolderInfo;
                 checkedInInfo.CNICNumber = this.mCNICNumber;
                 checkedInInfo.CardNumber = cardNumber;
@@ -537,6 +573,11 @@ namespace LocationManagementSystem
         private void tbxCheckInCardNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             EFERTDbUtility.AllowNumericOnly(e);
+        }
+
+        private void tbxCheckInCardNumber_TextChanged(object sender, EventArgs e)
+        {
+            EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxCheckInCardNumber });
         }
     }
 }

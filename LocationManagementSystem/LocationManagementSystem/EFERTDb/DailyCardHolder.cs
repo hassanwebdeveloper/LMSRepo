@@ -43,5 +43,7 @@ namespace LocationManagementSystem
         public string ClubType { get; set; }
 
         public string ConstractorInfo { get; set; }
+
+        public string AreaOfWork { get; set; }
     }
 }

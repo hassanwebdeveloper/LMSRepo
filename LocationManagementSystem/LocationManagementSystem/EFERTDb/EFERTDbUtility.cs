@@ -147,15 +147,23 @@ namespace LocationManagementSystem
 
             if (lstTextBoxes != null)
             {
-                List<TextBox> lstInvalidTextboxes = (from text in lstTextBoxes
+                List<string> lstInvalidTextboxes = (from text in lstTextBoxes
                  where text != null && string.IsNullOrEmpty(text.Text)
-                 select text).ToList();
+                 select text.Name).ToList();
 
                 validated = lstInvalidTextboxes.Count == 0;
 
-                foreach (TextBox textbox in lstInvalidTextboxes)
+                foreach (TextBox textbox in lstTextBoxes)
                 {
-                    textbox.BackColor = System.Drawing.Color.Yellow;
+                    if (lstInvalidTextboxes.Contains(textbox.Name))
+                    {
+                        textbox.BackColor = System.Drawing.Color.Yellow;
+                    }
+                    else
+                    {
+                        textbox.BackColor = System.Drawing.Color.White;
+                    }
+
                 }
             }
 

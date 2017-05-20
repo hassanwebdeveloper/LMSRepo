@@ -138,6 +138,9 @@ namespace LocationManagementSystem
 
             this.cbxVisitorType.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l=>l.Location).ToArray());
 
+            this.tbxFirstName.BackColor = Color.Yellow;
+            this.tbxCheckInCardNumber.BackColor = Color.Yellow;
+
             this.tbxCnicNumber.Text = cnicNumber;
             this.UpdateStatus(cnicNumber);
             
@@ -281,6 +284,7 @@ namespace LocationManagementSystem
 
                 if (limitStatus == LimitStatus.LimitReached)
                 {
+                    blockedUser = true;
                     this.btnCheckIn.Enabled = false;
                     this.btnCheckOut.Enabled = false;
                     this.tbxBlockedBy.Text = "Admin";
@@ -305,6 +309,11 @@ namespace LocationManagementSystem
 
             if (blockedUser)
             {
+                this.tbxCheckInCardNumber.ReadOnly = true;
+                this.tbxCheckInVehicleNumber.ReadOnly = true;
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+
                 BlockedPersonNotificationForm blockedForm = null;
                 if (blockedPerson == null)
                 {
@@ -324,15 +333,22 @@ namespace LocationManagementSystem
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber, this.tbxBlockedBy, this.tbxBlockedReason });
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(this, "Are you sure you want to block this person?", "Confirmation Dialog", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
             if (this.mVisitor == null)
             {
-                bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber });
-                if (!validtated)
-                {
-                    MessageBox.Show(this, "Please fill mandatory fields first.");
-                    return;
-                }
-
                 VisitorCardHolder visitor = new VisitorCardHolder();
 
                 visitor.CNICNumber = this.tbxCnicNumber.Text;
@@ -426,6 +442,20 @@ namespace LocationManagementSystem
 
         private void btnUnBlock_Click(object sender, EventArgs e)
         {
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCnicNumber, this.tbxUnBlockedBy, this.tbxUnblockReason });
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(this, "Are you sure you want to block this person?", "Confirmation Dialog", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
             if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {
                 BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
@@ -556,6 +586,7 @@ namespace LocationManagementSystem
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
+                checkedInInfo.FirstName = this.mVisitor.FirstName;
                 checkedInInfo.Visitors = this.mVisitor;
                 checkedInInfo.CNICNumber = this.mCNICNumber;
                 checkedInInfo.CardNumber = this.tbxCheckInCardNumber.Text;
@@ -676,6 +707,11 @@ namespace LocationManagementSystem
         private void tbxCheckInCardNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             EFERTDbUtility.AllowNumericOnly(e);
+        }
+
+        private void tbxFirstName_TextChanged(object sender, EventArgs e)
+        {
+            EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxCheckInCardNumber, this.tbxFirstName });
         }
     }
 }

@@ -30,6 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ContractorChForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbxAreaOfWork = new System.Windows.Forms.TextBox();
+            this.lblAreaOfWork = new System.Windows.Forms.Label();
+            this.cbxDesignation = new System.Windows.Forms.ComboBox();
+            this.cbxCadre = new System.Windows.Forms.ComboBox();
+            this.cbxCompanyName = new System.Windows.Forms.ComboBox();
+            this.cbxSection = new System.Windows.Forms.ComboBox();
+            this.cbxDepartment = new System.Windows.Forms.ComboBox();
             this.cbxClubType = new System.Windows.Forms.ComboBox();
             this.lblClubType = new System.Windows.Forms.Label();
             this.tbxLastName = new System.Windows.Forms.TextBox();
@@ -81,11 +88,6 @@
             this.btnWebCam = new System.Windows.Forms.Button();
             this.pbxSnapShot = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.cbxDepartment = new System.Windows.Forms.ComboBox();
-            this.cbxSection = new System.Windows.Forms.ComboBox();
-            this.cbxCompanyName = new System.Windows.Forms.ComboBox();
-            this.cbxCadre = new System.Windows.Forms.ComboBox();
-            this.cbxDesignation = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -95,6 +97,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.tbxAreaOfWork);
+            this.groupBox1.Controls.Add(this.lblAreaOfWork);
             this.groupBox1.Controls.Add(this.cbxDesignation);
             this.groupBox1.Controls.Add(this.cbxCadre);
             this.groupBox1.Controls.Add(this.cbxCompanyName);
@@ -127,15 +131,86 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Contractor Details";
             // 
+            // tbxAreaOfWork
+            // 
+            this.tbxAreaOfWork.BackColor = System.Drawing.Color.White;
+            this.tbxAreaOfWork.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxAreaOfWork.Location = new System.Drawing.Point(746, 200);
+            this.tbxAreaOfWork.Name = "tbxAreaOfWork";
+            this.tbxAreaOfWork.ReadOnly = true;
+            this.tbxAreaOfWork.Size = new System.Drawing.Size(381, 29);
+            this.tbxAreaOfWork.TabIndex = 74;
+            this.tbxAreaOfWork.Visible = false;
+            // 
+            // lblAreaOfWork
+            // 
+            this.lblAreaOfWork.AutoSize = true;
+            this.lblAreaOfWork.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAreaOfWork.Location = new System.Drawing.Point(617, 203);
+            this.lblAreaOfWork.Name = "lblAreaOfWork";
+            this.lblAreaOfWork.Size = new System.Drawing.Size(104, 21);
+            this.lblAreaOfWork.TabIndex = 75;
+            this.lblAreaOfWork.Text = "Area Of Work";
+            this.lblAreaOfWork.Visible = false;
+            // 
+            // cbxDesignation
+            // 
+            this.cbxDesignation.BackColor = System.Drawing.Color.White;
+            this.cbxDesignation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxDesignation.FormattingEnabled = true;
+            this.cbxDesignation.Location = new System.Drawing.Point(746, 95);
+            this.cbxDesignation.Name = "cbxDesignation";
+            this.cbxDesignation.Size = new System.Drawing.Size(381, 29);
+            this.cbxDesignation.TabIndex = 73;
+            // 
+            // cbxCadre
+            // 
+            this.cbxCadre.BackColor = System.Drawing.Color.White;
+            this.cbxCadre.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxCadre.FormattingEnabled = true;
+            this.cbxCadre.Location = new System.Drawing.Point(746, 25);
+            this.cbxCadre.Name = "cbxCadre";
+            this.cbxCadre.Size = new System.Drawing.Size(381, 29);
+            this.cbxCadre.TabIndex = 72;
+            // 
+            // cbxCompanyName
+            // 
+            this.cbxCompanyName.BackColor = System.Drawing.Color.White;
+            this.cbxCompanyName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxCompanyName.FormattingEnabled = true;
+            this.cbxCompanyName.Location = new System.Drawing.Point(746, 60);
+            this.cbxCompanyName.Name = "cbxCompanyName";
+            this.cbxCompanyName.Size = new System.Drawing.Size(381, 29);
+            this.cbxCompanyName.TabIndex = 71;
+            // 
+            // cbxSection
+            // 
+            this.cbxSection.BackColor = System.Drawing.Color.White;
+            this.cbxSection.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxSection.FormattingEnabled = true;
+            this.cbxSection.Location = new System.Drawing.Point(201, 203);
+            this.cbxSection.Name = "cbxSection";
+            this.cbxSection.Size = new System.Drawing.Size(381, 29);
+            this.cbxSection.TabIndex = 70;
+            // 
+            // cbxDepartment
+            // 
+            this.cbxDepartment.BackColor = System.Drawing.Color.White;
+            this.cbxDepartment.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxDepartment.FormattingEnabled = true;
+            this.cbxDepartment.Location = new System.Drawing.Point(201, 130);
+            this.cbxDepartment.Name = "cbxDepartment";
+            this.cbxDepartment.Size = new System.Drawing.Size(381, 29);
+            this.cbxDepartment.TabIndex = 69;
+            // 
             // cbxClubType
             // 
             this.cbxClubType.BackColor = System.Drawing.Color.White;
             this.cbxClubType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxClubType.FormattingEnabled = true;
             this.cbxClubType.Items.AddRange(new object[] {
-            "Model School",
-            "Grammer School",
-            "Engro College"});
+            "Employees Club",
+            "Managment Club"});
             this.cbxClubType.Location = new System.Drawing.Point(746, 200);
             this.cbxClubType.Name = "cbxClubType";
             this.cbxClubType.Size = new System.Drawing.Size(381, 29);
@@ -292,6 +367,7 @@
             this.tbxFirstName.ReadOnly = true;
             this.tbxFirstName.Size = new System.Drawing.Size(381, 29);
             this.tbxFirstName.TabIndex = 2;
+            this.tbxFirstName.TextChanged += new System.EventHandler(this.tbxFirstName_TextChanged);
             // 
             // label2
             // 
@@ -613,6 +689,7 @@
             this.tbxCheckInCardNumber.Name = "tbxCheckInCardNumber";
             this.tbxCheckInCardNumber.Size = new System.Drawing.Size(118, 29);
             this.tbxCheckInCardNumber.TabIndex = 12;
+            this.tbxCheckInCardNumber.TextChanged += new System.EventHandler(this.tbxCheckInCardNumber_TextChanged);
             this.tbxCheckInCardNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxCheckInCardNumber_KeyPress);
             // 
             // label15
@@ -677,81 +754,6 @@
             this.openFileDialog1.Filter = "Jpeg Files|*.jpg|Jpg Files|*.jpg|Png Files|*.png";
             this.openFileDialog1.Title = "Please select a file";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
-            // cbxDepartment
-            // 
-            this.cbxDepartment.BackColor = System.Drawing.Color.White;
-            this.cbxDepartment.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxDepartment.FormattingEnabled = true;
-            this.cbxDepartment.Items.AddRange(new object[] {
-            "Model School",
-            "Grammer School",
-            "Engro College"});
-            this.cbxDepartment.Location = new System.Drawing.Point(201, 130);
-            this.cbxDepartment.Name = "cbxDepartment";
-            this.cbxDepartment.Size = new System.Drawing.Size(381, 29);
-            this.cbxDepartment.TabIndex = 69;
-            this.cbxDepartment.Visible = false;
-            // 
-            // cbxSection
-            // 
-            this.cbxSection.BackColor = System.Drawing.Color.White;
-            this.cbxSection.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxSection.FormattingEnabled = true;
-            this.cbxSection.Items.AddRange(new object[] {
-            "Model School",
-            "Grammer School",
-            "Engro College"});
-            this.cbxSection.Location = new System.Drawing.Point(201, 203);
-            this.cbxSection.Name = "cbxSection";
-            this.cbxSection.Size = new System.Drawing.Size(381, 29);
-            this.cbxSection.TabIndex = 70;
-            this.cbxSection.Visible = false;
-            // 
-            // cbxCompanyName
-            // 
-            this.cbxCompanyName.BackColor = System.Drawing.Color.White;
-            this.cbxCompanyName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxCompanyName.FormattingEnabled = true;
-            this.cbxCompanyName.Items.AddRange(new object[] {
-            "Model School",
-            "Grammer School",
-            "Engro College"});
-            this.cbxCompanyName.Location = new System.Drawing.Point(746, 60);
-            this.cbxCompanyName.Name = "cbxCompanyName";
-            this.cbxCompanyName.Size = new System.Drawing.Size(381, 29);
-            this.cbxCompanyName.TabIndex = 71;
-            this.cbxCompanyName.Visible = false;
-            // 
-            // cbxCadre
-            // 
-            this.cbxCadre.BackColor = System.Drawing.Color.White;
-            this.cbxCadre.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxCadre.FormattingEnabled = true;
-            this.cbxCadre.Items.AddRange(new object[] {
-            "Model School",
-            "Grammer School",
-            "Engro College"});
-            this.cbxCadre.Location = new System.Drawing.Point(746, 25);
-            this.cbxCadre.Name = "cbxCadre";
-            this.cbxCadre.Size = new System.Drawing.Size(381, 29);
-            this.cbxCadre.TabIndex = 72;
-            this.cbxCadre.Visible = false;
-            // 
-            // cbxDesignation
-            // 
-            this.cbxDesignation.BackColor = System.Drawing.Color.White;
-            this.cbxDesignation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxDesignation.FormattingEnabled = true;
-            this.cbxDesignation.Items.AddRange(new object[] {
-            "Model School",
-            "Grammer School",
-            "Engro College"});
-            this.cbxDesignation.Location = new System.Drawing.Point(746, 95);
-            this.cbxDesignation.Name = "cbxDesignation";
-            this.cbxDesignation.Size = new System.Drawing.Size(381, 29);
-            this.cbxDesignation.TabIndex = 73;
-            this.cbxDesignation.Visible = false;
             // 
             // ContractorChForm
             // 
@@ -838,5 +840,7 @@
         private System.Windows.Forms.ComboBox cbxCompanyName;
         private System.Windows.Forms.ComboBox cbxCadre;
         private System.Windows.Forms.ComboBox cbxDesignation;
+        private System.Windows.Forms.TextBox tbxAreaOfWork;
+        private System.Windows.Forms.Label lblAreaOfWork;
     }
 }

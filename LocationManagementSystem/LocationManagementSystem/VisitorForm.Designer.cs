@@ -412,6 +412,7 @@
             this.tbxFirstName.Name = "tbxFirstName";
             this.tbxFirstName.Size = new System.Drawing.Size(325, 29);
             this.tbxFirstName.TabIndex = 4;
+            this.tbxFirstName.TextChanged += new System.EventHandler(this.tbxFirstName_TextChanged);
             // 
             // label2
             // 
@@ -723,6 +724,7 @@
             this.tbxCheckInCardNumber.Name = "tbxCheckInCardNumber";
             this.tbxCheckInCardNumber.Size = new System.Drawing.Size(156, 29);
             this.tbxCheckInCardNumber.TabIndex = 17;
+            this.tbxCheckInCardNumber.TextChanged += new System.EventHandler(this.tbxFirstName_TextChanged);
             this.tbxCheckInCardNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxCheckInCardNumber_KeyPress);
             // 
             // label15

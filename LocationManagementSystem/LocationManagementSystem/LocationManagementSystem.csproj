@@ -63,6 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm.Designer.cs">
+      <DependentUpon>AdminForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BlockedPersonNotificationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -436,6 +442,12 @@
     <Compile Include="CCFTCentralDb\WorkstationRoutingLinkedItem.cs" />
     <Compile Include="CCFTCentralDb\WorkstationRoutingOperatorClub.cs" />
     <Compile Include="CCFTCentralDb\WorkstationRoutingWorkstation.cs" />
+    <Compile Include="CheckCardStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckCardStatusForm.Designer.cs">
+      <DependentUpon>CheckCardStatusForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\WebCam.cs" />
     <Compile Include="EFERTDb\BlockedPersonInfo.cs" />
     <Compile Include="EFERTDb\CheckInAndOutInfo.cs" />
@@ -511,6 +523,30 @@
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateCompanyNameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateCompanyNameForm.Designer.cs">
+      <DependentUpon>UpdateCompanyNameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateCadreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateCadreForm.Designer.cs">
+      <DependentUpon>UpdateCadreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateDesignationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateDesignationForm.Designer.cs">
+      <DependentUpon>UpdateDesignationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateSectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateSectionForm.Designer.cs">
+      <DependentUpon>UpdateSectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateDepartmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -529,8 +565,14 @@
     <Compile Include="VisitorForm.Designer.cs">
       <DependentUpon>VisitorForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdminForm.resx">
+      <DependentUpon>AdminForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BlockedPersonNotificationForm.resx">
       <DependentUpon>BlockedPersonNotificationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckCardStatusForm.resx">
+      <DependentUpon>CheckCardStatusForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ContractorChForm.resx">
       <DependentUpon>ContractorChForm.cs</DependentUpon>
@@ -568,6 +610,18 @@
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UpdateCompanyNameForm.resx">
+      <DependentUpon>UpdateCompanyNameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateCadreForm.resx">
+      <DependentUpon>UpdateCadreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateDesignationForm.resx">
+      <DependentUpon>UpdateDesignationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateSectionForm.resx">
+      <DependentUpon>UpdateSectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateDepartmentForm.resx">
       <DependentUpon>UpdateDepartmentForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -578,6 +632,12 @@
       <DependentUpon>VisitorForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\CadreInfo.datasource" />
+    <None Include="Properties\DataSources\CheckInAndOutInfo.datasource" />
+    <None Include="Properties\DataSources\CompanyInfo.datasource" />
+    <None Include="Properties\DataSources\DepartmentInfo.datasource" />
+    <None Include="Properties\DataSources\DesignationInfo.datasource" />
+    <None Include="Properties\DataSources\SectionInfo.datasource" />
     <None Include="Properties\DataSources\VisitingLocations.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

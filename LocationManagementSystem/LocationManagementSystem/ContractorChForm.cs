@@ -145,6 +145,7 @@ namespace LocationManagementSystem
             {
                 this.mIsDailyCardHolder = true;
                 this.mDailyCardHolder = dailyCardHolder;
+                this.mContractorInfo = dailyCardHolder.ConstractorInfo;
                 this.tbxFirstName.Text = dailyCardHolder.FirstName;
                 this.cbxCompanyName.SelectedItem = dailyCardHolder.CompanyName;
                 this.cbxCadre.SelectedItem = dailyCardHolder.Cadre;
@@ -166,7 +167,7 @@ namespace LocationManagementSystem
                 this.tbxFirstName.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.cbxCompanyName.Enabled = false;
                 this.tbxCNICNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
-                //this.cbxSection.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.cbxSection.Enabled = false;
                 this.cbxCadre.Enabled = false;
                 this.cbxDepartment.Enabled = false;
                 this.cbxDesignation.Enabled = false;
@@ -182,6 +183,16 @@ namespace LocationManagementSystem
                     this.Text = "Casual 3P Form";
                     this.groupBox1.Text = "Casual 3P Details";
 
+                    this.lblAreaOfWork.Visible = true;
+                    this.tbxAreaOfWork.Visible = true;
+
+                    this.tbxAreaOfWork.Text = dailyCardHolder.AreaOfWork;
+                    this.tbxAreaOfWork.ReadOnly = true;
+                    this.tbxAreaOfWork.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                    this.cbxCompanyName.Enabled = true;
+                    this.tbxWONumber.ReadOnly = false;
+                    this.tbxWONumber.BackColor = System.Drawing.Color.White;
                 }
                 else if (this.mContractorInfo == "Market Staff")
                 {
@@ -241,6 +252,16 @@ namespace LocationManagementSystem
                 this.cbxClubType.Visible = false;
             }
 
+            if (this.mContractorInfo == "Casual 3P")
+            {
+                this.lblAreaOfWork.Visible = true;
+                this.tbxAreaOfWork.Visible = true;
+
+
+                this.tbxAreaOfWork.ReadOnly = false;
+                this.tbxAreaOfWork.BackColor = System.Drawing.Color.White;
+            }
+
             this.tbxFirstName.ReadOnly = false;
             this.cbxCompanyName.Enabled = true;
             this.cbxCadre.Enabled = true;
@@ -251,7 +272,8 @@ namespace LocationManagementSystem
             this.tbxWONumber.ReadOnly = false;
             this.tbxLastName.ReadOnly = false;
 
-            this.tbxFirstName.BackColor = System.Drawing.Color.White;
+            this.tbxFirstName.BackColor = System.Drawing.Color.Yellow;
+            this.tbxCheckInCardNumber.BackColor = System.Drawing.Color.Yellow;
             //this.cbxCompanyName.BackColor = System.Drawing.Color.White;
             //this.cbxCadre.BackColor = System.Drawing.Color.White;
             //this.cbxDepartment.BackColor = System.Drawing.Color.White;
@@ -465,6 +487,13 @@ namespace LocationManagementSystem
                 this.tbxCheckInVehicleNumber.ReadOnly = true;
                 this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                if (this.mContractorInfo == "Casual 3P")
+                {
+                    this.cbxCompanyName.Enabled = false;
+                    this.tbxWONumber.ReadOnly = true;
+                    this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                }
             }
             else
             {
@@ -486,6 +515,7 @@ namespace LocationManagementSystem
 
                     this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
                     this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+                    
                 }
                 else
                 {
@@ -498,6 +528,17 @@ namespace LocationManagementSystem
 
             if (blockedUser)
             {
+                if (this.mContractorInfo == "Casual 3P")
+                {
+                    this.cbxCompanyName.Enabled = false;
+                    this.tbxWONumber.ReadOnly = true;
+                    this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                }
+                this.tbxCheckInCardNumber.ReadOnly = true;
+                this.tbxCheckInVehicleNumber.ReadOnly = true;
+                this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+
                 BlockedPersonNotificationForm blockedForm = null;
                 if (blockedPerson == null)
                 {
@@ -519,14 +560,23 @@ namespace LocationManagementSystem
         {
             CardHolderInfo cardHolderInfo = this.mCardHolderInfo;
 
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber, this.tbxBlockedBy, this.tbxBlockedReason });
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+
+            DialogResult result =  MessageBox.Show(this, "Are you sure you want to block this person?", "Confirmation Dialog", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            
             if (this.mContractorCardHolder == null && this.mDailyCardHolder == null)
             {
-                bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber });
-                if (!validtated)
-                {
-                    MessageBox.Show(this, "Please fill mandatory fields first.");
-                    return;
-                }
+                
                 if (this.mIsDailyCardHolder)
                 {
                     DailyCardHolder dailyCardHolder = new DailyCardHolder()
@@ -553,8 +603,13 @@ namespace LocationManagementSystem
                         dailyCardHolder.ClubType = this.cbxClubType.SelectedItem == null ? string.Empty : this.cbxClubType.SelectedItem as String;
                     }
 
+                    if (this.mContractorInfo == "Casual 3P")
+                    {
+                        dailyCardHolder.AreaOfWork = this.tbxAreaOfWork.Text;
+                    }                                      
+
                     EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
-                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                    //EFERTDbUtility.mEFERTDb.SaveChanges();
 
                     this.mDailyCardHolder = dailyCardHolder;
 
@@ -575,12 +630,25 @@ namespace LocationManagementSystem
                     }
 
                     EFERTDbUtility.mEFERTDb.CardHolders.Add(cardHolderInfo);
-                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                    //EFERTDbUtility.mEFERTDb.SaveChanges();
 
                     this.mCardHolderInfo = cardHolderInfo;
 
                 }
 
+            }
+            else
+            {
+                if (this.mContractorInfo == "Casual 3P")
+                {
+                    if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                    {
+                        this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                        this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+
+                        EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                    }
+                }
             }
 
             BlockedPersonInfo blockedPerson = new BlockedPersonInfo()
@@ -658,12 +726,29 @@ namespace LocationManagementSystem
             this.tbxUnBlockedBy.ReadOnly = false;
             this.tbxUnblockReason.ReadOnly = false;
 
+            this.tbxUnBlockedBy.Text = string.Empty;
+            this.tbxUnblockReason.Text = string.Empty;
+
             this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
             this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)
         {
+            bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber, this.tbxUnBlockedBy, this.tbxUnblockReason });
+            if (!validtated)
+            {
+                MessageBox.Show(this, "Please fill mandatory fields first.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(this, "Are you sure you want to unblock this person?", "Confirmation Dialog", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
             if (this.mBlocks.Exists(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber))
             {
                 BlockedPersonInfo blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
@@ -794,6 +879,11 @@ namespace LocationManagementSystem
                             dailyCardHolder.ClubType = this.cbxClubType.SelectedItem == null ? string.Empty : this.cbxClubType.SelectedItem as String;
                         }
 
+                        if (this.mContractorInfo == "Casual 3P")
+                        {
+                            dailyCardHolder.AreaOfWork = this.tbxAreaOfWork.Text;
+                        }
+
                         EFERTDbUtility.mEFERTDb.DailyCardHolders.Add(dailyCardHolder);
                         //EFERTDbUtility.mEFERTDb.SaveChanges();
 
@@ -821,7 +911,20 @@ namespace LocationManagementSystem
                         this.mCardHolderInfo = cardHolderInfo;
                         
                     }
-                    
+
+                }
+                else
+                {
+                    if (this.mContractorInfo == "Casual 3P")
+                    {
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        {
+                            this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                            this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+
+                            EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                        }
+                    }
                 }
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
@@ -829,6 +932,7 @@ namespace LocationManagementSystem
                 if (this.mIsDailyCardHolder)
                 {
                     checkedInInfo.DailyCardHolders = this.mDailyCardHolder;
+                    checkedInInfo.FirstName = this.mDailyCardHolder.FirstName;
                 }
                 else
                 {
@@ -840,6 +944,7 @@ namespace LocationManagementSystem
                     else
                     {
                         checkedInInfo.CardHolderInfos = cardHolderInfo;
+                        checkedInInfo.FirstName = cardHolderInfo.FirstName;
                     }
                     
 
@@ -960,7 +1065,17 @@ namespace LocationManagementSystem
 
         private void tbxCheckInCardNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
-            EFERTDbUtility.AllowNumericOnly(e);
+            EFERTDbUtility.AllowNumericOnly(e); 
+        }
+
+        private void tbxCheckInCardNumber_TextChanged(object sender, EventArgs e)
+        {
+            EFERTDbUtility.ValidateInputs(new List<TextBox> { this.tbxCheckInCardNumber });
+        }
+
+        private void tbxFirstName_TextChanged(object sender, EventArgs e)
+        {
+            EFERTDbUtility.ValidateInputs(new List<TextBox> { this.tbxFirstName });
         }
     }
 }

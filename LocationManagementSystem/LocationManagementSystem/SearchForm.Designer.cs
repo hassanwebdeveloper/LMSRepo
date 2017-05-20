@@ -36,22 +36,23 @@
             this.rbtCardNumber = new System.Windows.Forms.RadioButton();
             this.rbtCnicNumber = new System.Windows.Forms.RadioButton();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.lblLocation = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.lblLocation = new System.Windows.Forms.Label();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Controls.Add(this.maskedTextBox1);
             this.groupBox1.Controls.Add(this.rbtCardNumber);
             this.groupBox1.Controls.Add(this.rbtCnicNumber);
             this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 39);
+            this.groupBox1.Location = new System.Drawing.Point(12, 65);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(285, 165);
+            this.groupBox1.Size = new System.Drawing.Size(285, 195);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search Card Holder";
@@ -95,7 +96,7 @@
             // btnSearch
             // 
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(179, 112);
+            this.btnSearch.Location = new System.Drawing.Point(179, 142);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(100, 47);
             this.btnSearch.TabIndex = 1;
@@ -103,34 +104,62 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnConnect.Location = new System.Drawing.Point(69, 266);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(100, 47);
+            this.btnConnect.TabIndex = 6;
+            this.btnConnect.Text = "Connect Barcode";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lblLocation.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.lblLocation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLocation.Location = new System.Drawing.Point(18, 9);
+            this.lblLocation.Font = new System.Drawing.Font("Segoe UI", 24F);
+            this.lblLocation.Location = new System.Drawing.Point(165, 12);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(72, 27);
+            this.lblLocation.Size = new System.Drawing.Size(107, 47);
             this.lblLocation.TabIndex = 2;
             this.lblLocation.Text = "label1";
             // 
-            // btnConnect
+            // btnBack
             // 
-            this.btnConnect.Location = new System.Drawing.Point(98, 127);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 32);
-            this.btnConnect.TabIndex = 6;
-            this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.btnBack.BackColor = System.Drawing.Color.Transparent;
+            this.btnBack.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnBack.BackgroundImage")));
+            this.btnBack.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnBack.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBack.Location = new System.Drawing.Point(18, 10);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(50, 49);
+            this.btnBack.TabIndex = 7;
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.button1.Location = new System.Drawing.Point(175, 266);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(116, 47);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Check Cards Status";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // SearchForm
             // 
             this.AcceptButton = this.btnSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 216);
+            this.ClientSize = new System.Drawing.Size(305, 321);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnConnect);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.lblLocation);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -155,5 +184,7 @@
         private System.Windows.Forms.RadioButton rbtCardNumber;
         private System.Windows.Forms.RadioButton rbtCnicNumber;
         private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Button button1;
     }
 }

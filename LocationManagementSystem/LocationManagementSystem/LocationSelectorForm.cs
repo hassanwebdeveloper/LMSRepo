@@ -12,11 +12,15 @@ namespace LocationManagementSystem
 {
     public partial class LocationSelectorForm : Form
     {
+        public static LocationSelectorForm mLocationSelectorForm = null;
+
         public LocationSelectorForm()
         {
             InitializeComponent();
 
-            this.linkLabel1.Visible = Form1.mLoggedInUser.IsAdmin;
+            mLocationSelectorForm = this;
+
+            this.btnAdminPanel.Visible = Form1.mLoggedInUser.IsAdmin;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,14 +43,26 @@ namespace LocationManagementSystem
 
         private void LocationSelectorForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form1.mMainForm.Close();
+            if (!Form1.mMainForm.Visible)
+            {
+                Form1.mMainForm.Close();
+            }
+            
+        }
+        
+
+        private void btnAdminPanel_Click(object sender, EventArgs e)
+        {
+            AdminForm adminForm = new AdminForm();
+
+            adminForm.ShowDialog(this);
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void btnSignOut_Click(object sender, EventArgs e)
         {
-            UpdateLocationsForm updateLocationsForms = new UpdateLocationsForm();
-
-            updateLocationsForms.ShowDialog(this);
+            Form1.mLoggedInUser = null;
+            Form1.mMainForm.Show();
+            this.Close();
         }
     }
 }

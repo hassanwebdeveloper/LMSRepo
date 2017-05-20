@@ -15,6 +15,8 @@ namespace LocationManagementSystem
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CheckInInfoId { get; set; }
 
+        public string FirstName { get; set; }
+
         public string CNICNumber { get; set; }
 
         public string CardNumber { get; set; }
