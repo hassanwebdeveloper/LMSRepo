@@ -35,6 +35,7 @@
             this.tbxUserName = new System.Windows.Forms.TextBox();
             this.tbxPassword = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,6 +95,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblVersion);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbxPassword);
             this.groupBox1.Controls.Add(this.btnSearch);
@@ -108,6 +110,15 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Enter Credentials";
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(7, 147);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(62, 21);
+            this.lblVersion.TabIndex = 7;
+            this.lblVersion.Text = "Version";
             // 
             // Form1
             // 
@@ -137,6 +148,7 @@
         private System.Windows.Forms.TextBox tbxUserName;
         private System.Windows.Forms.TextBox tbxPassword;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
 

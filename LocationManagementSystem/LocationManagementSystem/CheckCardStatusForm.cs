@@ -40,7 +40,7 @@ namespace LocationManagementSystem
             List<CheckInAndOutInfo> lstCheckIns =  (from checkIn in EFERTDbUtility.mEFERTDb.CheckedInInfos
                                                      where checkIn != null && 
                                                            checkIn.CheckedIn && 
-                                                           (checkIn.DateTimeIn >= fromDate || checkIn.DateTimeIn <= toDate)
+                                                           (checkIn.DateTimeIn >= fromDate && checkIn.DateTimeIn <= toDate)
                                                      select checkIn).ToList();
 
 

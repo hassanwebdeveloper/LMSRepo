@@ -314,14 +314,8 @@ namespace LocationManagementSystem
                 CardHolderInfos = cardHolderInfo
             };
 
-            if (SearchForm.mIsPlant)
-            {
-                blockedPerson.BlockedInPlant = true;
-            }
-            else
-            {
-                blockedPerson.BlockedInColony = true;
-            }
+            blockedPerson.BlockedInPlant = SearchForm.mIsPlant;
+            blockedPerson.BlockedInColony = !SearchForm.mIsPlant;
 
             try
             {
@@ -478,6 +472,8 @@ namespace LocationManagementSystem
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
+                checkedInInfo.CheckInToPlant = SearchForm.mIsPlant;
+                checkedInInfo.CheckInToPlant = !SearchForm.mIsPlant;
                 checkedInInfo.FirstName = cardHolderInfo.FirstName;
                 checkedInInfo.CardHolderInfos = cardHolderInfo;
                 checkedInInfo.CNICNumber = this.mCNICNumber;

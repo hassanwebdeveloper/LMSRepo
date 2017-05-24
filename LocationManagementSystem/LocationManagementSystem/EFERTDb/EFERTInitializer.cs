@@ -307,6 +307,51 @@ namespace LocationManagementSystem
                 DepartmentName = "I&E"
             });
 
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "MAINTENANCE"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "MARKETING"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "MECHANICAL ENGINGEERING"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "MEDICAL"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "PLANT MANAGEMENT"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "PROCESS ENGINEERING"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "PRODUCTION"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "P&MM"
+            });
+
+            context.Departments.Add(new DepartmentInfo()
+            {
+                DepartmentName = "OTHERS"
+            });
+
             #endregion
 
             #region Sections
@@ -318,12 +363,112 @@ namespace LocationManagementSystem
 
             context.Sections.Add(new SectionInfo()
             {
+                SectionName = "ACCOUNTS"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "AUDITS"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "HOUSING"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "P&IR"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "SECURITY"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "MECHANICAL ENGINEERING"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "INSPECTION"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "MTS"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "PROJECTS"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
                 SectionName = "HSE&T"
             });
 
             context.Sections.Add(new SectionInfo()
             {
+                SectionName = "ENVIRONMENT"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "SAFETY"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "MARKETING"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "DISTRIBUTION"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "SALES"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "PROCESS ENGINEERING"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "LABORATORY"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "PROCESS"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
                 SectionName = "I&E"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "ELECTRICAL"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "INSTRUMENT"
+            });
+
+            context.Sections.Add(new SectionInfo()
+            {
+                SectionName = "SYSTEM"
             });
 
             #endregion
@@ -332,17 +477,57 @@ namespace LocationManagementSystem
 
             context.Companies.Add(new CompanyInfo()
             {
-                CompanyName = "ADMINISTRATION"
+                CompanyName = "A KAREEM & SONS"
             });
 
             context.Companies.Add(new CompanyInfo()
             {
-                CompanyName = "HSE&T"
+                CompanyName = "A HAMEED & COMPANY"
             });
 
             context.Companies.Add(new CompanyInfo()
             {
-                CompanyName = "I&E"
+                CompanyName = "ABDUL GHAFOOR & SONS"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "ABDUL MAJEED & SONS"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AFZAL & COMPANY"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AHMED & COMPANY"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AL FUKRA TRADERS"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AL AZAAN ENGINEERING"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AL MUNIR FABRICATION"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AL MUSTAFA & COMPANY"
+            });
+
+            context.Companies.Add(new CompanyInfo()
+            {
+                CompanyName = "AL RAZA FURNITURE"
             });
 
             #endregion
@@ -351,17 +536,67 @@ namespace LocationManagementSystem
 
             context.Designations.Add(new DesignationInfo()
             {
-                Designation = "ADMINISTRATION"
+                Designation = "TWM"
             });
 
             context.Designations.Add(new DesignationInfo()
             {
-                Designation = "HSE&T"
+                Designation = "USL"
             });
 
             context.Designations.Add(new DesignationInfo()
             {
-                Designation = "I&E"
+                Designation = "SWEEPER"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "WAITER"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "DRIVER"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "COMPUTER OPERATER"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "MESSENGER"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "TECHNICIAN"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "ELECTRICAL TECHNICIAN"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "INSTRUMENT TECHNICIAN"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "OFFICE  ASSISTANT"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "GARDNER"
+            });
+
+            context.Designations.Add(new DesignationInfo()
+            {
+                Designation = "AC TECHNICIAN"
             });
 
             #endregion
@@ -370,19 +605,44 @@ namespace LocationManagementSystem
 
             context.Cadres.Add(new CadreInfo()
             {
-                CadreName = "ADMINISTRATION"
+                CadreName = "MPT"
             });
 
             context.Cadres.Add(new CadreInfo()
             {
-                CadreName = "HSE&T"
+                CadreName = "NMPT"
             });
 
             context.Cadres.Add(new CadreInfo()
             {
-                CadreName = "I&E"
+                CadreName = "GTE"
             });
 
+            context.Cadres.Add(new CadreInfo()
+            {
+                CadreName = "TAP"
+            });
+
+            context.Cadres.Add(new CadreInfo()
+            {
+                CadreName = "WORK ORDER"
+            });
+
+            context.Cadres.Add(new CadreInfo()
+            {
+                CadreName = "EC"
+            });
+
+            context.Cadres.Add(new CadreInfo()
+            {
+                CadreName = "CONTRACTOR"
+            });
+
+            context.Cadres.Add(new CadreInfo()
+            {
+                CadreName = "SUPERVISOR"
+            });
+            
             #endregion
 
             base.Seed(context);

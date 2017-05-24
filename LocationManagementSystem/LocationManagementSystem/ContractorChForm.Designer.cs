@@ -626,10 +626,10 @@
             // 
             this.tbxCheckInDateTimeOut.BackColor = System.Drawing.Color.White;
             this.tbxCheckInDateTimeOut.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInDateTimeOut.Location = new System.Drawing.Point(118, 99);
+            this.tbxCheckInDateTimeOut.Location = new System.Drawing.Point(143, 96);
             this.tbxCheckInDateTimeOut.Name = "tbxCheckInDateTimeOut";
             this.tbxCheckInDateTimeOut.ReadOnly = true;
-            this.tbxCheckInDateTimeOut.Size = new System.Drawing.Size(179, 29);
+            this.tbxCheckInDateTimeOut.Size = new System.Drawing.Size(336, 29);
             this.tbxCheckInDateTimeOut.TabIndex = 33;
             // 
             // label18
@@ -638,18 +638,18 @@
             this.label18.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.Location = new System.Drawing.Point(7, 102);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(110, 21);
+            this.label18.Size = new System.Drawing.Size(130, 21);
             this.label18.TabIndex = 32;
-            this.label18.Text = "Date Time Out";
+            this.label18.Text = "Card Return Date";
             // 
             // tbxCheckInDateTimeIn
             // 
             this.tbxCheckInDateTimeIn.BackColor = System.Drawing.Color.White;
             this.tbxCheckInDateTimeIn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInDateTimeIn.Location = new System.Drawing.Point(118, 64);
+            this.tbxCheckInDateTimeIn.Location = new System.Drawing.Point(143, 64);
             this.tbxCheckInDateTimeIn.Name = "tbxCheckInDateTimeIn";
             this.tbxCheckInDateTimeIn.ReadOnly = true;
-            this.tbxCheckInDateTimeIn.Size = new System.Drawing.Size(179, 29);
+            this.tbxCheckInDateTimeIn.Size = new System.Drawing.Size(336, 29);
             this.tbxCheckInDateTimeIn.TabIndex = 31;
             // 
             // label17
@@ -658,24 +658,24 @@
             this.label17.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(7, 67);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(97, 21);
+            this.label17.Size = new System.Drawing.Size(118, 21);
             this.label17.TabIndex = 30;
-            this.label17.Text = "Date Time In";
+            this.label17.Text = "Card Issue Date";
             // 
             // tbxCheckInVehicleNumber
             // 
             this.tbxCheckInVehicleNumber.BackColor = System.Drawing.Color.White;
             this.tbxCheckInVehicleNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInVehicleNumber.Location = new System.Drawing.Point(369, 29);
+            this.tbxCheckInVehicleNumber.Location = new System.Drawing.Point(143, 131);
             this.tbxCheckInVehicleNumber.Name = "tbxCheckInVehicleNumber";
-            this.tbxCheckInVehicleNumber.Size = new System.Drawing.Size(117, 29);
+            this.tbxCheckInVehicleNumber.Size = new System.Drawing.Size(336, 29);
             this.tbxCheckInVehicleNumber.TabIndex = 13;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(242, 32);
+            this.label16.Location = new System.Drawing.Point(7, 134);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(121, 21);
             this.label16.TabIndex = 28;
@@ -685,9 +685,9 @@
             // 
             this.tbxCheckInCardNumber.BackColor = System.Drawing.Color.White;
             this.tbxCheckInCardNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInCardNumber.Location = new System.Drawing.Point(118, 29);
+            this.tbxCheckInCardNumber.Location = new System.Drawing.Point(143, 29);
             this.tbxCheckInCardNumber.Name = "tbxCheckInCardNumber";
-            this.tbxCheckInCardNumber.Size = new System.Drawing.Size(118, 29);
+            this.tbxCheckInCardNumber.Size = new System.Drawing.Size(336, 29);
             this.tbxCheckInCardNumber.TabIndex = 12;
             this.tbxCheckInCardNumber.TextChanged += new System.EventHandler(this.tbxCheckInCardNumber_TextChanged);
             this.tbxCheckInCardNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxCheckInCardNumber_KeyPress);

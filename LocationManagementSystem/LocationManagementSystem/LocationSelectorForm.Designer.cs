@@ -61,9 +61,9 @@
             // 
             // btnAdminPanel
             // 
-            this.btnAdminPanel.BackColor = System.Drawing.Color.Blue;
+            this.btnAdminPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnAdminPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdminPanel.ForeColor = System.Drawing.Color.White;
+            this.btnAdminPanel.ForeColor = System.Drawing.Color.Black;
             this.btnAdminPanel.Location = new System.Drawing.Point(243, 14);
             this.btnAdminPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAdminPanel.Name = "btnAdminPanel";
@@ -75,9 +75,9 @@
             // 
             // btnSignOut
             // 
-            this.btnSignOut.BackColor = System.Drawing.Color.Red;
+            this.btnSignOut.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSignOut.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnSignOut.ForeColor = System.Drawing.Color.White;
+            this.btnSignOut.ForeColor = System.Drawing.Color.Black;
             this.btnSignOut.Location = new System.Drawing.Point(39, 14);
             this.btnSignOut.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSignOut.Name = "btnSignOut";

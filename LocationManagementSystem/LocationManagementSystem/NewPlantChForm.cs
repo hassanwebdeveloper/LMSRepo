@@ -31,21 +31,21 @@ namespace LocationManagementSystem
 
         private void btnContractor_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Contractor");
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Contractor", true);
 
             cch.ShowDialog(this);
         }
 
         private void btnWoStaff_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "WO Staff",title:"Work Order Staff Form", gpTitle:"WO Staff Details");
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "WO Staff", true, title:"Work Order Staff Form", gpTitle:"WO Staff Details");
 
             cch.ShowDialog(this);
         }
 
         private void btnPallaydar_Click(object sender, EventArgs e)
         {
-            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Pallaydar",title: "Pallaydar Form", gpTitle: "Pallaydar Details");
+            ContractorChForm cch = new ContractorChForm(this.mCNICNumber, "Pallaydar", true, title: "Pallaydar Form", gpTitle: "Pallaydar Details");
 
             cch.ShowDialog(this);
         }

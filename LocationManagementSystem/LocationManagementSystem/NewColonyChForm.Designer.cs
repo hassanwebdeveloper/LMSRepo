@@ -145,7 +145,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewColonyChForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NewColonyChForm";
+            this.Text = "New Colony Cardholder Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 

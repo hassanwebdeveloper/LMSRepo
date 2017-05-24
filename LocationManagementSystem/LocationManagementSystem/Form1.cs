@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +18,7 @@ namespace LocationManagementSystem
         public static AppUser mLoggedInUser = null;
 
         private List<AppUser> mUsers = new List<AppUser>()
-        {
+        {            
             new AppUser()
             {
                 UserName = "Admin",
@@ -50,6 +51,7 @@ namespace LocationManagementSystem
         public Form1()
         {
             InitializeComponent();
+            this.lblVersion.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.tbxUserName.Select();
             mMainForm = this;
         }

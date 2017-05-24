@@ -155,6 +155,10 @@ namespace LocationManagementSystem
 
                 foreach (TextBox textbox in lstTextBoxes)
                 {
+                    if (textbox.ReadOnly)
+                    {
+                        continue;
+                    }
                     if (lstInvalidTextboxes.Contains(textbox.Name))
                     {
                         textbox.BackColor = System.Drawing.Color.Yellow;

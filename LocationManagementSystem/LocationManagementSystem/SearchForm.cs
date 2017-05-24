@@ -129,24 +129,50 @@ namespace LocationManagementSystem
 
                 if (barcodeSplit.Length >= 13)
                 {
-                    string nicNumber = barcodeSplit.Substring(12);
-
-                    if (nicNumber.Length > 13)
+                    if (IsDigitsOnly(barcodeSplit))
                     {
-                        nicNumber = nicNumber.Substring(0, 13);
-                    }
+                        string nicNumber = barcodeSplit.Substring(12);
 
-                    if (nicNumber.Length >= 13)
+                        if (nicNumber.Length > 13)
+                        {
+                            nicNumber = nicNumber.Substring(0, 13);
+                        }
+
+                        if (nicNumber.Length >= 13)
+                        {
+                            nicNumber = nicNumber.Insert(5, "-");
+                            nicNumber = nicNumber.Insert(13, "-");
+
+                            SearchCardHolderCore(nicNumber, true);
+                        }
+                    }
+                    else
                     {
-                        nicNumber = nicNumber.Insert(5, "-");
-                        nicNumber = nicNumber.Insert(13, "-");
-
-                        SearchCardHolderCore(nicNumber, true);
-                    }
+                        MessageBox.Show(this, "Barcode is not of valid CNIC number.");
+                    }                    
                 }
                 else
                 {
-                    SearchCardHolderCore(barcodeSplit, false);
+                    Cardholder tempCard = (from ftItem in EFERTDbUtility.mCCFTCentral.FTItems
+                                           where ftItem != null && ftItem.Description == barcodeSplit
+                                           select ftItem.Cardholder).FirstOrDefault();
+
+                    if (tempCard == null)
+                    {
+                        SearchCardHolderCore(barcodeSplit, false);
+                    }
+                    else
+                    {
+                        bool isTempCard = tempCard.FirstName.StartsWith("TEMPORARY-") || tempCard.FirstName.StartsWith("T-");
+                        bool isVisitorCard = tempCard.FirstName.StartsWith("VISITOR-") || tempCard.FirstName.StartsWith("V-");
+
+                        if (!isTempCard && !isVisitorCard)
+                        {
+                            isTempCard = true;
+                        }
+
+                        SearchCardHolderCore(tempCard.LastName, false, isTempCard, isVisitorCard);
+                    }
                 }
                 
             }
@@ -181,7 +207,7 @@ namespace LocationManagementSystem
 
         }
 
-        private void SearchCardHolderCore(string searchString, bool isNicNumber)
+        private void SearchCardHolderCore(string searchString, bool isNicNumber, bool isTempCard = false, bool isVisitorCard = false)
         {
             
             CCFTCentral ccftCentral = EFERTDbUtility.mCCFTCentral;
@@ -298,12 +324,28 @@ namespace LocationManagementSystem
 
                     if (visitor == null && dailyCardHolder == null && cardHolderInfo == null)
                     {
-                        cardHolder = cardHolderByCardNumberTask.Result;
+                        if (!isTempCard && !isVisitorCard)
+                        {
+                            cardHolder = cardHolderByCardNumberTask.Result;
+                        }
+                        
                     }
 
                     if (visitor == null && dailyCardHolder == null && cardHolder == null && cardHolderInfo == null)
                     {
-                        MessageBox.Show(this, "Cardholder with " + searchString + " card number is not found.");
+                        if (isTempCard)
+                        {
+                            MessageBox.Show(this, "This temporary card is not issued to any person.");
+                        }
+                        else if (isVisitorCard)
+                        {
+                            MessageBox.Show(this, "This visitor card is not issued to any visitor.");
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Cardholder with " + searchString + " card number is not found.");
+                        }
+                        
                         return;
                     }
 

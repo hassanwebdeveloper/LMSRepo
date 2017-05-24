@@ -32,7 +32,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbxSchoolCollege = new System.Windows.Forms.ComboBox();
             this.lblSchoolCollege = new System.Windows.Forms.Label();
-            this.cbxVisitorType = new System.Windows.Forms.ComboBox();
+            this.cbxAreaOfVisit = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.tbxEmergencyContact = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -103,6 +103,7 @@
             this.tbxBlockedBy = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.cbxVisitorType = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -117,9 +118,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbxVisitorType);
             this.groupBox1.Controls.Add(this.cbxSchoolCollege);
             this.groupBox1.Controls.Add(this.lblSchoolCollege);
-            this.groupBox1.Controls.Add(this.cbxVisitorType);
             this.groupBox1.Controls.Add(this.groupBox5);
             this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.tbxPhoneNumber);
@@ -176,15 +177,15 @@
             this.lblSchoolCollege.Text = "School / College";
             this.lblSchoolCollege.Visible = false;
             // 
-            // cbxVisitorType
+            // cbxAreaOfVisit
             // 
-            this.cbxVisitorType.BackColor = System.Drawing.Color.White;
-            this.cbxVisitorType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxVisitorType.FormattingEnabled = true;
-            this.cbxVisitorType.Location = new System.Drawing.Point(137, 20);
-            this.cbxVisitorType.Name = "cbxVisitorType";
-            this.cbxVisitorType.Size = new System.Drawing.Size(325, 29);
-            this.cbxVisitorType.TabIndex = 1;
+            this.cbxAreaOfVisit.BackColor = System.Drawing.Color.White;
+            this.cbxAreaOfVisit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxAreaOfVisit.FormattingEnabled = true;
+            this.cbxAreaOfVisit.Location = new System.Drawing.Point(140, 22);
+            this.cbxAreaOfVisit.Name = "cbxAreaOfVisit";
+            this.cbxAreaOfVisit.Size = new System.Drawing.Size(222, 29);
+            this.cbxAreaOfVisit.TabIndex = 1;
             // 
             // groupBox5
             // 
@@ -492,11 +493,11 @@
             // 
             this.groupBox3.Controls.Add(this.nuCheckInNoOfChildren);
             this.groupBox3.Controls.Add(this.nuNoOfFemaleGuest);
+            this.groupBox3.Controls.Add(this.cbxAreaOfVisit);
             this.groupBox3.Controls.Add(this.tbxCheckInHostName);
             this.groupBox3.Controls.Add(this.label14);
             this.groupBox3.Controls.Add(this.label22);
             this.groupBox3.Controls.Add(this.label20);
-            this.groupBox3.Controls.Add(this.tbxCheckInAreaOfVisit);
             this.groupBox3.Controls.Add(this.nuNoOfMaleGuest);
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.numCheckInDurationOfStay);
@@ -542,7 +543,7 @@
             // 
             this.tbxCheckInHostName.BackColor = System.Drawing.Color.White;
             this.tbxCheckInHostName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInHostName.Location = new System.Drawing.Point(140, 79);
+            this.tbxCheckInHostName.Location = new System.Drawing.Point(140, 57);
             this.tbxCheckInHostName.Name = "tbxCheckInHostName";
             this.tbxCheckInHostName.Size = new System.Drawing.Size(222, 29);
             this.tbxCheckInHostName.TabIndex = 16;
@@ -581,7 +582,7 @@
             // 
             this.tbxCheckInAreaOfVisit.BackColor = System.Drawing.Color.White;
             this.tbxCheckInAreaOfVisit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInAreaOfVisit.Location = new System.Drawing.Point(140, 22);
+            this.tbxCheckInAreaOfVisit.Location = new System.Drawing.Point(995, 294);
             this.tbxCheckInAreaOfVisit.Multiline = true;
             this.tbxCheckInAreaOfVisit.Name = "tbxCheckInAreaOfVisit";
             this.tbxCheckInAreaOfVisit.Size = new System.Drawing.Size(222, 51);
@@ -600,7 +601,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(13, 82);
+            this.label23.Location = new System.Drawing.Point(13, 60);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(88, 21);
             this.label23.TabIndex = 61;
@@ -610,7 +611,7 @@
             // 
             this.numCheckInDurationOfStay.BackColor = System.Drawing.Color.White;
             this.numCheckInDurationOfStay.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numCheckInDurationOfStay.Location = new System.Drawing.Point(140, 149);
+            this.numCheckInDurationOfStay.Location = new System.Drawing.Point(140, 127);
             this.numCheckInDurationOfStay.Name = "numCheckInDurationOfStay";
             this.numCheckInDurationOfStay.Size = new System.Drawing.Size(222, 29);
             this.numCheckInDurationOfStay.TabIndex = 55;
@@ -619,7 +620,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(13, 151);
+            this.label19.Location = new System.Drawing.Point(13, 129);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(122, 21);
             this.label19.TabIndex = 51;
@@ -639,7 +640,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(13, 117);
+            this.label16.Location = new System.Drawing.Point(13, 95);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(121, 21);
             this.label16.TabIndex = 45;
@@ -671,7 +672,7 @@
             // 
             this.tbxCheckInDateTimeOut.BackColor = System.Drawing.Color.White;
             this.tbxCheckInDateTimeOut.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInDateTimeOut.Location = new System.Drawing.Point(140, 219);
+            this.tbxCheckInDateTimeOut.Location = new System.Drawing.Point(140, 197);
             this.tbxCheckInDateTimeOut.Name = "tbxCheckInDateTimeOut";
             this.tbxCheckInDateTimeOut.ReadOnly = true;
             this.tbxCheckInDateTimeOut.Size = new System.Drawing.Size(222, 29);
@@ -681,17 +682,17 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(13, 222);
+            this.label18.Location = new System.Drawing.Point(13, 200);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(110, 21);
+            this.label18.Size = new System.Drawing.Size(130, 21);
             this.label18.TabIndex = 41;
-            this.label18.Text = "Date Time Out";
+            this.label18.Text = "Card Return Date";
             // 
             // tbxCheckInDateTimeIn
             // 
             this.tbxCheckInDateTimeIn.BackColor = System.Drawing.Color.White;
             this.tbxCheckInDateTimeIn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInDateTimeIn.Location = new System.Drawing.Point(140, 184);
+            this.tbxCheckInDateTimeIn.Location = new System.Drawing.Point(140, 162);
             this.tbxCheckInDateTimeIn.Name = "tbxCheckInDateTimeIn";
             this.tbxCheckInDateTimeIn.ReadOnly = true;
             this.tbxCheckInDateTimeIn.Size = new System.Drawing.Size(222, 29);
@@ -701,17 +702,17 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(13, 187);
+            this.label17.Location = new System.Drawing.Point(13, 165);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(97, 21);
+            this.label17.Size = new System.Drawing.Size(118, 21);
             this.label17.TabIndex = 39;
-            this.label17.Text = "Date Time In";
+            this.label17.Text = "Card Issue Date";
             // 
             // tbxCheckInVehicleNumber
             // 
             this.tbxCheckInVehicleNumber.BackColor = System.Drawing.Color.White;
             this.tbxCheckInVehicleNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInVehicleNumber.Location = new System.Drawing.Point(140, 114);
+            this.tbxCheckInVehicleNumber.Location = new System.Drawing.Point(140, 92);
             this.tbxCheckInVehicleNumber.Name = "tbxCheckInVehicleNumber";
             this.tbxCheckInVehicleNumber.Size = new System.Drawing.Size(222, 29);
             this.tbxCheckInVehicleNumber.TabIndex = 38;
@@ -926,6 +927,19 @@
             this.openFileDialog1.Title = "Please select a file";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // cbxVisitorType
+            // 
+            this.cbxVisitorType.BackColor = System.Drawing.Color.White;
+            this.cbxVisitorType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxVisitorType.FormattingEnabled = true;
+            this.cbxVisitorType.Items.AddRange(new object[] {
+            "Personal Guest",
+            "Official Guest"});
+            this.cbxVisitorType.Location = new System.Drawing.Point(137, 20);
+            this.cbxVisitorType.Name = "cbxVisitorType";
+            this.cbxVisitorType.Size = new System.Drawing.Size(325, 29);
+            this.cbxVisitorType.TabIndex = 67;
+            // 
             // VisitorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -935,6 +949,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.tbxCheckInAreaOfVisit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VisitorForm";
@@ -955,6 +970,7 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1018,7 +1034,7 @@
         private System.Windows.Forms.Label lblVisitorStatus;
         private System.Windows.Forms.NumericUpDown nuNoOfFemaleGuest;
         private System.Windows.Forms.NumericUpDown nuNoOfMaleGuest;
-        private System.Windows.Forms.ComboBox cbxVisitorType;
+        private System.Windows.Forms.ComboBox cbxAreaOfVisit;
         private System.Windows.Forms.NumericUpDown nuCheckInNoOfChildren;
         private System.Windows.Forms.ComboBox cbxSchoolCollege;
         private System.Windows.Forms.Label lblSchoolCollege;
@@ -1034,5 +1050,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox tbxUnBlockedBy;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ComboBox cbxVisitorType;
     }
 }

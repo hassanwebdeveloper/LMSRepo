@@ -24,7 +24,7 @@ namespace LocationManagementSystem
         {
             InitializeComponent();
             
-            this.cbxVisitorType.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l => l.Location).ToArray());
+            this.cbxAreaOfVisit.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l => l.Location).ToArray());
 
 
             if (visitorCardHolder != null)
@@ -46,6 +46,7 @@ namespace LocationManagementSystem
                 this.tbxEmergencyContact.Text = this.mVisitor.EmergencyContantPerson;
                 this.tbxEmergencyContactNumber.Text = this.mVisitor.EmergencyContantPersonNumber;
                 this.cbxVisitorType.SelectedItem = this.mVisitor.VisitorType;
+
                 this.lblSchoolCollege.Visible = false;
                 this.cbxSchoolCollege.Visible = false;
 
@@ -136,7 +137,7 @@ namespace LocationManagementSystem
                 this.cbxSchoolCollege.Visible = false;
             }
 
-            this.cbxVisitorType.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l=>l.Location).ToArray());
+            this.cbxAreaOfVisit.Items.AddRange(EFERTDbUtility.mVisitingLocations.FindAll(location => location.IsOnPlant == SearchForm.mIsPlant).Select(l=>l.Location).ToArray());
 
             this.tbxFirstName.BackColor = Color.Yellow;
             this.tbxCheckInCardNumber.BackColor = Color.Yellow;
@@ -255,7 +256,7 @@ namespace LocationManagementSystem
                 this.nuNoOfFemaleGuest.Value = checkedInInfo.NoOfFemaleGuest;
                 this.numCheckInDurationOfStay.Value = checkedInInfo.DurationOfStay;
                 this.nuCheckInNoOfChildren.Value = checkedInInfo.NoOfChildren;
-                this.tbxCheckInAreaOfVisit.Text = checkedInInfo.AreaOfVisit;
+                this.cbxAreaOfVisit.SelectedItem = checkedInInfo.AreaOfVisit;
                 this.tbxCheckInHostName.Text = checkedInInfo.HostName;
                 this.tbxCheckInDateTimeIn.Text = checkedInInfo.DateTimeIn.ToString();
                 this.tbxCheckInDateTimeOut.Text = DateTime.Now.ToString();
@@ -266,7 +267,7 @@ namespace LocationManagementSystem
                 this.nuNoOfFemaleGuest.ReadOnly = true;
                 this.numCheckInDurationOfStay.ReadOnly = true;
                 this.nuCheckInNoOfChildren.ReadOnly = true;
-                this.tbxCheckInAreaOfVisit.ReadOnly = true;
+                this.cbxAreaOfVisit.Enabled = false;
                 this.tbxCheckInHostName.ReadOnly = true;
 
                 this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -275,7 +276,6 @@ namespace LocationManagementSystem
                 this.nuNoOfFemaleGuest.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.numCheckInDurationOfStay.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.nuCheckInNoOfChildren.BackColor = System.Drawing.SystemColors.ButtonFace;
-                this.tbxCheckInAreaOfVisit.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.tbxCheckInHostName.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
@@ -396,14 +396,8 @@ namespace LocationManagementSystem
                 Visitors = this.mVisitor
             };
 
-            if (SearchForm.mIsPlant)
-            {
-                blockedPerson.BlockedInPlant = true;
-            }
-            else
-            {
-                blockedPerson.BlockedInColony = true;
-            }
+            blockedPerson.BlockedInPlant = SearchForm.mIsPlant;
+            blockedPerson.BlockedInColony = !SearchForm.mIsPlant;
 
             try
             {
@@ -586,6 +580,8 @@ namespace LocationManagementSystem
 
                 CheckInAndOutInfo checkedInInfo = new CheckInAndOutInfo();
 
+                checkedInInfo.CheckInToPlant = SearchForm.mIsPlant;
+                checkedInInfo.CheckInToPlant = !SearchForm.mIsPlant;
                 checkedInInfo.FirstName = this.mVisitor.FirstName;
                 checkedInInfo.Visitors = this.mVisitor;
                 checkedInInfo.CNICNumber = this.mCNICNumber;
@@ -595,7 +591,7 @@ namespace LocationManagementSystem
                 checkedInInfo.NoOfFemaleGuest = this.nuNoOfFemaleGuest.Value;
                 checkedInInfo.DurationOfStay = this.numCheckInDurationOfStay.Value;
                 checkedInInfo.NoOfChildren = this.nuCheckInNoOfChildren.Value;
-                checkedInInfo.AreaOfVisit = this.tbxCheckInAreaOfVisit.Text;
+                checkedInInfo.AreaOfVisit = this.cbxAreaOfVisit.SelectedItem == null ? string.Empty : this.cbxAreaOfVisit.SelectedItem as String;
                 checkedInInfo.HostName = this.tbxCheckInHostName.Text;
                 checkedInInfo.DateTimeIn = Convert.ToDateTime(this.tbxCheckInDateTimeIn.Text);
                 checkedInInfo.DateTimeOut = DateTime.MaxValue;

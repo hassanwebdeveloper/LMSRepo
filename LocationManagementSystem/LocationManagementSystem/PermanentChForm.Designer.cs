@@ -403,7 +403,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(12, 306);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(507, 201);
+            this.groupBox2.Size = new System.Drawing.Size(507, 219);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Check In Information";
@@ -411,7 +411,7 @@
             // btnCheckOut
             // 
             this.btnCheckOut.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCheckOut.Location = new System.Drawing.Point(289, 148);
+            this.btnCheckOut.Location = new System.Drawing.Point(289, 166);
             this.btnCheckOut.Name = "btnCheckOut";
             this.btnCheckOut.Size = new System.Drawing.Size(106, 47);
             this.btnCheckOut.TabIndex = 35;
@@ -422,7 +422,7 @@
             // btnCheckIn
             // 
             this.btnCheckIn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCheckIn.Location = new System.Drawing.Point(401, 148);
+            this.btnCheckIn.Location = new System.Drawing.Point(401, 166);
             this.btnCheckIn.Name = "btnCheckIn";
             this.btnCheckIn.Size = new System.Drawing.Size(100, 47);
             this.btnCheckIn.TabIndex = 34;
@@ -434,10 +434,10 @@
             // 
             this.tbxCheckInDateTimeOut.BackColor = System.Drawing.Color.White;
             this.tbxCheckInDateTimeOut.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInDateTimeOut.Location = new System.Drawing.Point(118, 96);
+            this.tbxCheckInDateTimeOut.Location = new System.Drawing.Point(142, 96);
             this.tbxCheckInDateTimeOut.Name = "tbxCheckInDateTimeOut";
             this.tbxCheckInDateTimeOut.ReadOnly = true;
-            this.tbxCheckInDateTimeOut.Size = new System.Drawing.Size(193, 29);
+            this.tbxCheckInDateTimeOut.Size = new System.Drawing.Size(359, 29);
             this.tbxCheckInDateTimeOut.TabIndex = 33;
             // 
             // label18
@@ -446,18 +446,18 @@
             this.label18.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.Location = new System.Drawing.Point(6, 99);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(110, 21);
+            this.label18.Size = new System.Drawing.Size(130, 21);
             this.label18.TabIndex = 32;
-            this.label18.Text = "Date Time Out";
+            this.label18.Text = "Card Return Date";
             // 
             // tbxCheckInDateTimeIn
             // 
             this.tbxCheckInDateTimeIn.BackColor = System.Drawing.Color.White;
             this.tbxCheckInDateTimeIn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInDateTimeIn.Location = new System.Drawing.Point(118, 61);
+            this.tbxCheckInDateTimeIn.Location = new System.Drawing.Point(142, 61);
             this.tbxCheckInDateTimeIn.Name = "tbxCheckInDateTimeIn";
             this.tbxCheckInDateTimeIn.ReadOnly = true;
-            this.tbxCheckInDateTimeIn.Size = new System.Drawing.Size(193, 29);
+            this.tbxCheckInDateTimeIn.Size = new System.Drawing.Size(359, 29);
             this.tbxCheckInDateTimeIn.TabIndex = 31;
             // 
             // label17
@@ -466,24 +466,24 @@
             this.label17.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(6, 64);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(97, 21);
+            this.label17.Size = new System.Drawing.Size(118, 21);
             this.label17.TabIndex = 30;
-            this.label17.Text = "Date Time In";
+            this.label17.Text = "Card Issue Date";
             // 
             // tbxCheckInVehicleNumber
             // 
             this.tbxCheckInVehicleNumber.BackColor = System.Drawing.Color.White;
             this.tbxCheckInVehicleNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInVehicleNumber.Location = new System.Drawing.Point(386, 26);
+            this.tbxCheckInVehicleNumber.Location = new System.Drawing.Point(142, 131);
             this.tbxCheckInVehicleNumber.Name = "tbxCheckInVehicleNumber";
-            this.tbxCheckInVehicleNumber.Size = new System.Drawing.Size(115, 29);
+            this.tbxCheckInVehicleNumber.Size = new System.Drawing.Size(359, 29);
             this.tbxCheckInVehicleNumber.TabIndex = 29;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(259, 29);
+            this.label16.Location = new System.Drawing.Point(6, 134);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(121, 21);
             this.label16.TabIndex = 28;
@@ -493,9 +493,9 @@
             // 
             this.tbxCheckInCardNumber.BackColor = System.Drawing.Color.White;
             this.tbxCheckInCardNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInCardNumber.Location = new System.Drawing.Point(118, 26);
+            this.tbxCheckInCardNumber.Location = new System.Drawing.Point(142, 25);
             this.tbxCheckInCardNumber.Name = "tbxCheckInCardNumber";
-            this.tbxCheckInCardNumber.Size = new System.Drawing.Size(135, 29);
+            this.tbxCheckInCardNumber.Size = new System.Drawing.Size(359, 29);
             this.tbxCheckInCardNumber.TabIndex = 27;
             this.tbxCheckInCardNumber.TextChanged += new System.EventHandler(this.tbxCheckInCardNumber_TextChanged);
             this.tbxCheckInCardNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxCheckInCardNumber_KeyPress);
@@ -530,7 +530,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(525, 309);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(830, 198);
+            this.groupBox3.Size = new System.Drawing.Size(830, 216);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Block User Information";
@@ -569,7 +569,7 @@
             // btnUnBlock
             // 
             this.btnUnBlock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnBlock.Location = new System.Drawing.Point(721, 144);
+            this.btnUnBlock.Location = new System.Drawing.Point(721, 163);
             this.btnUnBlock.Name = "btnUnBlock";
             this.btnUnBlock.Size = new System.Drawing.Size(100, 47);
             this.btnUnBlock.TabIndex = 40;
@@ -633,7 +633,7 @@
             this.lblVisitorStatus.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblVisitorStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblVisitorStatus.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVisitorStatus.Location = new System.Drawing.Point(12, 151);
+            this.lblVisitorStatus.Location = new System.Drawing.Point(12, 169);
             this.lblVisitorStatus.Name = "lblVisitorStatus";
             this.lblVisitorStatus.Size = new System.Drawing.Size(70, 32);
             this.lblVisitorStatus.TabIndex = 48;
@@ -642,7 +642,7 @@
             // btnBlock
             // 
             this.btnBlock.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBlock.Location = new System.Drawing.Point(285, 144);
+            this.btnBlock.Location = new System.Drawing.Point(285, 163);
             this.btnBlock.Name = "btnBlock";
             this.btnBlock.Size = new System.Drawing.Size(100, 47);
             this.btnBlock.TabIndex = 36;
@@ -716,7 +716,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1358, 519);
+            this.ClientSize = new System.Drawing.Size(1358, 537);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

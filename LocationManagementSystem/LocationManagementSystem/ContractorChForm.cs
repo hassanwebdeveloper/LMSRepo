@@ -155,6 +155,7 @@ namespace LocationManagementSystem
                 this.tbxCNICNumber.Text = dailyCardHolder.CNICNumber;
                 this.tbxWONumber.Text = dailyCardHolder.WONumber;
                 this.tbxLastName.Text = dailyCardHolder.LastName;
+                this.cbxSection.SelectedItem = dailyCardHolder.Section;
                 //this.tbxCardNumber.Text = permanentCh.CardNumber;
                 this.mCheckIns = dailyCardHolder.CheckInInfos ?? new List<CheckInAndOutInfo>();
                 this.mBlocks = dailyCardHolder.BlockingInfos ??  new List<BlockedPersonInfo>();
@@ -590,7 +591,8 @@ namespace LocationManagementSystem
                         Designation = this.cbxDesignation.SelectedItem == null ? string.Empty : this.cbxDesignation.SelectedItem as string,
                         EmergancyContactNumber = this.tbxContactNumber.Text,
                         WONumber = this.tbxWONumber.Text,
-                        ConstractorInfo = this.mContractorInfo
+                        ConstractorInfo = this.mContractorInfo,
+                        Section = this.cbxSection.SelectedItem == null ? string.Empty : this.cbxSection.SelectedItem as string,
                     };
 
                     if (this.pbxSnapShot.Image != null)
@@ -661,14 +663,8 @@ namespace LocationManagementSystem
                 UnBlockTime = DateTime.MaxValue
             };
 
-            if (SearchForm.mIsPlant)
-            {
-                blockedPerson.BlockedInPlant = true;
-            }
-            else
-            {
-                blockedPerson.BlockedInColony = true;
-            }
+            blockedPerson.BlockedInPlant = SearchForm.mIsPlant;
+            blockedPerson.BlockedInColony = !SearchForm.mIsPlant;
 
             if (this.mIsDailyCardHolder)
             {
@@ -866,7 +862,8 @@ namespace LocationManagementSystem
                             Designation = this.cbxDesignation.SelectedItem == null ? string.Empty : this.cbxDesignation.SelectedItem as string,
                             EmergancyContactNumber = this.tbxContactNumber.Text,
                             WONumber = this.tbxWONumber.Text,
-                            ConstractorInfo = this.mContractorInfo
+                            ConstractorInfo = this.mContractorInfo,
+                            Section = this.cbxSection.SelectedItem == null ? string.Empty : this.cbxSection.SelectedItem as string,
                         };
 
                         if (this.pbxSnapShot.Image != null)
@@ -946,10 +943,11 @@ namespace LocationManagementSystem
                         checkedInInfo.CardHolderInfos = cardHolderInfo;
                         checkedInInfo.FirstName = cardHolderInfo.FirstName;
                     }
-                    
-
-
                 }
+
+
+                checkedInInfo.CheckInToPlant = SearchForm.mIsPlant;
+                checkedInInfo.CheckInToPlant = !SearchForm.mIsPlant;
 
                 checkedInInfo.CNICNumber = this.mCNICNumber;
                 checkedInInfo.CardNumber = this.tbxCheckInCardNumber.Text;

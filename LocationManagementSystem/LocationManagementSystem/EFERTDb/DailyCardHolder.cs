@@ -27,6 +27,8 @@ namespace LocationManagementSystem
 
         public string Designation { get; set; }
 
+        public string Section { get; set; }
+
         [Column("ContactNumber")]
         public string EmergancyContactNumber { get; set; }
 

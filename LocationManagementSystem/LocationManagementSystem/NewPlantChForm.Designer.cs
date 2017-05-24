@@ -119,7 +119,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewPlantChForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NewPlantChForm";
+            this.Text = "New Plant Cardholder Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 
