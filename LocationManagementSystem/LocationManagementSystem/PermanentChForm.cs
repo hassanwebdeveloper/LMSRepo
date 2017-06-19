@@ -113,6 +113,11 @@ namespace LocationManagementSystem
         //    this.UpdateStatus(cnicNumber);
         //}
 
+        public void SetCardNumber(string cardNumber)
+        {
+            this.tbxCheckInCardNumber.Text = cardNumber;
+        }
+
         private void UpdateStatus(string cnicNumber)
         {
             if (string.IsNullOrEmpty(cnicNumber))

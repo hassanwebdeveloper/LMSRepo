@@ -290,6 +290,11 @@ namespace LocationManagementSystem
             this.UpdateStatus(cnicNumber);
         }
 
+        public void SetCardNumber(string cardNumber)
+        {
+            this.tbxCheckInCardNumber.Text = cardNumber;
+        }
+
         private void UpdateDropDownFields()
         {
             List<string> departments = (from depart in EFERTDbUtility.mEFERTDb.Departments

@@ -283,7 +283,7 @@ namespace LocationManagementSystem
                 cardHolderInfo = (from card in EFERTDbUtility.mEFERTDb.CardHolders
                                   where card != null && card.CardNumber == searchString
                                   select card).FirstOrDefault();
-
+                
                 if (cardHolderInfo == null)
                 {
                     CheckInAndOutInfo cardIssued = (from checkIn in EFERTDbUtility.mEFERTDb.CheckedInInfos
@@ -333,6 +333,34 @@ namespace LocationManagementSystem
 
                     if (visitor == null && dailyCardHolder == null && cardHolder == null && cardHolderInfo == null)
                     {
+                        if (Form.ActiveForm != null)
+                        {
+                            bool found = false;
+
+                            if (Form.ActiveForm is VisitorForm)
+                            {
+                                found = true;
+                                (Form.ActiveForm as VisitorForm).SetCardNumber(searchString);
+                            }
+                            else if (Form.ActiveForm is PermanentChForm)
+                            {
+                                found = true;
+                                (Form.ActiveForm as PermanentChForm).SetCardNumber(searchString);
+                            }
+                            else if (Form.ActiveForm is ContractorChForm)
+                            {
+                                found = true;
+                                (Form.ActiveForm as ContractorChForm).SetCardNumber(searchString);
+                            }
+
+                            if (found)
+                            {
+                                return;
+                            }
+                            
+                        }
+
+
                         if (isTempCard)
                         {
                             MessageBox.Show(this, "This temporary card is not issued to any person.");

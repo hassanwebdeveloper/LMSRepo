@@ -639,6 +639,11 @@ namespace LocationManagementSystem
             }
         }
 
+        public void SetCardNumber(string cardNumber)
+        {
+            this.tbxCheckInCardNumber.Text = cardNumber;
+        }
+
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
             if (this.mCheckIns.Exists(checkedOut => checkedOut.CheckedIn && checkedOut.CNICNumber == this.mCNICNumber))

@@ -12,7 +12,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace LocationManagementSystem
 {
-    public class EFERTInitializer : DropCreateDatabaseIfModelChanges<EFERTDbContext>
+    public class EFERTInitializer : CreateDatabaseIfNotExists<EFERTDbContext>
     {
         protected override void Seed(EFERTDbContext context)
         {
