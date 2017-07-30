@@ -106,14 +106,22 @@ namespace LocationManagementSystem
         private void SearchCardHolder(string searchString)
         {
             bool isNicNumber = this.maskedTextBox1.Mask == "00000-0000000-0";
-            if (this.maskedTextBox1.MaskCompleted)
+            if (isNicNumber)
             {
-                SearchCardHolderCore(searchString, isNicNumber);
+                if (this.maskedTextBox1.MaskCompleted)
+                {
+                    SearchCardHolderCore(searchString, isNicNumber);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Please enter some valid CNIC number.");
+                    return;
+                }
+
             }
             else
             {
-                MessageBox.Show(this, "Please enter some valid CNIC number.");
-                return;
+                SearchCardHolderCore(searchString, isNicNumber);
             }
             
         }
@@ -122,16 +130,17 @@ namespace LocationManagementSystem
         {
             string[] arrBarcode = barcodeString.Split('\r');
 
-            if (arrBarcode.Length == 1)
+            if (arrBarcode.Length == 1 || arrBarcode.Length == 3)
             {
-                string barcodeSplit = arrBarcode[0];
-                barcodeSplit = barcodeSplit.Replace("\0" , string.Empty);
+                //smart card or Overseas
+                string barcodeSplit = arrBarcode.Length == 3 ? arrBarcode[1] : arrBarcode[0];
+                barcodeSplit = barcodeSplit.Replace("\0", string.Empty);
 
                 if (barcodeSplit.Length >= 13)
                 {
                     if (IsDigitsOnly(barcodeSplit))
                     {
-                        string nicNumber = barcodeSplit.Substring(12);
+                        string nicNumber = arrBarcode.Length == 3 ? barcodeSplit.Substring(0, 13): barcodeSplit.Substring(12);
 
                         if (nicNumber.Length > 13)
                         {
@@ -149,7 +158,7 @@ namespace LocationManagementSystem
                     else
                     {
                         MessageBox.Show(this, "Barcode is not of valid CNIC number.");
-                    }                    
+                    }
                 }
                 else
                 {
@@ -174,7 +183,7 @@ namespace LocationManagementSystem
                         SearchCardHolderCore(tempCard.LastName, false, isTempCard, isVisitorCard);
                     }
                 }
-                
+
             }
             else
             {

@@ -85,6 +85,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.pbxSnapShot = new System.Windows.Forms.PictureBox();
+            this.btnDisableAlerts = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -512,6 +513,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnDisableAlerts);
             this.groupBox3.Controls.Add(this.tbxUnBlockTime);
             this.groupBox3.Controls.Add(this.label21);
             this.groupBox3.Controls.Add(this.tbxUnblockReason);
@@ -712,6 +714,18 @@
             this.pbxSnapShot.TabIndex = 0;
             this.pbxSnapShot.TabStop = false;
             // 
+            // btnDisableAlerts
+            // 
+            this.btnDisableAlerts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDisableAlerts.Location = new System.Drawing.Point(607, 163);
+            this.btnDisableAlerts.Name = "btnDisableAlerts";
+            this.btnDisableAlerts.Size = new System.Drawing.Size(108, 47);
+            this.btnDisableAlerts.TabIndex = 65;
+            this.btnDisableAlerts.Text = "Disable Alert";
+            this.btnDisableAlerts.UseVisualStyleBackColor = true;
+            this.btnDisableAlerts.Visible = false;
+            this.btnDisableAlerts.Click += new System.EventHandler(this.btnDisableAlerts_Click);
+            // 
             // PermanentChForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -796,5 +810,6 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.PictureBox pbxSnapShot;
+        private System.Windows.Forms.Button btnDisableAlerts;
     }
 }

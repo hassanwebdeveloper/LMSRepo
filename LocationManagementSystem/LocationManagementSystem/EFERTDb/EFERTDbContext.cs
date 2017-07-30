@@ -15,20 +15,34 @@ namespace LocationManagementSystem
         }
 
         public DbSet<CardHolderInfo> CardHolders { get; set; }
+
         public DbSet<CadreInfo> Cadres { get; set; }
+
         public DbSet<CrewInfo> Crews { get; set; }
+
         public DbSet<DepartmentInfo> Departments { get; set; }
+
         public DbSet<DesignationInfo> Designations { get; set; }
+
         public DbSet<SectionInfo> Sections { get; set; }
+
         public DbSet<CompanyInfo> Companies { get; set; }
+
         public DbSet<VisitorCardHolder> Visitors { get; set; }
+
         public DbSet<DailyCardHolder> DailyCardHolders { get; set; }
+
         public DbSet<BlockedPersonInfo> BlockedPersons { get; set; }
+
         public DbSet<CheckInAndOutInfo> CheckedInInfos { get; set; }
 
-        public DbSet<VisitingLocations> VisitingLocations { get; set; }
-        //public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<EmailAddress> EmailAddresses { get; set; }
 
+        public DbSet<VisitingLocations> VisitingLocations { get; set; }
+
+        public DbSet<SystemSetting> SystemSetting { get; set; }
+
+        public DbSet<AlertInfo> AlertInfos { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

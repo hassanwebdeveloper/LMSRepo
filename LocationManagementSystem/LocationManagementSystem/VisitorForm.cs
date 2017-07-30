@@ -301,9 +301,29 @@ namespace LocationManagementSystem
                 }
                 else
                 {
-                    this.btnCheckIn.Enabled = true && !blockedUser;
-                    this.btnCheckOut.Enabled = false;
-                    this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
+                    if (limitStatus == LimitStatus.EmailAlerted)
+                    {
+                        if (Form1.mLoggedInUser.IsAdmin)
+                        {
+                            this.btnDisableAlerts.Visible = true;
+                            this.btnDisableAlerts.Tag = true;
+                        }
+                    }
+                    else if (limitStatus == LimitStatus.EmailAlertDisabled)
+                    {
+                        if (Form1.mLoggedInUser.IsAdmin)
+                        {
+                            this.btnDisableAlerts.Visible = true;
+                            this.btnDisableAlerts.Text = "Enable Alert";
+                            this.btnDisableAlerts.Tag = false;
+                        }
+                    }
+                    else
+                    {
+                        this.btnCheckIn.Enabled = true && !blockedUser;
+                        this.btnCheckOut.Enabled = false;
+                        this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
+                    }
                 }
             }
 
@@ -713,6 +733,61 @@ namespace LocationManagementSystem
         private void tbxFirstName_TextChanged(object sender, EventArgs e)
         {
             EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxCheckInCardNumber, this.tbxFirstName });
+        }
+
+        private void btnDisableAlerts_Click(object sender, EventArgs e)
+        {
+            bool disableAlert = Convert.ToBoolean(this.btnDisableAlerts.Tag);
+
+            AlertInfo alertInfo = (from alert in EFERTDbUtility.mEFERTDb.AlertInfos
+                                   where alert != null && alert.CNICNumber == this.mCNICNumber
+                                   select alert).FirstOrDefault();
+
+            if (alertInfo == null)
+            {
+                alertInfo = new AlertInfo();
+                alertInfo.CNICNumber = this.mCNICNumber;
+
+                if (disableAlert)
+                {
+                    alertInfo.DisableAlert = true;
+                    alertInfo.DisableAlertDate = DateTime.Now;
+                }
+                else
+                {
+                    alertInfo.DisableAlert = false;
+                    alertInfo.EnableAlertDate = DateTime.Now;
+                }
+
+                EFERTDbUtility.mEFERTDb.AlertInfos.Add(alertInfo);
+            }
+            else
+            {
+                if (disableAlert)
+                {
+                    alertInfo.DisableAlert = true;
+                    alertInfo.DisableAlertDate = DateTime.Now;
+                }
+                else
+                {
+                    alertInfo.DisableAlert = false;
+                    alertInfo.EnableAlertDate = DateTime.Now;
+                }
+
+                EFERTDbUtility.mEFERTDb.Entry(alertInfo).State = System.Data.Entity.EntityState.Modified;
+            }
+
+            try
+            {
+                EFERTDbUtility.mEFERTDb.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                EFERTDbUtility.RollBack();
+
+                MessageBox.Show(this, "Some error occurred.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                return;
+            }
         }
     }
 }

@@ -63,6 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddEmailAddressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEmailAddressForm.Designer.cs">
+      <DependentUpon>AddEmailAddressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdminForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -449,12 +455,15 @@
       <DependentUpon>CheckCardStatusForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\WebCam.cs" />
+    <Compile Include="EFERTDb\AlertInfo.cs" />
     <Compile Include="EFERTDb\BlockedPersonInfo.cs" />
     <Compile Include="EFERTDb\CheckInAndOutInfo.cs" />
     <Compile Include="Classes\ContractorCardHolder.cs" />
     <Compile Include="EFERTDb\DailyCardHolder.cs" />
     <Compile Include="Classes\PermamentCardHolder.cs" />
     <Compile Include="EFERTDb\EditableFields.cs" />
+    <Compile Include="EFERTDb\EmailAddress.cs" />
+    <Compile Include="EFERTDb\SystemSetting.cs" />
     <Compile Include="EFERTDb\VisitorCardHolder.cs" />
     <Compile Include="ContractorChForm.cs">
       <SubType>Form</SubType>
@@ -485,6 +494,15 @@
     <Compile Include="LocationSelectorForm.Designer.cs">
       <DependentUpon>LocationSelectorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707300707200_InitialCreate.cs" />
+    <Compile Include="Migrations\201707300707200_InitialCreate.Designer.cs">
+      <DependentUpon>201707300707200_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707300712514_EmailNotification.cs" />
+    <Compile Include="Migrations\201707300712514_EmailNotification.Designer.cs">
+      <DependentUpon>201707300712514_EmailNotification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewColonyChForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -516,6 +534,12 @@
     </Compile>
     <Compile Include="SearchForm.Designer.cs">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetSystemSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetSystemSettingForm.Designer.cs">
+      <DependentUpon>SetSystemSettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SplashScreen.cs">
       <SubType>Form</SubType>
@@ -565,6 +589,9 @@
     <Compile Include="VisitorForm.Designer.cs">
       <DependentUpon>VisitorForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddEmailAddressForm.resx">
+      <DependentUpon>AddEmailAddressForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -582,6 +609,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LocationSelectorForm.resx">
       <DependentUpon>LocationSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707300707200_InitialCreate.resx">
+      <DependentUpon>201707300707200_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707300712514_EmailNotification.resx">
+      <DependentUpon>201707300712514_EmailNotification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewColonyChForm.resx">
       <DependentUpon>NewColonyChForm.cs</DependentUpon>
@@ -606,6 +639,9 @@
     </Compile>
     <EmbeddedResource Include="SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetSystemSettingForm.resx">
+      <DependentUpon>SetSystemSettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
@@ -637,6 +673,7 @@
     <None Include="Properties\DataSources\CompanyInfo.datasource" />
     <None Include="Properties\DataSources\DepartmentInfo.datasource" />
     <None Include="Properties\DataSources\DesignationInfo.datasource" />
+    <None Include="Properties\DataSources\EmailAddress.datasource" />
     <None Include="Properties\DataSources\SectionInfo.datasource" />
     <None Include="Properties\DataSources\VisitingLocations.datasource" />
     <None Include="Properties\Settings.settings">
@@ -660,6 +697,9 @@
   <ItemGroup>
     <Content Include="engroicon_9xF_icon.ico" />
     <Content Include="Images\logo.png" />
+    <Content Include="Migraton Scripts\EmailNotificationUpdationScript.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Barcode Reader\" />

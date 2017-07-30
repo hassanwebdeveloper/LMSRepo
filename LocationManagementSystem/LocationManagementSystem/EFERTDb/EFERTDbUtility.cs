@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -82,26 +84,72 @@ namespace LocationManagementSystem
 
             return message;
         }
-
+                
         public static LimitStatus CheckIfUserCheckedInLimitReached(List<CheckInAndOutInfo> checkIns)
         {
             LimitStatus limitStatus = LimitStatus.Allowed;
+            SystemSetting setting = EFERTDbUtility.mEFERTDb.SystemSetting.FirstOrDefault();
+
+            int daysToEmailNotification = setting == null ? 70 : setting.DaysToEmailNotification;
+            int daysToBlock = setting == null ? 90 : setting.DaysToBlockUser;
 
             if (checkIns.Count > 0)
             {
                 CheckInAndOutInfo last = checkIns.Last();
-
+                                
                 if (last.CheckedIn)
                 {
                     limitStatus = LimitStatus.CurrentlyCheckIn;
                 }
                 else
                 {
+                    string name, cnic = string.Empty;
+
+                    if (last.CardHolderInfos != null)
+                    {
+                        name = last.CardHolderInfos.FirstName;
+                        cnic = last.CardHolderInfos.CNICNumber;
+                    }
+                    else if (last.Visitors != null)
+                    {
+                        name = last.Visitors.FirstName;
+                        cnic = last.Visitors.CNICNumber;
+                    }
+                    else
+                    {
+                        name = last.DailyCardHolders.FirstName;
+                        cnic = last.DailyCardHolders.CNICNumber;
+                    }
+
+                    List<AlertInfo> chAlertInfos = (from alert in EFERTDbUtility.mEFERTDb.AlertInfos
+                                                    where alert != null && alert.CNICNumber == cnic
+                                                    select alert).ToList();
+
+                    DateTime alertEnableDate = DateTime.MaxValue;
+                    bool alertEnabled = true;
+                    AlertInfo lastAlertInfo = null;
+
+                    if (chAlertInfos != null && chAlertInfos.Count > 0)
+                    {
+                        lastAlertInfo = chAlertInfos.Last();
+
+                        if (lastAlertInfo.DisableAlert)
+                        {
+                            alertEnabled = false;
+                        }
+                        else
+                        {
+                            alertEnableDate = lastAlertInfo.EnableAlertDate;
+                        }
+                    }
+
+
                     CheckInAndOutInfo previousCheckIn = checkIns[0];
+                    bool isSameDay = last.DateTimeIn.Date == DateTime.Now.Date;
 
                     if (previousCheckIn != null)
                     {
-                        int count = 0;
+                        int count = 1;
                         DateTime previousDateTimeIn = previousCheckIn.DateTimeIn;
 
                         for (int i = 1; i < checkIns.Count; i++)
@@ -110,9 +158,11 @@ namespace LocationManagementSystem
 
                             DateTime currDateTimeIn = CurrentCheckIn.DateTimeIn;
 
-                            TimeSpan timeDiff = currDateTimeIn - previousDateTimeIn;
+                            TimeSpan timeDiff = currDateTimeIn.Date - previousDateTimeIn.Date;
+
                             
-                            bool isContinous = timeDiff.Days == 1;
+
+                            bool isContinous = timeDiff.Days == 1 || timeDiff.Days == 2 && currDateTimeIn.DayOfWeek == DayOfWeek.Monday;
 
                             if (isContinous)
                             {
@@ -120,19 +170,52 @@ namespace LocationManagementSystem
                             }
                             else
                             {
-                                count = 0;
+                                if (currDateTimeIn.Date != previousDateTimeIn.Date)
+                                {
+                                    count = 1;
+                                }
+                                
                             }
 
                             previousDateTimeIn = currDateTimeIn;
                         }
 
-                        if (count == 70)
+                        if (count >= daysToEmailNotification)
                         {
-                            limitStatus = LimitStatus.LimitReached;
+                            if (count == daysToBlock && !isSameDay)
+                            {
+                                limitStatus = LimitStatus.LimitReached;
+                            }
+                            else
+                            {
+                                if (alertEnabled)
+                                {
+                                    List<EmailAddress> toAddresses = new List<EmailAddress>();
+
+                                    if (EFERTDbUtility.mEFERTDb.EmailAddresses != null)
+                                    {
+                                        toAddresses = (from email in EFERTDbUtility.mEFERTDb.EmailAddresses
+                                                       where email != null
+                                                       select email).ToList();
+
+                                        foreach (EmailAddress toAddress in toAddresses)
+                                        {
+                                            SendMail(setting, toAddress.Email, toAddress.Name, name, cnic);
+                                        }
+                                    }
+
+                                    limitStatus = LimitStatus.EmailAlerted;
+                                }
+                                else
+                                {
+                                    limitStatus = LimitStatus.EmailAlertDisabled;
+                                }
+                            }
+                            
                         }
                         else
                         {
-                            limitStatus = LimitStatus.Allowed;
+                            limitStatus = LimitStatus.Allowed;                            
                         }
                     }
                 }
@@ -210,12 +293,56 @@ namespace LocationManagementSystem
             if (!(Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
                 e.Handled = true;
         }
+
+        public static void SendMail(SystemSetting settings, string toAddress, string toName, string chName, string chCnic)
+        {
+            try
+            {
+                string fromaddr = settings.FromEmailAddress;
+                //string toAddress = "hassanwebdeveloper30@gmail.com";//TO ADDRESS HERE
+                string password = settings.FromEmailPassword;
+
+                int emailNotificationDays = settings.DaysToEmailNotification;
+
+                using (MailMessage msg = new MailMessage())
+                {
+
+                    msg.Subject = "Security Alert for continously entry of casual worker.";
+
+                    msg.From = new MailAddress(fromaddr);
+                    msg.Body = "Dear Sir,\n\nIt's for your information following worker entry limit reached at " + emailNotificationDays + " day(s) need your necessary action on it.\n\n Name: "+chName+"\n\n CNIC Number: "+chCnic+"\n\nThis is system generated email.";
+                    msg.To.Add(new MailAddress(toAddress));
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = settings.SmtpServer;
+                        smtp.Port = Convert.ToInt32(settings.SmtpPort);
+                        smtp.UseDefaultCredentials = false;
+                        smtp.EnableSsl = settings.IsSmptSSL;
+
+                        if (settings.IsSmptAuthRequired)
+                        {
+                            NetworkCredential nc = new NetworkCredential(fromaddr, password);
+                            smtp.Credentials = nc;
+                        }
+
+                        smtp.Send(msg);
+                    }                    
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occured in sending email.\n\n" + GetInnerExceptionMessage(ex));
+            }
+        }
     }
 
     public enum LimitStatus
     {
         Allowed,
         LimitReached,
-        CurrentlyCheckIn
+        CurrentlyCheckIn,
+        EmailAlerted,
+        EmailAlertDisabled
     }
 }

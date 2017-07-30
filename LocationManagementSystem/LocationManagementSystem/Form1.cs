@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +60,7 @@ namespace LocationManagementSystem
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            
             string userName = this.tbxUserName.Text;
             string password = this.tbxPassword.Text;
 

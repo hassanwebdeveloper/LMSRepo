@@ -231,6 +231,31 @@ namespace LocationManagementSystem
                 this.tbxCheckInVehicleNumber.ReadOnly = true;
                 this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                
+
+                if (Form1.mLoggedInUser.IsAdmin)
+                {
+                    AlertInfo chAlertInfos = (from alert in EFERTDbUtility.mEFERTDb.AlertInfos
+                                              where alert != null && alert.CNICNumber == this.mCNICNumber
+                                              select alert).FirstOrDefault();
+
+                    bool alertDisabled = chAlertInfos.DisableAlert;
+
+                    if (alertDisabled)
+                    {
+                        this.btnDisableAlerts.Visible = true;
+                        this.btnDisableAlerts.Text = "Enable Alert";
+                        this.btnDisableAlerts.Tag = false;
+                    }
+                    else
+                    {
+                        this.btnDisableAlerts.Visible = true;
+                        this.btnDisableAlerts.Tag = true;
+                    }
+                }
+                
+
             }
             else
             {
@@ -255,6 +280,23 @@ namespace LocationManagementSystem
                 }
                 else
                 {
+                    if (limitStatus == LimitStatus.EmailAlerted)
+                    {
+                        if (Form1.mLoggedInUser.IsAdmin)
+                        {
+                            this.btnDisableAlerts.Visible = true;
+                            this.btnDisableAlerts.Tag = true;
+                        }
+                    }
+                    else if (limitStatus == LimitStatus.EmailAlertDisabled)
+                    {
+                        if (Form1.mLoggedInUser.IsAdmin)
+                        {
+                            this.btnDisableAlerts.Visible = true;
+                            this.btnDisableAlerts.Text = "Enable Alert";
+                            this.btnDisableAlerts.Tag = false;
+                        }
+                    }
 
                     this.btnCheckIn.Enabled = true && !blockedUser;
                     this.btnCheckOut.Enabled = false;
@@ -579,6 +621,73 @@ namespace LocationManagementSystem
         private void tbxCheckInCardNumber_TextChanged(object sender, EventArgs e)
         {
             EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxCheckInCardNumber });
+        }
+
+        private void btnDisableAlerts_Click(object sender, EventArgs e)
+        {
+            bool disableAlert = Convert.ToBoolean(this.btnDisableAlerts.Tag);
+
+            AlertInfo alertInfo = (from alert in EFERTDbUtility.mEFERTDb.AlertInfos
+                                   where alert != null && alert.CNICNumber == this.mCNICNumber
+                                   select alert).FirstOrDefault();
+
+            if (alertInfo == null)
+            {
+                alertInfo = new AlertInfo();
+                alertInfo.CNICNumber = this.mCNICNumber;
+
+                if (disableAlert)
+                {
+                    alertInfo.DisableAlert = true;
+                    alertInfo.DisableAlertDate = DateTime.Now;
+                    alertInfo.EnableAlertDate = DateTime.MaxValue;
+                }
+                else
+                {
+                    alertInfo.DisableAlert = false;
+                    alertInfo.EnableAlertDate = DateTime.Now;
+                }
+
+                EFERTDbUtility.mEFERTDb.AlertInfos.Add(alertInfo);
+            }
+            else
+            {
+                if (disableAlert)
+                {
+                    alertInfo.DisableAlert = true;
+                    alertInfo.DisableAlertDate = DateTime.Now;
+                }
+                else
+                {
+                    alertInfo.DisableAlert = false;
+                    alertInfo.EnableAlertDate = DateTime.Now;
+                }
+
+                EFERTDbUtility.mEFERTDb.Entry(alertInfo).State = System.Data.Entity.EntityState.Modified;
+            }
+
+            try
+            {
+                EFERTDbUtility.mEFERTDb.SaveChanges();
+
+                if (disableAlert)
+                {
+                    this.btnDisableAlerts.Tag = false;
+                    this.btnDisableAlerts.Text = "Enable Alert";
+                }
+                else
+                {
+                    this.btnDisableAlerts.Tag = false;
+                    this.btnDisableAlerts.Text = "Disable Alert";
+                }
+            }
+            catch (Exception ex)
+            {
+                EFERTDbUtility.RollBack();
+
+                MessageBox.Show(this, "Some error occurred.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                return;
+            }
         }
     }
 }

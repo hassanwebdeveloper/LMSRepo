@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VisitorForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxVisitorType = new System.Windows.Forms.ComboBox();
             this.cbxSchoolCollege = new System.Windows.Forms.ComboBox();
             this.lblSchoolCollege = new System.Windows.Forms.Label();
-            this.cbxAreaOfVisit = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.tbxEmergencyContact = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -59,6 +59,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbxCnicNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.cbxAreaOfVisit = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.btnWebCam = new System.Windows.Forms.Button();
@@ -70,7 +71,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.tbxCheckInAreaOfVisit = new System.Windows.Forms.TextBox();
             this.nuNoOfMaleGuest = new System.Windows.Forms.NumericUpDown();
             this.label23 = new System.Windows.Forms.Label();
             this.numCheckInDurationOfStay = new System.Windows.Forms.NumericUpDown();
@@ -103,7 +103,7 @@
             this.tbxBlockedBy = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.cbxVisitorType = new System.Windows.Forms.ComboBox();
+            this.btnDisableAlerts = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -151,6 +151,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visitor Details";
             // 
+            // cbxVisitorType
+            // 
+            this.cbxVisitorType.BackColor = System.Drawing.Color.White;
+            this.cbxVisitorType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxVisitorType.FormattingEnabled = true;
+            this.cbxVisitorType.Items.AddRange(new object[] {
+            "Personal Guest",
+            "Official Guest"});
+            this.cbxVisitorType.Location = new System.Drawing.Point(137, 20);
+            this.cbxVisitorType.Name = "cbxVisitorType";
+            this.cbxVisitorType.Size = new System.Drawing.Size(325, 29);
+            this.cbxVisitorType.TabIndex = 67;
+            // 
             // cbxSchoolCollege
             // 
             this.cbxSchoolCollege.BackColor = System.Drawing.Color.White;
@@ -176,16 +189,6 @@
             this.lblSchoolCollege.TabIndex = 66;
             this.lblSchoolCollege.Text = "School / College";
             this.lblSchoolCollege.Visible = false;
-            // 
-            // cbxAreaOfVisit
-            // 
-            this.cbxAreaOfVisit.BackColor = System.Drawing.Color.White;
-            this.cbxAreaOfVisit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxAreaOfVisit.FormattingEnabled = true;
-            this.cbxAreaOfVisit.Location = new System.Drawing.Point(140, 22);
-            this.cbxAreaOfVisit.Name = "cbxAreaOfVisit";
-            this.cbxAreaOfVisit.Size = new System.Drawing.Size(222, 29);
-            this.cbxAreaOfVisit.TabIndex = 1;
             // 
             // groupBox5
             // 
@@ -444,6 +447,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "CNIC Number";
             // 
+            // cbxAreaOfVisit
+            // 
+            this.cbxAreaOfVisit.BackColor = System.Drawing.Color.White;
+            this.cbxAreaOfVisit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxAreaOfVisit.FormattingEnabled = true;
+            this.cbxAreaOfVisit.Location = new System.Drawing.Point(140, 22);
+            this.cbxAreaOfVisit.Name = "cbxAreaOfVisit";
+            this.cbxAreaOfVisit.Size = new System.Drawing.Size(222, 29);
+            this.cbxAreaOfVisit.TabIndex = 1;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnBrowse);
@@ -577,16 +590,6 @@
             this.label20.Size = new System.Drawing.Size(118, 21);
             this.label20.TabIndex = 53;
             this.label20.Text = "No. Of Childern";
-            // 
-            // tbxCheckInAreaOfVisit
-            // 
-            this.tbxCheckInAreaOfVisit.BackColor = System.Drawing.Color.White;
-            this.tbxCheckInAreaOfVisit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxCheckInAreaOfVisit.Location = new System.Drawing.Point(995, 294);
-            this.tbxCheckInAreaOfVisit.Multiline = true;
-            this.tbxCheckInAreaOfVisit.Name = "tbxCheckInAreaOfVisit";
-            this.tbxCheckInAreaOfVisit.Size = new System.Drawing.Size(222, 51);
-            this.tbxCheckInAreaOfVisit.TabIndex = 15;
             // 
             // nuNoOfMaleGuest
             // 
@@ -740,6 +743,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnDisableAlerts);
             this.groupBox4.Controls.Add(this.tbxUnBlockTime);
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.tbxUnblockReason);
@@ -927,18 +931,17 @@
             this.openFileDialog1.Title = "Please select a file";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // cbxVisitorType
+            // btnDisableAlerts
             // 
-            this.cbxVisitorType.BackColor = System.Drawing.Color.White;
-            this.cbxVisitorType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbxVisitorType.FormattingEnabled = true;
-            this.cbxVisitorType.Items.AddRange(new object[] {
-            "Personal Guest",
-            "Official Guest"});
-            this.cbxVisitorType.Location = new System.Drawing.Point(137, 20);
-            this.cbxVisitorType.Name = "cbxVisitorType";
-            this.cbxVisitorType.Size = new System.Drawing.Size(325, 29);
-            this.cbxVisitorType.TabIndex = 67;
+            this.btnDisableAlerts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDisableAlerts.Location = new System.Drawing.Point(426, 201);
+            this.btnDisableAlerts.Name = "btnDisableAlerts";
+            this.btnDisableAlerts.Size = new System.Drawing.Size(108, 47);
+            this.btnDisableAlerts.TabIndex = 70;
+            this.btnDisableAlerts.Text = "Disable Alert";
+            this.btnDisableAlerts.UseVisualStyleBackColor = true;
+            this.btnDisableAlerts.Visible = false;
+            this.btnDisableAlerts.Click += new System.EventHandler(this.btnDisableAlerts_Click);
             // 
             // VisitorForm
             // 
@@ -949,7 +952,6 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.tbxCheckInAreaOfVisit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VisitorForm";
@@ -970,7 +972,6 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1021,7 +1022,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox tbxCheckInHostName;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox tbxCheckInAreaOfVisit;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.NumericUpDown numCheckInDurationOfStay;
@@ -1051,5 +1051,6 @@
         private System.Windows.Forms.TextBox tbxUnBlockedBy;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.ComboBox cbxVisitorType;
+        private System.Windows.Forms.Button btnDisableAlerts;
     }
 }

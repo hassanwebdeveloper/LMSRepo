@@ -57,6 +57,7 @@
             this.tbxCardNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnDisableAlerts = new System.Windows.Forms.Button();
             this.tbxUnBlockTime = new System.Windows.Forms.TextBox();
             this.tbxBlockedTime = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -401,6 +402,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnDisableAlerts);
             this.groupBox3.Controls.Add(this.tbxUnBlockTime);
             this.groupBox3.Controls.Add(this.tbxBlockedTime);
             this.groupBox3.Controls.Add(this.label21);
@@ -423,6 +425,17 @@
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Block User";
+            // 
+            // btnDisableAlerts
+            // 
+            this.btnDisableAlerts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDisableAlerts.Location = new System.Drawing.Point(590, 169);
+            this.btnDisableAlerts.Name = "btnDisableAlerts";
+            this.btnDisableAlerts.Size = new System.Drawing.Size(108, 47);
+            this.btnDisableAlerts.TabIndex = 64;
+            this.btnDisableAlerts.Text = "Disable Alert";
+            this.btnDisableAlerts.UseVisualStyleBackColor = true;
+            this.btnDisableAlerts.Click += new System.EventHandler(this.btnDisableAlerts_Click);
             // 
             // tbxUnBlockTime
             // 
@@ -842,5 +855,6 @@
         private System.Windows.Forms.ComboBox cbxDesignation;
         private System.Windows.Forms.TextBox tbxAreaOfWork;
         private System.Windows.Forms.Label lblAreaOfWork;
+        private System.Windows.Forms.Button btnDisableAlerts;
     }
 }

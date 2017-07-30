@@ -179,6 +179,23 @@ namespace LocationManagementSystem
                 this.lblClubType.Visible = false;
                 this.cbxClubType.Visible = false;
 
+                if (this.mContractorInfo == "Contractor")
+                {
+                    this.Text = "Contractor Form";
+                    this.groupBox1.Text = "Contractor Details";
+
+                    this.lblAreaOfWork.Visible = true;
+                    this.tbxAreaOfWork.Visible = true;
+
+                    this.tbxAreaOfWork.Text = dailyCardHolder.AreaOfWork;
+                    this.tbxAreaOfWork.ReadOnly = true;
+                    this.tbxAreaOfWork.BackColor = System.Drawing.SystemColors.ButtonFace;
+
+                    this.cbxCompanyName.Enabled = true;
+                    this.tbxWONumber.ReadOnly = false;
+                    this.tbxWONumber.BackColor = System.Drawing.Color.White;
+                }
+                else
                 if (this.mContractorInfo == "Casual 3P")
                 {
                     this.Text = "Casual 3P Form";
@@ -494,12 +511,12 @@ namespace LocationManagementSystem
                 this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
                 this.tbxCheckInVehicleNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
 
-                if (this.mContractorInfo == "Casual 3P")
-                {
-                    this.cbxCompanyName.Enabled = false;
-                    this.tbxWONumber.ReadOnly = true;
-                    this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
-                }
+                //if (this.mContractorInfo == "Casual 3P")
+                //{
+                //    this.cbxCompanyName.Enabled = false;
+                //    this.tbxWONumber.ReadOnly = true;
+                //    this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                //}
             }
             else
             {
@@ -525,21 +542,42 @@ namespace LocationManagementSystem
                 }
                 else
                 {
+                    if (limitStatus == LimitStatus.EmailAlerted)
+                    {
+                        if (Form1.mLoggedInUser.IsAdmin)
+                        {
+                            this.btnDisableAlerts.Visible = true;
+                            this.btnDisableAlerts.Tag = true;
+                        }
+                    }
+                    else if (limitStatus == LimitStatus.EmailAlertDisabled)
+                    {
+                        if (Form1.mLoggedInUser.IsAdmin)
+                        {
+                            this.btnDisableAlerts.Visible = true;
+                            this.btnDisableAlerts.Text = "Enable Alert";
+                            this.btnDisableAlerts.Tag = false;
+                        }
+                    }
+                    else
+                    {
+                        this.btnCheckIn.Enabled = true && !blockedUser;
+                        this.btnCheckOut.Enabled = false;
+                        this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
+                    }
 
-                    this.btnCheckIn.Enabled = true && !blockedUser;
-                    this.btnCheckOut.Enabled = false;
-                    this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
+                    
                 }
             }
 
             if (blockedUser)
             {
-                if (this.mContractorInfo == "Casual 3P")
-                {
-                    this.cbxCompanyName.Enabled = false;
-                    this.tbxWONumber.ReadOnly = true;
-                    this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
-                }
+                //if (this.mContractorInfo == "Casual 3P")
+                //{
+                //    this.cbxCompanyName.Enabled = false;
+                //    this.tbxWONumber.ReadOnly = true;
+                //    this.tbxWONumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+                //}
                 this.tbxCheckInCardNumber.ReadOnly = true;
                 this.tbxCheckInVehicleNumber.ReadOnly = true;
                 this.tbxCheckInCardNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -646,15 +684,18 @@ namespace LocationManagementSystem
             }
             else
             {
-                if (this.mContractorInfo == "Casual 3P")
+                if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor")
                 {
-                    if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                    if (this.mDailyCardHolder != null)
                     {
-                        this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
-                        this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        {
+                            this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                            this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
 
-                        EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
-                    }
+                            EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                        }
+                    }                    
                 }
             }
 
@@ -758,63 +799,82 @@ namespace LocationManagementSystem
                 blockedPerson.UnBlockedBy = this.tbxUnBlockedBy.Text;
                 blockedPerson.UnBlockedReason = this.tbxUnblockReason.Text;
 
-                try
+                if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor")
                 {
-                    EFERTDbUtility.mEFERTDb.Entry(blockedPerson).State = System.Data.Entity.EntityState.Modified;
-                    EFERTDbUtility.mEFERTDb.SaveChanges();
+                    if (this.mDailyCardHolder != null)
+                    {
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        {
+                            this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                            this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+
+                            EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                        }
+                    }
                 }
-                catch (Exception ex)
-                {
-                    EFERTDbUtility.RollBack();
+                EFERTDbUtility.mEFERTDb.Entry(blockedPerson).State = System.Data.Entity.EntityState.Modified;
+                PerformActionAfterUnBlock(blockedPerson.UnBlockTime.ToString());
 
-                    MessageBox.Show(this, "Some error occurred in unblocking cardholder.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
-                    return;
-                }
-
-                if (this.mIsDailyCardHolder)
-                {
-                    this.mBlocks = this.mDailyCardHolder.BlockingInfos;
-                }
-                else
-                {
-                    this.mBlocks = this.mCardHolderInfo.BlockingInfos;
-                }
-
-                if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
-                {
-                    this.btnCheckIn.Enabled = false;
-                    this.btnCheckOut.Enabled = true;
-                }
-                else
-                {
-                    this.btnCheckIn.Enabled = true;
-                    this.btnCheckOut.Enabled = false;
-                }
-
-                this.tbxBlockedBy.Text = string.Empty;
-                this.tbxBlockedReason.Text = string.Empty;
-                this.lblVisitorStatus.Text = "Allowed";
-                this.lblVisitorStatus.BackColor = Color.Green;
-                this.tbxUnBlockTime.Text = blockedPerson.UnBlockTime.ToString();
-                this.btnBlock.Enabled = true;
-                this.btnUnBlock.Enabled = false;
-
-                this.tbxBlockedBy.ReadOnly = false;
-                this.tbxBlockedReason.ReadOnly = false;
-
-                this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
-                this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
-
-                this.tbxUnBlockedBy.ReadOnly = true;
-                this.tbxUnblockReason.ReadOnly = true;
-
-                this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
-                this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
             }
             else
             {
                 MessageBox.Show(this, "This user is not blocked.");
             }
+        }
+
+        private void PerformActionAfterUnBlock(string unBlockTime)
+        {
+            try
+            {
+                EFERTDbUtility.mEFERTDb.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                EFERTDbUtility.RollBack();
+
+                MessageBox.Show(this, "Some error occurred in unblocking cardholder.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                return;
+            }
+
+            if (this.mIsDailyCardHolder)
+            {
+                this.mBlocks = this.mDailyCardHolder.BlockingInfos;
+            }
+            else
+            {
+                this.mBlocks = this.mCardHolderInfo.BlockingInfos;
+            }
+
+            if (this.mCheckIns.Exists(checkedIn => checkedIn.CheckedIn && checkedIn.CNICNumber == this.mCNICNumber))
+            {
+                this.btnCheckIn.Enabled = false;
+                this.btnCheckOut.Enabled = true;
+            }
+            else
+            {
+                this.btnCheckIn.Enabled = true;
+                this.btnCheckOut.Enabled = false;
+            }
+
+            this.tbxBlockedBy.Text = string.Empty;
+            this.tbxBlockedReason.Text = string.Empty;
+            this.lblVisitorStatus.Text = "Allowed";
+            this.lblVisitorStatus.BackColor = Color.Green;
+            this.tbxUnBlockTime.Text = unBlockTime;
+            this.btnBlock.Enabled = true;
+            this.btnUnBlock.Enabled = false;
+
+            this.tbxBlockedBy.ReadOnly = false;
+            this.tbxBlockedReason.ReadOnly = false;
+
+            this.tbxBlockedBy.BackColor = System.Drawing.Color.White;
+            this.tbxBlockedReason.BackColor = System.Drawing.Color.White;
+
+            this.tbxUnBlockedBy.ReadOnly = true;
+            this.tbxUnblockReason.ReadOnly = true;
+
+            this.tbxUnBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tbxUnblockReason.BackColor = System.Drawing.SystemColors.ButtonFace;
         }
 
         private void btnCheckIn_Click(object sender, EventArgs e)
@@ -917,14 +977,17 @@ namespace LocationManagementSystem
                 }
                 else
                 {
-                    if (this.mContractorInfo == "Casual 3P")
+                    if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor")
                     {
-                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        if (this.mDailyCardHolder != null)
                         {
-                            this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
-                            this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                            if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                            {
+                                this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                                this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
 
-                            EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                                EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                            }
                         }
                     }
                 }
@@ -1012,6 +1075,20 @@ namespace LocationManagementSystem
                 checkedOutInfo.CheckedIn = false;
                 checkedOutInfo.DateTimeOut = Convert.ToDateTime(this.tbxCheckInDateTimeOut.Text);
 
+                if (this.mContractorInfo == "Casual 3P" || this.mContractorInfo == "Contractor")
+                {
+                    if (this.mDailyCardHolder != null)
+                    {
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        {
+                            this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
+                            this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+
+                            EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
+                        }
+                    }
+                }
+
                 try
                 {
                     EFERTDbUtility.mEFERTDb.Entry(checkedOutInfo).State = System.Data.Entity.EntityState.Modified;
@@ -1079,6 +1156,63 @@ namespace LocationManagementSystem
         private void tbxFirstName_TextChanged(object sender, EventArgs e)
         {
             EFERTDbUtility.ValidateInputs(new List<TextBox> { this.tbxFirstName });
+        }
+
+        private void btnDisableAlerts_Click(object sender, EventArgs e)
+        {
+            bool disableAlert = Convert.ToBoolean(this.btnDisableAlerts.Tag);
+
+            AlertInfo alertInfo = (from alert in EFERTDbUtility.mEFERTDb.AlertInfos
+                                   where alert != null && alert.CNICNumber == this.mCNICNumber
+                                   select alert).FirstOrDefault();
+
+            if (alertInfo == null)
+            {
+                alertInfo = new AlertInfo();
+                alertInfo.CNICNumber = this.mCNICNumber;
+
+                if (disableAlert)
+                {
+                    alertInfo.DisableAlert = true;                    
+                    alertInfo.DisableAlertDate = DateTime.Now;
+                }
+                else
+                {
+                    alertInfo.DisableAlert = false;
+                    alertInfo.EnableAlertDate = DateTime.Now;
+                }
+
+                EFERTDbUtility.mEFERTDb.AlertInfos.Add(alertInfo);
+            }
+            else
+            {
+                if (disableAlert)
+                {
+                    alertInfo.DisableAlert = true;
+                    alertInfo.DisableAlertDate = DateTime.Now;
+                }
+                else
+                {
+                    alertInfo.DisableAlert = false;
+                    alertInfo.EnableAlertDate = DateTime.Now;
+                }
+
+                EFERTDbUtility.mEFERTDb.Entry(alertInfo).State = System.Data.Entity.EntityState.Modified;
+            }
+
+            try
+            {
+                EFERTDbUtility.mEFERTDb.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                EFERTDbUtility.RollBack();
+
+                MessageBox.Show(this, "Some error occurred.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
+                return;
+            }
+
+
         }
     }
 }

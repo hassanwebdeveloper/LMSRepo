@@ -34,6 +34,8 @@
             this.btnUpdateCompany = new System.Windows.Forms.Button();
             this.btnUpdateDesgination = new System.Windows.Forms.Button();
             this.btnUpdateCadre = new System.Windows.Forms.Button();
+            this.btnEmails = new System.Windows.Forms.Button();
+            this.btnSystemSettings = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnUpdateLocations
@@ -102,11 +104,35 @@
             this.btnUpdateCadre.UseVisualStyleBackColor = true;
             this.btnUpdateCadre.Click += new System.EventHandler(this.btnUpdateCadre_Click);
             // 
+            // btnEmails
+            // 
+            this.btnEmails.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEmails.Location = new System.Drawing.Point(423, 18);
+            this.btnEmails.Name = "btnEmails";
+            this.btnEmails.Size = new System.Drawing.Size(131, 53);
+            this.btnEmails.TabIndex = 21;
+            this.btnEmails.Text = "Update Emails";
+            this.btnEmails.UseVisualStyleBackColor = true;
+            this.btnEmails.Click += new System.EventHandler(this.btnEmails_Click);
+            // 
+            // btnSystemSettings
+            // 
+            this.btnSystemSettings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSystemSettings.Location = new System.Drawing.Point(423, 109);
+            this.btnSystemSettings.Name = "btnSystemSettings";
+            this.btnSystemSettings.Size = new System.Drawing.Size(131, 53);
+            this.btnSystemSettings.TabIndex = 22;
+            this.btnSystemSettings.Text = "Update System Settings";
+            this.btnSystemSettings.UseVisualStyleBackColor = true;
+            this.btnSystemSettings.Click += new System.EventHandler(this.btnSystemSettings_Click);
+            // 
             // AdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 184);
+            this.ClientSize = new System.Drawing.Size(567, 184);
+            this.Controls.Add(this.btnSystemSettings);
+            this.Controls.Add(this.btnEmails);
             this.Controls.Add(this.btnUpdateCadre);
             this.Controls.Add(this.btnUpdateDesgination);
             this.Controls.Add(this.btnUpdateCompany);
@@ -127,5 +153,7 @@
         private System.Windows.Forms.Button btnUpdateCompany;
         private System.Windows.Forms.Button btnUpdateDesgination;
         private System.Windows.Forms.Button btnUpdateCadre;
+        private System.Windows.Forms.Button btnEmails;
+        private System.Windows.Forms.Button btnSystemSettings;
     }
 }

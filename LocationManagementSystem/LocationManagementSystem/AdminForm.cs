@@ -58,5 +58,21 @@ namespace LocationManagementSystem
 
             cadreForm.ShowDialog(this);
         }
+
+        private void btnEmails_Click(object sender, EventArgs e)
+        {
+            AddEmailAddressForm emailAddressForm = new AddEmailAddressForm();
+
+            emailAddressForm.ShowDialog(this);
+        }
+
+        private void btnSystemSettings_Click(object sender, EventArgs e)
+        {
+            SystemSetting setting = EFERTDbUtility.mEFERTDb.SystemSetting.FirstOrDefault();
+
+            SetSystemSettingForm systemSettingForm = new SetSystemSettingForm(setting);
+
+            systemSettingForm.ShowDialog(this);
+        }
     }
 }
