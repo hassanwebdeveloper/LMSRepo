@@ -317,7 +317,7 @@ namespace LocationManagementSystem
                     {
                         smtp.Host = settings.SmtpServer;
                         smtp.Port = Convert.ToInt32(settings.SmtpPort);
-                        smtp.UseDefaultCredentials = false;
+                        smtp.UseDefaultCredentials = true;
                         smtp.EnableSsl = settings.IsSmptSSL;
 
                         if (settings.IsSmptAuthRequired)

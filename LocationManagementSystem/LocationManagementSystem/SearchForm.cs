@@ -34,7 +34,7 @@ namespace LocationManagementSystem
 
             msgint_raw = m_Isdc.RegisterWindowMessage("WM_RAW_DATA");
             msgint_iscp = m_Isdc.RegisterWindowMessage("WM_ISCP_FRAME");
-            
+
             this.maskedTextBox1.Select();
             if (isPlant)
             {
@@ -100,7 +100,7 @@ namespace LocationManagementSystem
 
             SearchCardHolder(searchString);
 
-            
+
         }
 
         private void SearchCardHolder(string searchString)
@@ -123,7 +123,7 @@ namespace LocationManagementSystem
             {
                 SearchCardHolderCore(searchString, isNicNumber);
             }
-            
+
         }
 
         private void SearchCardHolderFromBarcodeReader(string barcodeString)
@@ -212,13 +212,13 @@ namespace LocationManagementSystem
                     }
                 }
             }
-            
+
 
         }
 
         private void SearchCardHolderCore(string searchString, bool isNicNumber, bool isTempCard = false, bool isVisitorCard = false)
         {
-            
+
             CCFTCentral ccftCentral = EFERTDbUtility.mCCFTCentral;
             Cardholder cardHolder = null;
             CardHolderInfo cardHolderInfo = null;
@@ -227,53 +227,53 @@ namespace LocationManagementSystem
             bool updatedCardExist = true;
             if (isNicNumber)
             {
-                
-                    Task<Cardholder> cardHolderByNicTask = new Task<Cardholder>(() =>
+
+                Task<Cardholder> cardHolderByNicTask = new Task<Cardholder>(() =>
+                {
+                    Cardholder cardHolderByNic = (from pds in ccftCentral.PersonalDataStrings
+                                                  where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == searchString
+                                                  select pds.Cardholder).FirstOrDefault();
+
+                    return cardHolderByNic;
+                });
+
+                cardHolderByNicTask.Start();
+
+                cardHolderInfo = (from card in EFERTDbUtility.mEFERTDb.CardHolders
+                                  where card != null && card.CNICNumber == searchString
+                                  select card).FirstOrDefault();
+
+                if (cardHolderInfo == null)
+                {
+                    cardHolder = cardHolderByNicTask.Result;
+
+                    if (cardHolder == null)
                     {
-                        Cardholder cardHolderByNic = (from pds in ccftCentral.PersonalDataStrings
-                                                      where pds != null && pds.PersonalDataFieldID == 5051 && pds.Value != null && pds.Value == searchString
-                                                      select pds.Cardholder).FirstOrDefault();
+                        visitor = (from visit in EFERTDbUtility.mEFERTDb.Visitors
+                                   where visit != null && visit.CNICNumber == searchString
+                                   select visit).FirstOrDefault();
 
-                        return cardHolderByNic;
-                    });
-
-                    cardHolderByNicTask.Start();
-
-                    cardHolderInfo = (from card in EFERTDbUtility.mEFERTDb.CardHolders
-                                      where card != null && card.CNICNumber == searchString
-                                      select card).FirstOrDefault();
-
-                    if (cardHolderInfo == null)
+                        if (visitor == null)
+                        {
+                            dailyCardHolder = (from daily in EFERTDbUtility.mEFERTDb.DailyCardHolders
+                                               where daily != null && daily.CNICNumber == searchString
+                                               select daily).FirstOrDefault();
+                        }
+                    }
+                }
+                else
+                {
+                    if (cardHolderInfo.IsTemp)
                     {
                         cardHolder = cardHolderByNicTask.Result;
 
                         if (cardHolder == null)
                         {
-                            visitor = (from visit in EFERTDbUtility.mEFERTDb.Visitors
-                                       where visit != null && visit.CNICNumber == searchString
-                                       select visit).FirstOrDefault();
-
-                            if (visitor == null)
-                            {
-                                dailyCardHolder = (from daily in EFERTDbUtility.mEFERTDb.DailyCardHolders
-                                                   where daily != null && daily.CNICNumber == searchString
-                                                   select daily).FirstOrDefault();
-                            }
+                            updatedCardExist = false;
                         }
                     }
-                    else
-                    {
-                        if (cardHolderInfo.IsTemp)
-                        {
-                            cardHolder = cardHolderByNicTask.Result;
+                }
 
-                            if (cardHolder == null)
-                            {
-                                updatedCardExist = false;
-                            }
-                        }
-                    }
-                
             }
             else
             {
@@ -292,7 +292,7 @@ namespace LocationManagementSystem
                 cardHolderInfo = (from card in EFERTDbUtility.mEFERTDb.CardHolders
                                   where card != null && card.CardNumber == searchString
                                   select card).FirstOrDefault();
-                
+
                 if (cardHolderInfo == null)
                 {
                     CheckInAndOutInfo cardIssued = (from checkIn in EFERTDbUtility.mEFERTDb.CheckedInInfos
@@ -337,7 +337,7 @@ namespace LocationManagementSystem
                         {
                             cardHolder = cardHolderByCardNumberTask.Result;
                         }
-                        
+
                     }
 
                     if (visitor == null && dailyCardHolder == null && cardHolder == null && cardHolderInfo == null)
@@ -366,7 +366,7 @@ namespace LocationManagementSystem
                             {
                                 return;
                             }
-                            
+
                         }
 
 
@@ -382,7 +382,7 @@ namespace LocationManagementSystem
                         {
                             MessageBox.Show(this, "Cardholder with " + searchString + " card number is not found.");
                         }
-                        
+
                         return;
                     }
 
@@ -708,7 +708,7 @@ namespace LocationManagementSystem
         {
             if (m.Msg == msgint_raw)
             {
-                
+
                 Byte[] BarcodeBuffer = new Byte[500];
                 m_Isdc.GetRawData(BarcodeBuffer, out nBytesReturned);
 
@@ -836,7 +836,7 @@ namespace LocationManagementSystem
 
             m_Error = m_Isdc.SetupWrite(InputBuffer, nBytesInInputBuffer, OutputBuffer, out nBytesReturned);
         }
-        
+
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
@@ -897,5 +897,23 @@ namespace LocationManagementSystem
 
             ccsf.ShowDialog(this);
         }
+
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    List<EmailAddress> toAddresses = new List<EmailAddress>();
+        //    SystemSetting setting = EFERTDbUtility.mEFERTDb.SystemSetting.FirstOrDefault();
+
+        //    if (EFERTDbUtility.mEFERTDb.EmailAddresses != null)
+        //    {
+        //        toAddresses = (from email in EFERTDbUtility.mEFERTDb.EmailAddresses
+        //                       where email != null
+        //                       select email).ToList();
+
+        //        foreach (EmailAddress toAddress in toAddresses)
+        //        {
+        //            EFERTDbUtility.SendMail(setting, toAddress.Email, toAddress.Name, "Test", "TEst");
+        //        }
+        //    }
+        //}
     }
 }

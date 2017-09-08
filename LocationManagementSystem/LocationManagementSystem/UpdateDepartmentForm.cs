@@ -43,6 +43,12 @@ namespace LocationManagementSystem
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = this.dgvDepartments.Rows[e.RowIndex];
+
+            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            {
+                this.dgvDepartments.CancelEdit();
+            }
+
             DepartmentInfo department = null;
 
             if (row.Tag == null)

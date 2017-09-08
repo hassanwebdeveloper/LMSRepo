@@ -58,7 +58,7 @@ namespace LocationManagementSystem
         {
             DataGridViewRow row = this.dgvEmails.Rows[e.RowIndex];
 
-            if (row == null)
+            if (row == null || (string.IsNullOrEmpty(row.Cells[1].Value as string) && string.IsNullOrEmpty(row.Cells[1].Value as string)))
             {
                 this.dgvEmails.CancelEdit();
             }

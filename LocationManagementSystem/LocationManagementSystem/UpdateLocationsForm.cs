@@ -142,6 +142,12 @@ namespace LocationManagementSystem
         private void dgvPlantLocations_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = this.dgvPlantLocations.Rows[e.RowIndex];
+
+            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            {
+                this.dgvPlantLocations.CancelEdit();
+            }
+
             VisitingLocations visitingLocation = null;
 
             if (row.Tag == null)
@@ -192,6 +198,12 @@ namespace LocationManagementSystem
         private void dgvColonyLocations_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = this.dgvColonyLocations.Rows[e.RowIndex];
+
+            if (row == null || string.IsNullOrEmpty(row.Cells[1].Value as string))
+            {
+                this.dgvColonyLocations.CancelEdit();
+            }
+
             VisitingLocations visitingLocation = null;
 
             if (row.Tag == null)

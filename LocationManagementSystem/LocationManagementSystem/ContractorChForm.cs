@@ -315,32 +315,32 @@ namespace LocationManagementSystem
         private void UpdateDropDownFields()
         {
             List<string> departments = (from depart in EFERTDbUtility.mEFERTDb.Departments
-                                        where depart != null
+                                        where depart != null && !string.IsNullOrEmpty(depart.DepartmentName)
                                         select depart.DepartmentName).ToList();
 
             this.cbxDepartment.Items.AddRange(departments.ToArray());
 
             List<string> sections = (from section in EFERTDbUtility.mEFERTDb.Sections
-                                        where section != null
-                                        select section.SectionName).ToList();
+                                     where section != null && !string.IsNullOrEmpty(section.SectionName)
+                                     select section.SectionName).ToList();
 
             this.cbxSection.Items.AddRange(sections.ToArray());
 
             List<string> companies = (from company in EFERTDbUtility.mEFERTDb.Companies
-                                     where company != null
-                                     select company.CompanyName).ToList();
+                                     where company != null && !string.IsNullOrEmpty(company.CompanyName)
+                                      select company.CompanyName).ToList();
 
             this.cbxCompanyName.Items.AddRange(companies.ToArray());
 
             List<string> cadres = (from cadre in EFERTDbUtility.mEFERTDb.Cadres
-                                    where cadre != null
-                                    select cadre.CadreName).ToList();
+                                    where cadre != null && !string.IsNullOrEmpty(cadre.CadreName)
+                                   select cadre.CadreName).ToList();
 
             this.cbxCadre.Items.AddRange(cadres.ToArray());
 
             List<string> designations = (from designation in EFERTDbUtility.mEFERTDb.Designations
-                                           where designation != null
-                                           select designation.Designation).ToList();
+                                           where designation != null && !string.IsNullOrEmpty(designation.Designation)
+                                         select designation.Designation).ToList();
 
             this.cbxDesignation.Items.AddRange(designations.ToArray());
 
