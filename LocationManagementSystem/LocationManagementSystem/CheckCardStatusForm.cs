@@ -34,6 +34,8 @@ namespace LocationManagementSystem
                 return;
             }
 
+            companyName = companyName.ToLower();
+
             DateTime fromDate = this.dtpFromDate.Value.Date;
             DateTime toDate = this.dtpToDate.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
@@ -47,9 +49,9 @@ namespace LocationManagementSystem
 
             lstCheckIns = (from checkIn in lstCheckIns
                            where checkIn != null && 
-                           (checkIn.DailyCardHolders == null ?
-                                (checkIn.CardHolderInfos == null ? false : checkIn.CardHolderInfos.Company.CompanyName == companyName) :
-                                 checkIn.DailyCardHolders.CompanyName == companyName)
+                           (checkIn.DailyCardHolders == null || checkIn.DailyCardHolders.CompanyName == null ?
+                                (checkIn.CardHolderInfos == null || checkIn.CardHolderInfos.Company == null || checkIn.CardHolderInfos.Company.CompanyName == null ? false : checkIn.CardHolderInfos.Company.CompanyName.ToLower() == companyName) :
+                                 checkIn.DailyCardHolders.CompanyName.ToLower() == companyName)
                            select checkIn).ToList();
 
             this.checkInAndOutInfoBindingSource1.DataSource = lstCheckIns;

@@ -164,26 +164,7 @@ namespace LocationManagementSystem
                 blockedUser = true;
                 blockedPerson = this.mBlocks.Find(blocked => blocked.Blocked && blocked.CNICNumber == this.mCNICNumber);
 
-                this.btnCheckIn.Enabled = false;
-                this.btnCheckOut.Enabled = false;
-                this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
-                this.tbxBlockedReason.Text = blockedPerson.BlockedReason;
-                this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
-                this.lblVisitorStatus.Text = "Blocked";
-                this.lblVisitorStatus.BackColor = Color.Red;
-                this.btnBlock.Enabled = false;
-
-                this.tbxBlockedBy.ReadOnly = true;
-                this.tbxBlockedReason.ReadOnly = true;
-
-                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
-                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
-
-                this.tbxUnBlockedBy.ReadOnly = false;
-                this.tbxUnblockReason.ReadOnly = false;
-
-                this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
-                this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
+                this.UpdateLayoutForBlockedPerson(blockedPerson);
             }
             else
             {
@@ -259,49 +240,61 @@ namespace LocationManagementSystem
             }
             else
             {
-                LimitStatus limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns);
-
-                if (limitStatus == LimitStatus.LimitReached)
+                if (!blockedUser)
                 {
-                    blockedUser = true;
-                    this.btnCheckIn.Enabled = false;
-                    this.btnCheckOut.Enabled = false;
-                    this.tbxBlockedBy.Text = "Admin";
-                    this.tbxBlockedReason.Text = "You have reached maximum limit of temporary check in.";
-                    this.lblVisitorStatus.Text = "Blocked";
-                    this.lblVisitorStatus.BackColor = Color.Red;
-                    this.btnBlock.Enabled = false;
+                    LimitStatus limitStatus = EFERTDbUtility.CheckIfUserCheckedInLimitReached(this.mCheckIns, this.mBlocks);
 
-                    this.tbxBlockedBy.ReadOnly = true;
-                    this.tbxBlockedReason.ReadOnly = true;
-
-                    this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
-                    this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
-                }
-                else
-                {
-                    if (limitStatus == LimitStatus.EmailAlerted)
+                    if (limitStatus == LimitStatus.LimitReached)
                     {
-                        if (Form1.mLoggedInUser.IsAdmin)
-                        {
-                            this.btnDisableAlerts.Visible = true;
-                            this.btnDisableAlerts.Tag = true;
-                        }
-                    }
-                    else if (limitStatus == LimitStatus.EmailAlertDisabled)
-                    {
-                        if (Form1.mLoggedInUser.IsAdmin)
-                        {
-                            this.btnDisableAlerts.Visible = true;
-                            this.btnDisableAlerts.Text = "Enable Alert";
-                            this.btnDisableAlerts.Tag = false;
-                        }
-                    }
+                        blockedPerson = this.BlockPerson(EFERTDbUtility.CONST_SYSTEM_BLOCKED_BY, EFERTDbUtility.CONST_SYSTEM_LIMIT_REACHED_REASON);
 
-                    this.btnCheckIn.Enabled = true && !blockedUser;
-                    this.btnCheckOut.Enabled = false;
-                    this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
+                        if (blockedPerson != null)
+                        {
+                            this.UpdateLayoutForBlockedPerson(blockedPerson);
+
+                            blockedUser = true;
+                        }
+
+                        //this.btnCheckIn.Enabled = false;
+                        //this.btnCheckOut.Enabled = false;
+                        //this.tbxBlockedBy.Text = "Admin";
+                        //this.tbxBlockedReason.Text = "You have reached maximum limit of temporary check in.";
+                        //this.lblVisitorStatus.Text = "Blocked";
+                        //this.lblVisitorStatus.BackColor = Color.Red;
+                        //this.btnBlock.Enabled = false;
+
+                        //this.tbxBlockedBy.ReadOnly = true;
+                        //this.tbxBlockedReason.ReadOnly = true;
+
+                        //this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                        //this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+                    }
+                    else
+                    {
+                        if (limitStatus == LimitStatus.EmailAlerted)
+                        {
+                            if (Form1.mLoggedInUser.IsAdmin)
+                            {
+                                this.btnDisableAlerts.Visible = true;
+                                this.btnDisableAlerts.Tag = true;
+                            }
+                        }
+                        else if (limitStatus == LimitStatus.EmailAlertDisabled)
+                        {
+                            if (Form1.mLoggedInUser.IsAdmin)
+                            {
+                                this.btnDisableAlerts.Visible = true;
+                                this.btnDisableAlerts.Text = "Enable Alert";
+                                this.btnDisableAlerts.Tag = false;
+                            }
+                        }
+
+                        this.btnCheckIn.Enabled = true && !blockedUser;
+                        this.btnCheckOut.Enabled = false;
+                        this.tbxCheckInDateTimeIn.Text = DateTime.Now.ToString();
+                    }
                 }
+                
             }
 
             if (blockedUser)
@@ -328,8 +321,6 @@ namespace LocationManagementSystem
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
-            CardHolderInfo cardHolderInfo = this.mCardHolderInfo;
-
             bool validtated = EFERTDbUtility.ValidateInputs(new List<TextBox>() { this.tbxFirstName, this.tbxCNICNumber, this.tbxBlockedBy, this.tbxBlockedReason });
             if (!validtated)
             {
@@ -344,25 +335,44 @@ namespace LocationManagementSystem
                 return;
             }
 
-            if (cardHolderInfo == null)
+            if (this.tbxBlockedBy.Text == EFERTDbUtility.CONST_SYSTEM_BLOCKED_BY)
             {
-                MessageBox.Show(this, "Unable to Block user. Some error occured in getting cardholder information.");
+                MessageBox.Show(this, "Block by \"System\" can not be used.");
                 return;
             }
 
+            BlockedPersonInfo blockedPerson = this.BlockPerson(this.tbxBlockedBy.Text, this.tbxBlockedReason.Text);
+
+            if (blockedPerson != null)
+            {
+                this.UpdateLayoutForBlockedPerson(blockedPerson);
+            }
+        }
+
+        private BlockedPersonInfo BlockPerson(string blockedBy, string blockedReason)
+        {
             BlockedPersonInfo blockedPerson = new BlockedPersonInfo()
             {
                 Blocked = true,
-                BlockedBy = this.tbxBlockedBy.Text,
-                BlockedReason = this.tbxBlockedReason.Text,
+                BlockedBy = blockedBy,
+                BlockedReason = blockedReason,
                 CNICNumber = this.mCNICNumber,
                 BlockedTime = DateTime.Now,
-                UnBlockTime = DateTime.MaxValue,
-                CardHolderInfos = cardHolderInfo
+                UnBlockTime = DateTime.MaxValue
             };
 
             blockedPerson.BlockedInPlant = SearchForm.mIsPlant;
             blockedPerson.BlockedInColony = !SearchForm.mIsPlant;
+
+            if (this.mCardHolderInfo == null)
+            {
+                MessageBox.Show(this, "Unable to Block Person. Some error occured in getting cardholder information.");
+                return null;
+            }
+            else
+            {
+                blockedPerson.CardHolderInfos = this.mCardHolderInfo;
+            }
 
             try
             {
@@ -374,30 +384,43 @@ namespace LocationManagementSystem
                 EFERTDbUtility.RollBack();
 
                 MessageBox.Show(this, "Some error occurred in blocking cardholder.\n\n" + EFERTDbUtility.GetInnerExceptionMessage(ex));
-                return;
+                return null;
             }
 
-            this.mBlocks = cardHolderInfo.BlockingInfos;
+            this.mBlocks = this.mCardHolderInfo.BlockingInfos;
 
-            this.btnCheckIn.Enabled = false;
-            this.btnCheckOut.Enabled = false;
-            this.lblVisitorStatus.Text = "Blocked";
-            this.lblVisitorStatus.BackColor = Color.Red;
-            this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
-            this.btnBlock.Enabled = false;
-            this.btnUnBlock.Enabled = true;
+            return blockedPerson;
+        }
 
-            this.tbxBlockedBy.ReadOnly = true;
-            this.tbxBlockedReason.ReadOnly = true;
+        private void UpdateLayoutForBlockedPerson(BlockedPersonInfo blockedPerson)
+        {
+            if (blockedPerson != null)
+            {
+                this.btnCheckIn.Enabled = false;
+                this.btnCheckOut.Enabled = false;
+                this.lblVisitorStatus.Text = "Blocked";
+                this.lblVisitorStatus.BackColor = Color.Red;
+                this.tbxBlockedBy.Text = blockedPerson.BlockedBy;
+                this.tbxBlockedReason.Text = blockedPerson.BlockedReason;
+                this.tbxBlockedTime.Text = blockedPerson.BlockedTime.ToString();
+                this.btnBlock.Enabled = false;
+                this.btnUnBlock.Enabled = true;
 
-            this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedBy.ReadOnly = true;
+                this.tbxBlockedReason.ReadOnly = true;
 
-            this.tbxUnBlockedBy.ReadOnly = false;
-            this.tbxUnblockReason.ReadOnly = false;
+                this.tbxBlockedBy.BackColor = System.Drawing.SystemColors.ButtonFace;
+                this.tbxBlockedReason.BackColor = System.Drawing.SystemColors.ButtonFace;
 
-            this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
-            this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
+                this.tbxUnBlockedBy.ReadOnly = false;
+                this.tbxUnblockReason.ReadOnly = false;
+
+                this.tbxUnBlockedBy.Text = string.Empty;
+                this.tbxUnblockReason.Text = string.Empty;
+
+                this.tbxUnBlockedBy.BackColor = System.Drawing.Color.White;
+                this.tbxUnblockReason.BackColor = System.Drawing.Color.White;
+            }
         }
 
         private void btnUnBlock_Click(object sender, EventArgs e)

@@ -10,6 +10,7 @@ namespace LocationManagementSystem.CCFTCentralDb
         public CCFTCentral()
             : base("name=CCFTCentral")
         {
+            Database.SetInitializer<CCFTCentral>(null);
         }
 
         public virtual DbSet<AccessDecisionTileConfig> AccessDecisionTileConfigs { get; set; }

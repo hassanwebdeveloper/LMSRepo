@@ -19,6 +19,9 @@ namespace LocationManagementSystem
         public static EFERTDbContext mEFERTDb = null;
         public static List<VisitingLocations> mVisitingLocations = null;
 
+        public static string CONST_SYSTEM_BLOCKED_BY = "System";
+        public static string CONST_SYSTEM_LIMIT_REACHED_REASON = "System has block this person because maximum limit of temporary check in has reached.";
+
         public static void InitializeDatabases()
         {
             mEFERTDb = new EFERTDbContext();
@@ -84,8 +87,8 @@ namespace LocationManagementSystem
 
             return message;
         }
-                
-        public static LimitStatus CheckIfUserCheckedInLimitReached(List<CheckInAndOutInfo> checkIns)
+
+        public static LimitStatus CheckIfUserCheckedInLimitReached(List<CheckInAndOutInfo> checkIns, List<BlockedPersonInfo> blocks, bool sendEmail = true)
         {
             LimitStatus limitStatus = LimitStatus.Allowed;
             SystemSetting setting = EFERTDbUtility.mEFERTDb.SystemSetting.FirstOrDefault();
@@ -96,13 +99,39 @@ namespace LocationManagementSystem
             if (checkIns.Count > 0)
             {
                 CheckInAndOutInfo last = checkIns.Last();
-                                
+
                 if (last.CheckedIn)
                 {
                     limitStatus = LimitStatus.CurrentlyCheckIn;
                 }
                 else
                 {
+
+                    DateTime fromDate = new DateTime(DateTime.Now.Year, 10, 1);
+                    DateTime toDate = new DateTime(DateTime.Now.Year + 1, 10, 1);
+
+                    BlockedPersonInfo lastBlockedPerson = (from block in blocks
+                                                           where block != null &&
+                                                                 block.BlockedTime >= fromDate &&
+                                                                 block.BlockedTime < toDate && 
+                                                                 !block.Blocked && 
+                                                                 block.BlockedBy == CONST_SYSTEM_BLOCKED_BY
+                                                           select block).LastOrDefault();
+
+                    if (lastBlockedPerson != null)
+                    {
+                        fromDate = lastBlockedPerson.UnBlockTime;
+                    }
+
+                    checkIns = (from checkin in checkIns
+                                where checkin != null && checkin.DateTimeIn >= fromDate && checkin.DateTimeIn < toDate
+                                select checkin).ToList();
+
+                    if (checkIns.Count == 0)
+                    {
+                        return limitStatus;
+                    }
+
                     string name, cnic = string.Empty;
 
                     if (last.CardHolderInfos != null)
@@ -160,22 +189,22 @@ namespace LocationManagementSystem
 
                             TimeSpan timeDiff = currDateTimeIn.Date - previousDateTimeIn.Date;
 
-                            
 
-                            bool isContinous = timeDiff.Days == 1 || timeDiff.Days == 2 && currDateTimeIn.DayOfWeek == DayOfWeek.Monday;
 
-                            if (isContinous)
+                            //bool isContinous = timeDiff.Days == 1 || timeDiff.Days == 2 && currDateTimeIn.DayOfWeek == DayOfWeek.Monday;
+
+                            if (timeDiff.Days >= 1 )
                             {
                                 count++;
                             }
-                            else
-                            {
-                                if (currDateTimeIn.Date != previousDateTimeIn.Date)
-                                {
-                                    count = 1;
-                                }
-                                
-                            }
+                            //else
+                            //{
+                            //    if (currDateTimeIn.Date != previousDateTimeIn.Date)
+                            //    {
+                            //        count = 1;
+                            //    }
+
+                            //}
 
                             previousDateTimeIn = currDateTimeIn;
                         }
@@ -190,19 +219,23 @@ namespace LocationManagementSystem
                             {
                                 if (alertEnabled)
                                 {
-                                    List<EmailAddress> toAddresses = new List<EmailAddress>();
-
-                                    if (EFERTDbUtility.mEFERTDb.EmailAddresses != null)
+                                    if (sendEmail)
                                     {
-                                        toAddresses = (from email in EFERTDbUtility.mEFERTDb.EmailAddresses
-                                                       where email != null
-                                                       select email).ToList();
+                                        List<EmailAddress> toAddresses = new List<EmailAddress>();
 
-                                        foreach (EmailAddress toAddress in toAddresses)
+                                        if (EFERTDbUtility.mEFERTDb.EmailAddresses != null)
                                         {
-                                            SendMail(setting, toAddress.Email, toAddress.Name, name, cnic);
+                                            toAddresses = (from email in EFERTDbUtility.mEFERTDb.EmailAddresses
+                                                           where email != null
+                                                           select email).ToList();
+
+                                            foreach (EmailAddress toAddress in toAddresses)
+                                            {
+                                                SendMail(setting, toAddress.Email, toAddress.Name, name, cnic);
+                                            }
                                         }
                                     }
+
 
                                     limitStatus = LimitStatus.EmailAlerted;
                                 }
@@ -211,11 +244,11 @@ namespace LocationManagementSystem
                                     limitStatus = LimitStatus.EmailAlertDisabled;
                                 }
                             }
-                            
+
                         }
                         else
                         {
-                            limitStatus = LimitStatus.Allowed;                            
+                            limitStatus = LimitStatus.Allowed;
                         }
                     }
                 }

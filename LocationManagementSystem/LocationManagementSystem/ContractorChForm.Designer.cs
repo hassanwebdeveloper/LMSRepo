@@ -435,6 +435,7 @@
             this.btnDisableAlerts.TabIndex = 64;
             this.btnDisableAlerts.Text = "Disable Alert";
             this.btnDisableAlerts.UseVisualStyleBackColor = true;
+            this.btnDisableAlerts.Visible = false;
             this.btnDisableAlerts.Click += new System.EventHandler(this.btnDisableAlerts_Click);
             // 
             // tbxUnBlockTime
