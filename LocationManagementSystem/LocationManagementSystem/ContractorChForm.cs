@@ -118,11 +118,24 @@ namespace LocationManagementSystem
                     this.Text = "Pallaydar Form";
                     this.groupBox1.Text = "Pallaydar Details";
 
+                    this.tbxFirstName.ReadOnly = false;
+                    this.tbxFirstName.BackColor = System.Drawing.Color.White;
+
+                    this.cbxCompanyName.Enabled = true;
+                    this.tbxWONumber.ReadOnly = false;
+                    this.tbxWONumber.BackColor = System.Drawing.Color.White;
                 }
                 else if (this.mContractorInfo == "WO Staff")
                 {
                     this.Text = "Work Order Staff Form";
                     this.groupBox1.Text = "WO Staff Details";
+
+                    this.tbxFirstName.ReadOnly = false;
+                    this.tbxFirstName.BackColor = System.Drawing.Color.White;
+
+                    this.cbxCompanyName.Enabled = true;
+                    this.tbxWONumber.ReadOnly = false;
+                    this.tbxWONumber.BackColor = System.Drawing.Color.White;
                 }
 
             }
@@ -184,6 +197,9 @@ namespace LocationManagementSystem
                     this.Text = "Contractor Form";
                     this.groupBox1.Text = "Contractor Details";
 
+                    this.tbxFirstName.ReadOnly = false;
+                    this.tbxFirstName.BackColor = System.Drawing.Color.White;
+
                     this.cbxCompanyName.Enabled = true;
                     this.tbxWONumber.ReadOnly = false;
                     this.tbxWONumber.BackColor = System.Drawing.Color.White;
@@ -201,6 +217,9 @@ namespace LocationManagementSystem
                     this.tbxAreaOfWork.ReadOnly = true;
                     this.tbxAreaOfWork.BackColor = System.Drawing.SystemColors.ButtonFace;
 
+                    this.tbxFirstName.ReadOnly = false;
+                    this.tbxFirstName.BackColor = System.Drawing.Color.White;
+
                     this.cbxCompanyName.Enabled = true;
                     this.tbxWONumber.ReadOnly = false;
                     this.tbxWONumber.BackColor = System.Drawing.Color.White;
@@ -209,6 +228,9 @@ namespace LocationManagementSystem
                 {
                     this.Text = "Pallaydar Form";
                     this.groupBox1.Text = "Pallaydar Details";
+                    
+                    this.tbxFirstName.ReadOnly = false;
+                    this.tbxFirstName.BackColor = System.Drawing.Color.White;
 
                     this.cbxCompanyName.Enabled = true;
                     this.tbxWONumber.ReadOnly = false;
@@ -219,6 +241,9 @@ namespace LocationManagementSystem
                 {
                     this.Text = "Work Order Staff Form";
                     this.groupBox1.Text = "WO Staff Details";
+
+                    this.tbxFirstName.ReadOnly = false;
+                    this.tbxFirstName.BackColor = System.Drawing.Color.White;
 
                     this.cbxCompanyName.Enabled = true;
                     this.tbxWONumber.ReadOnly = false;
@@ -694,10 +719,13 @@ namespace LocationManagementSystem
                 {
                     if (this.mDailyCardHolder != null)
                     {
-                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || 
+                            this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
+                            this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
                         {
                             this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                             this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                            this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
 
                             EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                         }
@@ -838,10 +866,13 @@ namespace LocationManagementSystem
                 {
                     if (this.mDailyCardHolder != null)
                     {
-                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem ||
+                            this.mDailyCardHolder.WONumber == this.tbxWONumber.Text || 
+                            this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
                         {
                             this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                             this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                            this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
 
                             EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                         }
@@ -1016,10 +1047,13 @@ namespace LocationManagementSystem
                     {
                         if (this.mDailyCardHolder != null)
                         {
-                            if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                            if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem ||
+                                this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
+                                this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
                             {
                                 this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                                 this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                                this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
 
                                 EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                             }
@@ -1114,10 +1148,13 @@ namespace LocationManagementSystem
                 {
                     if (this.mDailyCardHolder != null)
                     {
-                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || this.mDailyCardHolder.WONumber == this.tbxWONumber.Text)
+                        if (this.mDailyCardHolder.CompanyName != this.cbxCompanyName.SelectedItem || 
+                            this.mDailyCardHolder.WONumber == this.tbxWONumber.Text ||
+                            this.mDailyCardHolder.FirstName != this.tbxFirstName.Text)
                         {
                             this.mDailyCardHolder.CompanyName = this.cbxCompanyName.SelectedItem == null ? string.Empty : this.cbxCompanyName.SelectedItem as String;
                             this.mDailyCardHolder.WONumber = this.tbxWONumber.Text;
+                            this.mDailyCardHolder.FirstName = this.tbxFirstName.Text;
 
                             EFERTDbUtility.mEFERTDb.Entry(this.mDailyCardHolder).State = System.Data.Entity.EntityState.Modified;
                         }
